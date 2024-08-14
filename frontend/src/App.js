@@ -1,15 +1,11 @@
-import logo from './logo.svg';
 import './App.css';
-import Navbar from 'frontend\src\components\welcome\navbar.js';
+import LookUpInfor from './components/welcome/lookUpInfor.js';
+import Register from './components/welcome/register.js';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-      <Navbar/>
-        
-      </header>
-    </div>
+    <>
+    </>
   );
 }
 
