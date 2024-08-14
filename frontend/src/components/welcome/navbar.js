@@ -3,25 +3,31 @@
 
 function Navbar() {
     return (
-        <div className="App">
-            <nav className="navbar navbar-expand-lg bg-body-tertiary">
-                <div className="container-fluid">
-                    <a className="navbar-brand" href="#">Navbar</a>
+        <div className="">
+            <nav className="navbar navbar-expand-lg bg-body-tertiary ">
+            {/* flex-row-reverse */}
+                <div className="container-fluid ">
+                    
+                    <a className="navbar-brand" href="#">Trang chủ</a>
                     <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
                         <span className="navbar-toggler-icon" />
                     </button>
+                    
                     <div className="collapse navbar-collapse" id="navbarNavDropdown">
                         <ul className="navbar-nav">
                             <li className="nav-item">
-                                <a className="nav-link active" aria-current="page" href="#">Home</a>
+                                <a className="nav-link active" aria-current="page" href="#">Đăng ký dự thi</a>
                             </li>
                             <li className="nav-item">
-                                <a className="nav-link" href="#">Features</a>
+                                <a className="nav-link" href="#">Tra cứu thông tin dự thi</a>
                             </li>
                             <li className="nav-item">
-                                <a className="nav-link" href="#">Pricing</a>
+                                <a className="nav-link" href="#">Liên hệ</a>
                             </li>
-                            <li className="nav-item dropdown">
+                            <li className="nav-item">
+                                <a className="nav-link" href="#">Đăng nhập</a>
+                            </li>
+                            {/* <li className="nav-item dropdown">
                                 <a className="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                     Dropdown link
                                 </a>
@@ -30,7 +36,7 @@ function Navbar() {
                                     <li><a className="dropdown-item" href="#">Another action</a></li>
                                     <li><a className="dropdown-item" href="#">Something else here</a></li>
                                 </ul>
-                            </li>
+                            </li> */}
                         </ul>
                     </div>
                 </div>
