@@ -1,10 +1,10 @@
 import React from "react";
 import CandidateInforForm from "./candidateInforForm.js";
 
-function LookUpInfor(props) {
+function LookUpInfor() {
   return (
     <>
-      <div className='container border' id={props.id} style={{ padding: '20px 0 1px 0', margin: '0 auto'}}>
+      <div className='container border' id='search' style={{ padding: '20px 0 1px 0', margin: '0 auto'}}>
         <h4 className="text-center" style={{ marginBottom: '30px' }}>THÔNG TIN DỰ THI CỦA THÍ SINH</h4>
         <div className="row justify-content-center mt-2">
           <div className="col-auto" style={{ width: '48%', padding: 0 }}>
@@ -14,7 +14,7 @@ function LookUpInfor(props) {
             <button className="btn btn-primary" style={{ borderRadius: '0 8px 8px 0', borderLeft: 'none' }}>Tra cứu</button>
           </div>
           <p className="text-center mt-2">
-            *Chưa có thông tin, nhấn <a href="#"><b>Đăng ký</b></a>
+            *Chưa có thông tin, nhấn <a href='#register'><b>Đăng ký</b></a>
           </p>
         </div>
         <CandidateInforForm />

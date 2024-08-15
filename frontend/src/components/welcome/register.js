@@ -1,10 +1,10 @@
 import React from "react";
 import CandidateInforForm from "./candidateInforForm.js";
 
-function Register(props) {
+function Register() {
   return (
     <>
-      <div className='container border' id={props.id} style={{ padding: '20px 0 1px 0', margin: '0 auto'}}>
+      <div className='container border' id='register' style={{ padding: '20px 0 1px 0', margin: '0px auto'}}>
         {/* <h4 style={{textAlign: 'center', display: 'flex', justifyContent: 'center'}}><span style={{minWidth: '289px'}}>GIẢI BƠI TRUYỀN THỐNG</span><span style={{minWidth: '315px'}}> TRƯỜNG ĐẠI HỌC THỦY LỢI </span></h4>
         <h4>TRƯỜNG ĐẠI HỌC THỦY LỢI</h4> */}
         <h4 className="text-center" style={{ marginBottom: '10px' }}>GIẢI BƠI TRUYỀN THỐNG TRƯỜNG ĐẠI HỌC THỦY LỢI</h4>
