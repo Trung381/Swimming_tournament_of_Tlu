@@ -1,7 +1,8 @@
 //navbar component
 
 
-function Navbar() {
+function Navbar(props) {
+
     return (
         <div className="">
             <nav className="navbar navbar-expand-lg bg-body-tertiary ">
@@ -16,10 +17,10 @@ function Navbar() {
                     <div className="collapse navbar-collapse" id="navbarNavDropdown">
                         <ul className="navbar-nav">
                             <li className="nav-item">
-                                <a className="nav-link active" aria-current="page" href="#">Đăng ký dự thi</a>
+                                <a className="nav-link active" aria-current="page" href='#register'>Đăng ký dự thi</a>
                             </li>
                             <li className="nav-item">
-                                <a className="nav-link" href="#">Tra cứu thông tin dự thi</a>
+                                <a className="nav-link" href='#search'>Tra cứu thông tin dự thi</a>
                             </li>
                             <li className="nav-item">
                                 <a className="nav-link" href="#">Liên hệ</a>
