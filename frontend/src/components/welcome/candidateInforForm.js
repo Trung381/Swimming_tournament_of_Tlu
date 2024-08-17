@@ -25,7 +25,8 @@ function CandidateInforForm() {
           </div>
           <div className="form-group">
             <label htmlFor="formBirthYear"><h6>4. Năm sinh</h6></label>
-            <select className="form-control" id="formBirthYear">
+            <select className="form-select" id="formBirthYear">
+            <option selected>Chọn năm sinh</option>
               <option>2005</option>
               <option>2006</option>
               <option>2007</option>
@@ -50,7 +51,8 @@ function CandidateInforForm() {
           </div>
           <div className="form-group">
             <label htmlFor="formUnit"><h6>7. Đơn vị</h6></label>
-            <select className="form-control" id="formUnit">
+            <select className="form-select" id="formUnit">
+            <option selected>Chọn đơn vị</option>
               <option>Khoa CNTT</option>
               <option>TT Đào tạo quốc tế</option>
               <option>Khoa KT và QL</option>
@@ -58,7 +60,8 @@ function CandidateInforForm() {
           </div>
           <div className="form-group">
             <label htmlFor="formClass"><h6>8. Lớp</h6></label>
-            <select className="form-control" id="formClass">
+            <select className="form-select" id="formClass">
+              <option selected>Chọn lớp</option>
               <option>64CNTT</option>
               <option>64CNTT</option>
               <option>64CNTT</option>
