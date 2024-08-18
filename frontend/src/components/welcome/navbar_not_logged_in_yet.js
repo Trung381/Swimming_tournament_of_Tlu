@@ -1,7 +1,4 @@
-//navbar component
-
-
-function Navbar(props) {
+function Navbar_not_logged(props) {
 
     return (
         <div className="">
@@ -47,4 +44,4 @@ function Navbar(props) {
     );
 }
 
-export default Navbar;
+export default Navbar_not_logged;
