@@ -1,0 +1,96 @@
+{
+  "candidates": [
+    {
+      "id": "1",
+      "name": "Nguyễn Văn A",
+      "idNumber": "0123456789",
+      "email": "nguyenvana@example.com",
+      "birthYear": "2005",
+      "gender": "Nữ",
+      "parentName": "Nguyễn Văn B",
+      "unit": "Khoa CNTT",
+      "class": "64CNTT",
+      "categories": [
+        "Hạng mục 1",
+        "Hạng mục 2"
+      ],
+      "ageGroup": "13 - 15 tuổi"
+    },
+    {
+      "id": "2",
+      "name": "Trần Thị B",
+      "idNumber": "9876543210",
+      "email": "tranthib@example.com",
+      "birthYear": "2006",
+      "gender": "Nữ",
+      "parentName": "Trần Văn C",
+      "unit": "TT Đào tạo quốc tế",
+      "class": "64CNTT",
+      "categories": [
+        "Hạng mục 3"
+      ],
+      "ageGroup": "16 - 18 tuổi"
+    },
+    {
+      "id": "3",
+      "name": "Lê Thị C",
+      "idNumber": "1122334455",
+      "email": "lethic@example.com",
+      "birthYear": "2007",
+      "gender": "Nữ",
+      "parentName": "Lê Văn D",
+      "unit": "Khoa KT và QL",
+      "class": "64CNTT",
+      "categories": [
+        "Hạng mục 1",
+        "Hạng mục 3"
+      ],
+      "ageGroup": "9 - 12 tuổi"
+    },
+    {
+      "id": "77cb",
+      "name": "trung",
+      "idNumber": "42544",
+      "email": "haizz@gmail.com",
+      "birthYear": "",
+      "gender": "Nam",
+      "parentName": "hjacjhad",
+      "unit": "TT Đào tạo quốc tế",
+      "class": "64CNTT",
+      "categories": [
+        "Hạng mục 1"
+      ],
+      "ageGroup": "0 - 8 tuổi"
+    },
+    {
+      "id": "aa9e",
+      "name": "trung",
+      "idNumber": "42544",
+      "email": "haizz@gmail.com",
+      "birthYear": "",
+      "gender": "Nam",
+      "parentName": "hjacjhad",
+      "unit": "TT Đào tạo quốc tế",
+      "class": "64CNTT",
+      "categories": [
+        "Hạng mục 1"
+      ],
+      "ageGroup": "0 - 8 tuổi"
+    },
+    {
+      "id": "3a60",
+      "name": "hkbf",
+      "idNumber": "s vsvws",
+      "email": "vsjnvkjd@fg.v",
+      "birthYear": "2005",
+      "gender": "Nữ",
+      "parentName": " sfber fb ",
+      "unit": "Khoa KT và QL",
+      "class": "64CNTT",
+      "categories": [
+        "Hạng mục 3"
+      ],
+      "ageGroup": "9 - 12 tuổi"
+    }
+  ]
+}
