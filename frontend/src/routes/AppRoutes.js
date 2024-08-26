@@ -3,7 +3,7 @@ import Welcom from '../components/welcome/Welcom.js';
 import Home from '../components/home/Home.js'
 import Login from "../components/welcome/Login.js";
 import InfoManagement from '../components/home/info_management.js';
-import TableManagement from '../components/home/TableManagement.js';
+import Competition_category_management from '../components/home/competition_category_management.js';
 import Score from '../components/home/score.js';
 import Reward from '../components/home/reward.js';
 import ProtectedRoutes from './ProtectedRoutes.js';

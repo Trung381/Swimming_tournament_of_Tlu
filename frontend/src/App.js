@@ -8,6 +8,7 @@ import RegisterModal from './components/modals/registerModal';
 import LookUpInforModal from './components/modals/lookUpInfoModal';
 import Footer from './components/footer/footer';
 
+// import Navbar from './components/welcome/navbar';
 function App() {
   const [role, setRole] = useState(sessionStorage.getItem('role'));
   useEffect(() => {

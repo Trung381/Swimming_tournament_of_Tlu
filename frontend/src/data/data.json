@@ -93,104 +93,107 @@
       "ageGroup": "9 - 12 tuổi"
     }
   ],
-  "permission": [
+  "year": 2024,
+  "ageGroups": [
     {
-      "admin": {
-        "contestant": [
-          "Thông tin thí sinh",
-          "/contestants"
-        ],
-        "score": [
-          "Kết quả",
-          "/scores"
-        ],
-        "account": [
-          "Tài khoản",
-          "/accounts"
-        ]
-      }
+      "id": "1",
+      "name": "U14"
     },
     {
-      "secretary": {
-        "contestant": [
-          "Thông tin thí sinh",
-          "/contestants"
-        ],
-        "score": [
-          "Kết quả",
-          "/scores"
-        ],
-        "table": [
-          "Bảng đấu",
-          "/tables"
-        ]
-      }
-    },
-    {
-      "referee": {
-        "score": [
-          "Kết quả",
-          "/scores"
-        ]
-      }
-    },
-    {
-      "inspector": {
-        "score": [
-          "Kết quả",
-          "/scores"
-        ]
-      }
+      "id": "2",
+      "name": "U18"
     }
   ],
-  "accounts": [
+  "competitions": [
     {
-      "id": 1,
-      "accountName": "admin",
-      "token": "nvg954wir295g73g4o3t",
-      "password": "*****",
-      "role": "admin",
-      "createdAt": "26/08/2024"
+      "id": "1",
+      "name": "Giải vô địch quốc gia"
     },
     {
-      "id": 2,
-      "accountName": "user1",
-      "token": "jsdfst95t3vf4r34u5t0",
-      "password": "*****",
-      "role": "Thư ký",
-      "createdAt": "26/08/2024"
+      "id": "2",
+      "name": "Giải vô địch thành phố"
+    }
+  ],
+  "categories": [
+    {
+      "id": "1",
+      "name": "100m nam"
     },
     {
-      "id": 3,
-      "accountName": "user2",
-      "token": "h543vwvf45453vgryerg",
-      "password": "*****",
-      "role": "Trọng tài",
-      "createdAt": "26/08/2024"
+      "id": "2",
+      "name": "200m nữ"
+    }
+  ],
+  "results": [
+    {
+      "id": "1",
+      "name": "Nguyễn Văn A",
+      "ageGroup": "U14",
+      "competition": "Giải vô địch quốc gia",
+      "category": "100m nam",
+      "minute": 2,
+      "second": 0,
+      "millisecond": 0,
+      "rank": 1
     },
     {
-      "id": 4,
-      "accountName": "user3",
-      "token": "hodff345t34rt3t23r4c",
-      "password": "*****",
-      "role": "Giám sát",
-      "createdAt": "26/08/2024"
+      "id": "2",
+      "name": "Trần Thị B",
+      "ageGroup": "U18",
+      "competition": "Giải vô địch quốc gia",
+      "category": "200m nữ",
+      "minute": 1,
+      "second": 30,
+      "millisecond": 45,
+      "rank": 2
     },
     {
-      "id": "cba5",
-      "accountName": "user4",
-      "token": "",
-      "password": "*****",
-      "role": "Trọng tài",
-      "createdAt": "26/8/2024"
+      "id": "941d",
+      "minute": "3",
+      "second": "2",
+      "millisecond": "1"
+    }
+  ],
+  "competition_category": [
+    {
+      "id": "1",
+      "year": "2023",
+      "competition": "Giải A",
+      "ageGroup": "U18",
+      "category": "Bảng 1",
+      "contestants": [
+        {
+          "id": 1,
+          "name": "Nguyễn Văn A",
+          "number": "001"
+        },
+        {
+          "id": 2,
+          "name": "Trần Thị B",
+          "number": "002"
+        }
+      ]
     },
     {
-      "id": "4610",
-      "accountName": "user5",
-      "token": "",
-      "password": "*****",
-      "role": "Giám sát",
-      "createdAt": "26/8/2024"
+      "id": "2",
+      "year": "2023",
+      "competition": "Giải B",
+      "ageGroup": "U20",
+      "category": "Bảng 2",
+      "contestants": [
+        {
+          "id": 3,
+          "name": "Phạm Văn C",
+          "number": "003"
+        }
+      ]
+    },
+    {
+      "id": "0131",
+      "year": "",
+      "competition": "",
+      "ageGroup": "",
+      "category": "Hạng mục mới"
     }
   ]
 }
