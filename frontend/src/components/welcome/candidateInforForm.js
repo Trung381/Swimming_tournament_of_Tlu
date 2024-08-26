@@ -263,7 +263,7 @@ function CandidateInforForm({ formData, handleChange }) {
     <div className="container mt-3" style={{ maxWidth: 900 }}>
       <div className="mt-4">
         <div className='row'>
-          <div className='col-md-4'>
+          <div className='col'>
             <h5>I. Thông tin cá nhân</h5>
           </div>
         </div>
@@ -327,7 +327,7 @@ function CandidateInforForm({ formData, handleChange }) {
         </div>
 
         <div className='row'>
-          <div className='col-md-4'>
+          <div className='col'>
             <h5>II. Nội dung thi đấu</h5>
           </div>
         </div>

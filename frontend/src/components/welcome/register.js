@@ -73,7 +73,6 @@ function Register() {
         <h4 className="text-center" style={{ marginBottom: '10px' }}>GIẢI BƠI TRUYỀN THỐNG TRƯỜNG ĐẠI HỌC THỦY LỢI</h4>
         <h4 className="text-center" style={{ marginBottom: '0'}}>PHIẾU ĐĂNG KÝ</h4>
         
-        {/* Thêm handleSubmit vào form */}
         <form onSubmit={handleSubmit}>
           <CandidateInforForm formData={formData} handleChange={handleChange} />
           <div className="row justify-content-end mt-3" style={{ margin: '0 28px 25px 0' }}>
