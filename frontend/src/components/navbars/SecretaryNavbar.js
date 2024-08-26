@@ -19,7 +19,7 @@ function SecretaryNavbar(props) {
                     <Link className="nav-link active" aria-current="page" to='' onClick={(e) =>props.handleReLoad(e, '/home')}>Trang chủ</Link>
                   </li>
                   <li className="nav-item">
-                    <Link className="nav-link" aria-current="page" to='/table'>Hạng mục thi đấu</Link>
+                    <Link className="nav-link" aria-current="page" to='/competition_category'>Hạng mục thi đấu</Link>
                   </li>
                   <li className="nav-item dropdown">
                     <Link className="nav-link" aria-current="page" to='/contestant'>Thí sinh dự thi<i className="bi bi-caret-down-fill"></i></Link>
