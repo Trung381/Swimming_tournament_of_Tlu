@@ -3,7 +3,7 @@ import Welcom from '../components/welcome/Welcom.js';
 import Home from '../components/home/Home.js'
 import Login from "../components/welcome/Login.js";
 import InfoManagement from '../components/home/info_management.js';
-import TableManagement from '../components/home/TableManagement.js';
+import Competition_category_management from '../components/home/competition_category_management.js';
 import Score from '../components/home/score.js';
 
 
@@ -13,7 +13,7 @@ import LookUpInfor from '../components/welcome/lookUpInfor.js';
 
 import Reward from '../components/home/reward.js';
 import ProtectedRoutes from './ProtectedRoutes.js';
-import Navbar from '../components/welcome/navbar.js';
+// import Navbar from '../components/welcome/navbar.js';
 import { useEffect, useState } from 'react';
 
 
@@ -41,9 +41,9 @@ function AppRoutes(props) {
     <>
       <Router>
         <div>
-          {check && <Navbar/>}
+          {/* {check && <Navbar/>} */}
           <Routes>
-            <Route path="/" element={<Welcom/>}/>
+            <Route path="/" element={<Competition_category_management/>}/>
             <Route path="/login" element={<Login/>}/>
             <Route path='/403' element={<h1>403 Forbidden</h1>}/>
 
@@ -53,7 +53,7 @@ function AppRoutes(props) {
             </Route>
 
             <Route element={<ProtectedRoutes allowedRoles={['1']}/>}>
-              <Route path="/table" element={<TableManagement/>}/>
+              <Route path="/table" element={<competition_category_management/>}/>
             </Route>
 
             <Route element={<ProtectedRoutes allowedRoles={['1', '3']}/>}>
