@@ -92,5 +92,105 @@
       ],
       "ageGroup": "9 - 12 tuổi"
     }
+  ],
+  "permission": [
+    {
+      "admin": {
+        "contestant": [
+          "Thông tin thí sinh",
+          "/contestants"
+        ],
+        "score": [
+          "Kết quả",
+          "/scores"
+        ],
+        "account": [
+          "Tài khoản",
+          "/accounts"
+        ]
+      }
+    },
+    {
+      "secretary": {
+        "contestant": [
+          "Thông tin thí sinh",
+          "/contestants"
+        ],
+        "score": [
+          "Kết quả",
+          "/scores"
+        ],
+        "table": [
+          "Bảng đấu",
+          "/tables"
+        ]
+      }
+    },
+    {
+      "referee": {
+        "score": [
+          "Kết quả",
+          "/scores"
+        ]
+      }
+    },
+    {
+      "inspector": {
+        "score": [
+          "Kết quả",
+          "/scores"
+        ]
+      }
+    }
+  ],
+  "accounts": [
+    {
+      "id": 1,
+      "accountName": "admin",
+      "token": "nvg954wir295g73g4o3t",
+      "password": "*****",
+      "role": "admin",
+      "createdAt": "26/08/2024"
+    },
+    {
+      "id": 2,
+      "accountName": "user1",
+      "token": "jsdfst95t3vf4r34u5t0",
+      "password": "*****",
+      "role": "Thư ký",
+      "createdAt": "26/08/2024"
+    },
+    {
+      "id": 3,
+      "accountName": "user2",
+      "token": "h543vwvf45453vgryerg",
+      "password": "*****",
+      "role": "Trọng tài",
+      "createdAt": "26/08/2024"
+    },
+    {
+      "id": 4,
+      "accountName": "user3",
+      "token": "hodff345t34rt3t23r4c",
+      "password": "*****",
+      "role": "Giám sát",
+      "createdAt": "26/08/2024"
+    },
+    {
+      "id": "cba5",
+      "accountName": "user4",
+      "token": "",
+      "password": "*****",
+      "role": "Trọng tài",
+      "createdAt": "26/8/2024"
+    },
+    {
+      "id": "4610",
+      "accountName": "user5",
+      "token": "",
+      "password": "*****",
+      "role": "Giám sát",
+      "createdAt": "26/8/2024"
+    }
   ]
 }

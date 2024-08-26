@@ -1,25 +1,23 @@
-import {Navigate, Outlet} from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import {useNavigate, Navigate, Outlet } from 'react-router-dom';
 
-function ProtectedRoutes({allowedRoles}) {
-  const session = sessionStorage.getItem('loginData');
+function ProtectedRoutes(props) {
+  const [role, setRole] = useState(sessionStorage.getItem('role'))
+  const navigate = useNavigate();
 
-  if (!session) {
-    return <Navigate to='/login'/>;
-  }
+  useEffect(() => {
+    if (!role) {
+      navigate('/login');
+      window.location.reload();
+    } else {
+      if (!props.allowedRoles.includes(role)) {
+        // <Navigate to='/403' />
+        navigate('/403')
+      }
+    }
+  }, []);
 
-  const role = JSON.parse(session);
-
-  const users = ['1', '2', '3', '4'];
-  const passes = ['1','2','3','4'];
-
-  if (!users.includes(role.username) || !passes.includes(role.password)) {
-    alert('Thông tin đăng nhập không đúng!');
-    return <Navigate to='/login'/>;
-  }
-
-  return allowedRoles.includes(role.username) ? <Outlet/> : <Navigate to='/403'/>;
+  return <Outlet />;
 }
 
 export default ProtectedRoutes;
-
-//Chỉ xử lý logic code kiểm tra đăng nhập

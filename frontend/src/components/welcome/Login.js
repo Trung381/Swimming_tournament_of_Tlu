@@ -1,25 +1,35 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
-function Login() {
-  let navigate = useNavigate();
+function Login(props) {
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
-  const [formData, setFormData] = useState({
-    username: '',
-    password: ''
-  });
-
-  const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    });
-  };
-
-  const handleLogin = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    sessionStorage.setItem('loginData', JSON.stringify(formData));
+    if (!username || !password) {
+      setError("Tài khoản, mật khẩu không được để trống!");
+      return;
+    } else {setError(null)};
+    // try {
+    //   const response = await axios.post('https://api.thanglele08.id.vn/Auth/login', {
+    //     username,
+    //     password
+    //   });
+    //   sessionStorage.setItem('role', response.data.role);
+    //   navigate('/home');
+    //   props.newState('rerender component App');
+    //   // window.location.reload();
+    // } catch (err) {
+    //   console.log(err);
+    //   setError("Tên đăng nhập hoặc mật khẩu không đúng!");
+    // }
+    sessionStorage.setItem('role', password);
     navigate('/home');
+    window.location.reload();
   };
 
   return (
@@ -35,7 +45,7 @@ function Login() {
         {/* Login Form */}
         <div className="col-md-8 col-lg-9 d-flex flex-column justify-content-center bg-white">
           <div className="container">
-            <form>
+            <form onSubmit={handleSubmit}>
               <div className="form-group">
                 <label htmlFor="username">User Name</label>
                 <input
@@ -44,7 +54,8 @@ function Login() {
                   id="username"
                   name="username"
                   placeholder="User Name"
-                  onChange={(e) => handleChange(e)}
+                  onChange={(e) => setUsername(e.target.value)}
+                  // required
                 />
               </div>
               <div className="form-group">
@@ -55,13 +66,13 @@ function Login() {
                   id="password"
                   name="password"
                   placeholder="Password"
-                  onChange={(e) => handleChange(e)}
+                  onChange={(e) => setPassword(e.target.value)}
+                  // required
                 />
               </div>
-              <div className="d-flex justify-content-start">
-                <button type="submit" className="btn btn-dark mr-2" onClick={handleLogin}>
-                  Login
-                </button>
+              {error && <p style={{color: 'red'}}>{error}</p>}
+              <div className="d-flex justify-content-center">
+                <button type="submit" className="btn btn-dark mr-2">Đăng nhập</button>
               </div>
             </form>
           </div>

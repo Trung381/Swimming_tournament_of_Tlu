@@ -46,8 +46,8 @@ function InfoManagement() {
                         </div>
                     </form>
                     <div className="card">
-                        <div className="card-header">
-                            Danh sách thí sinh tham gia giải
+                        <div className="card-header" style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
+                            <strong>Danh sách thí sinh tham gia giải</strong>
                             <button className="btn btn-sm btn-outline-primary float-right" data-bs-toggle="modal" data-bs-target="#thongTinThiSinhModal">+</button>
                         </div>
                         <div className="card-body">
@@ -82,9 +82,7 @@ function InfoManagement() {
                         </div>
                     </div>
                     <button id="printButton" className="btn btn-outline-dark">In phiếu dự thi</button>
-                    <footer className="mt-4 text-center">
-                        <p>© 2024 Đoàn thanh niên, Trường Đại học Thủy lợi</p>
-                    </footer>
+                    
                 </div>
                 {/* Modal */}
                 {/* Thông tin thí sinh Modal */}

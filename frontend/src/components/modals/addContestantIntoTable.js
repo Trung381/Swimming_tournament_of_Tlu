@@ -3,21 +3,21 @@ import React from "react";
 function AddContestantIntoTable() {
   return(
     <>
-      <div class="modal fade" id="addContestantIntoTableModal" tabindex="-1" aria-labelledby="addParticipantModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="addParticipantModalLabel">Thêm thí sinh vào bảng ...</h5>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      <div className="modal fade" id="addContestantIntoTableModal" tabIndex="-1" aria-labelledby="addParticipantModalLabel" aria-hidden="true">
+        <div className="modal-dialog modal-lg">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h5 className="modal-title" id="addParticipantModalLabel">Thêm thí sinh vào bảng ...</h5>
+              <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body">
-              <div class="input-group mb-3">
-                <input type="text" class="form-control" placeholder="Tìm kiếm thí sinh"/>
-                <button class="btn btn-primary">Tra cứu</button>
+            <div className="modal-body">
+              <div className="input-group mb-3">
+                <input type="text" className="form-control" placeholder="Tìm kiếm thí sinh"/>
+                <button className="btn btn-primary">Tra cứu</button>
               </div>
-              <table class="table table-bordered text-center">
+              <table className="table table-bordered text-center">
                 <thead>
-                  <tr class="table-primary">
+                  <tr className="table-primary">
                     <th>Chọn</th>
                     <th>STT</th>
                     <th>Họ và tên</th>
@@ -46,9 +46,9 @@ function AddContestantIntoTable() {
                 </tbody>
               </table>
             </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
-              <button type="button" class="btn btn-primary">Lưu</button>
+            <div className="modal-footer">
+              <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+              <button type="button" className="btn btn-primary">Lưu</button>
             </div>
           </div>
         </div>
