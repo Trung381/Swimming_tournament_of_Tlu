@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link} from "react-router-dom";
 import './Navbar.css';
 
 function NavbarNotLogged(props) {
@@ -25,22 +25,22 @@ function NavbarNotLogged(props) {
           <div className="collapse navbar-collapse" id="navbarNavDropdown">
             <ul className="navbar-nav">
               <li className="nav-item">
-                <Link className="nav-link active" aria-current="page" to='' onClick={(e) =>props.handleReLoad(e, '/')}>Trang chủ</Link>
+                <Link className="nav-link" aria-current="page" to='' onClick={(e) =>props.handleReLoad(e, '/')}>TRANG CHỦ</Link>
               </li>
               <li className="nav-item">
                 {/* <Link className="nav-link" aria-current="page" to='/register'>Đăng ký dự thi</Link> */}
-                <a className="nav-link" href="#registerModal" aria-current="page" data-bs-toggle="modal" data-bs-target="#registerModal">Đăng ký dự thi</a>
+                <a className="nav-link" href="#registerModal" aria-current="page" data-bs-toggle="modal" data-bs-target="#registerModal">ĐĂNG KÝ DỰ THI</a>
               </li>
               <li className="nav-item">
-                <a className="nav-link" href="#lookUpInfoModal" aria-current="page" data-bs-toggle="modal" data-bs-target="#lookUpInfoModal">Tra cứu thông tin dự thi</a>
+                <a className="nav-link" href="#lookUpInfoModal" aria-current="page" data-bs-toggle="modal" data-bs-target="#lookUpInfoModal">TRA CỨU THÔNG TIN DỰ THI</a>
               </li>
               <li className="nav-item">
-                <Link className="nav-link" to="/contact">Liên hệ</Link>
+                <Link className="nav-link" to="/contact">LIÊN HỆ</Link>
               </li>
               <li className="nav-item">
                 {/* <Link className="nav-link" data-bs-toggle="modal" data-bs-target="#login" to="#login" >Đăng nhập</Link> */}
                 {/* <Link className="nav-link" to="" onClick={handleLoginClick}>Đăng nhập</Link> */}
-                <a className="nav-link" href="/login" >Đăng nhập</a>
+                <a className="nav-link" href="/login" >ĐĂNG NHẬP</a>
               </li>
             </ul>
           </div>

@@ -16,17 +16,17 @@ function RefereeNavbar(props) {
               <div className="collapse navbar-collapse" id="navbarNavDropdown">
                 <ul className="navbar-nav">
                   <li className="nav-item">
-                    <Link className="nav-link active" aria-current="page" to='' onClick={(e) =>props.handleReLoad(e, '/home')}>Trang chủ</Link>
+                    <Link className="nav-link" aria-current="page" to='' onClick={(e) =>props.handleReLoad(e, '/home')}>TRANG CHỦ</Link>
                   </li>
                   <li className="nav-item">
-                    <Link className="nav-link" aria-current="page" to='/score'>Nhập kết quả</Link>
+                    <Link className="nav-link" aria-current="page" to='/score'>NHẬP KẾT QUẢ</Link>
                   </li>
                   <li className="nav-item">
-                    <Link className="nav-link" to="/contact">Liên hệ</Link>
+                    <Link className="nav-link" to="/contact">LIÊN HỆ</Link>
                   </li>
                   <li className="nav-item">
                     {/* <Link className="nav-link" to="" onClick={(e) => props.logoutClick(e)}>Đăng xuất</Link> */}
-                    <a className="nav-link" href="/" onClick={props.logoutClick}>Đăng xuất</a>
+                    <a className="nav-link" href="/" onClick={props.logoutClick}>ĐĂNG XUẤT</a>
                   </li>
                     
                 </ul>

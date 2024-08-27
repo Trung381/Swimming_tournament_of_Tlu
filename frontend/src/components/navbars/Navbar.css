@@ -1,34 +1,66 @@
 /* Navbar.css */
+:root {
+  --header-color: #0075c9;
+  --text-color: #ffffff;
+  --nav-item-hover-color: #005baa;
+  --dropdown-menu-color: #0190f3;
+  --dropdown-menu-item-hover-color: #0190f3;
+  --background-active-color: #005baa;
+}
+
+.navbar {
+  background-color: var(--header-color) !important;
+  color: var(--text-color) !important;
+  padding: 0;
+}
+
+.nav-link.active {
+  color: var(--text-color) !important;
+}
+
 .nav-item {
     position: relative;
-  }
-  
-  .dropdown-menu {
-    display: none;
-    position: absolute;
-    top: 100%;
-    left: 0;
-    background-color: rgb(230, 247, 249);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    z-index: 1000;
-  }
-  
-  .nav-item:hover .dropdown-menu {
-    display: block;
-  }
+    height: 50px;
+    line-height: 34px;
+}
 
-  .nav-item:hover {
-    background-color: rgb(230, 247, 249);
-    /* border: 1px solid rgb(180, 180, 180); */
-  }
-  
-  .dropdown-item {
-    padding: 8px 16px;
-    cursor: pointer;
-    white-space: nowrap;
-    font-size: 13px;
-  }
-  
-  .dropdown-item:hover {
-    background-color: #f1f1f1;
-  }
+.nav-link {
+  color: var(--text-color);
+}
+
+.nav-link:hover {
+  color: var(--text-color);
+}
+
+.dropdown-menu {
+  display: none;
+  position: absolute;
+  top: 99%;
+  left: 0;
+  background-color: var(--nav-item-hover-color);
+  /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); */
+  z-index: 1000;
+  padding: 0;
+  border-radius: 0;
+}
+
+.nav-item:hover .dropdown-menu {
+  display: block;
+}
+
+.nav-item:hover {
+  background-color: var(--nav-item-hover-color);
+}
+
+.dropdown-item {
+  padding: 8px 16px;
+  cursor: pointer;
+  white-space: nowrap;
+  font-size: 13px;
+  color: var(--text-color);
+}
+
+.dropdown-item:hover {
+  background-color: var(--header-color);
+  color: var(--text-color);
+}

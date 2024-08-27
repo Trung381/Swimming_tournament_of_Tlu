@@ -7,11 +7,38 @@ const Account = () => {
   const [accounts, setAccounts] = useState(null);
   const [formData, setFormData] = useState({
     accountName: '',
-    token: '',
-    password: '',
-    role: '',
-    createdAt: ''
+    role: ''
   });
+  const roles = {
+    "Admin": "admin",
+    "Thư ký": 'thuky',
+    "Trọng tài": "trongtai",
+    "Giám sát": "giamsat"
+  }
+
+  const resetFormData = () => {
+    setFormData({
+      accountName: '',
+      role: ''
+    })
+  };
+
+  const handleDeleteAccount = (id) => {
+    let result = window.confirm('Are you sure you want to delete user with id = ' + id);
+    if (result) {
+      deleteAccount(id);
+    }
+  };
+
+  const deleteAccount = async (id) => {
+    try {
+      let res = await axios.delete('http://localhost:3001/accounts/' + id);
+      fetchAccounts();
+      alert(res.status + ' ' + res.statusText);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const fetchAccounts = async () => {
     try {
@@ -27,6 +54,13 @@ const Account = () => {
       fetchAccounts();
     }, []);
 
+    const handleEditClick = (data) => {
+      setFormData({
+        accountName: data.accountName,
+        role: roles[data.role]
+      })
+    }
+
   return (
     <>
       <div className="container mt-5">
@@ -41,7 +75,10 @@ const Account = () => {
         <div className="card">
           <div className="card-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
             <strong>Danh sách tài khoản</strong>
-            <button className="btn btn-success" data-bs-toggle="modal" data-bs-target="#accountModal">+</button>
+            <button className="btn btn-success"
+              data-bs-toggle="modal" data-bs-target="#accountModal"
+              onClick={resetFormData}
+            >+</button>
           </div>
           <div className="card-body">
             <table className="table">
@@ -65,7 +102,18 @@ const Account = () => {
                     <td>{acc.password}</td>
                     <td>{acc.role}</td>
                     <td>{acc.createdAt}</td>
-                    <td><button className="btn btn-danger btn-sm">Xóa</button></td>
+                    <td>
+                      <button
+                        className="btn btn-warning btn-sm"
+                        style={{marginRight: '7px'}}
+                        data-bs-toggle="modal" data-bs-target="#accountModal"
+                        onClick={() => handleEditClick({accountName: acc.accountName, role: acc.role})}
+                      >Sửa</button>
+                      <button
+                        className="btn btn-danger btn-sm"
+                        onClick={() => handleDeleteAccount(acc.id)}
+                        >Xóa</button>
+                    </td>
                   </tr>
                 ))}
               </tbody>

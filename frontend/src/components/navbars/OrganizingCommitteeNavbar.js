@@ -16,13 +16,13 @@ function OrganizingCommitteeNavbar(props) {
               <div className="collapse navbar-collapse" id="navbarNavDropdown">
                 <ul className="navbar-nav">
                   <li className="nav-item">
-                    <Link className="nav-link active" aria-current="page" to='' onClick={(e) =>props.handleReLoad(e, '/home')}>Trang chủ</Link>
+                    <Link className="nav-link" aria-current="page" to='' onClick={(e) =>props.handleReLoad(e, '/home')}>TRANG CHỦ</Link>
                   </li>
                   <li className="nav-item">
-                    <Link className="nav-link" aria-current="page" to='/account'>Tài khoản</Link>
+                    <Link className="nav-link" aria-current="page" to='/account'>QUẢN LÝ TÀI KHOẢN</Link>
                   </li>
                   <li className="nav-item dropdown">
-                    <Link className="nav-link" aria-current="page" to='/contestant'>Thí sinh dự thi<i className="bi bi-caret-down-fill"></i></Link>
+                    <Link className="nav-link" aria-current="page" to='/contestant'>THÍ SINH DỰ THI<i className="bi bi-caret-down-fill"></i></Link>
                     <ul className="dropdown-menu">
                       <li><Link className="dropdown-item" to="/contestant">Quản lý thông tin</Link></li>
                       <li><Link className="dropdown-item" to="">Gửi email dự thi</Link></li>
@@ -30,14 +30,14 @@ function OrganizingCommitteeNavbar(props) {
                     </ul>
                   </li>
                   <li className="nav-item">
-                    <Link className="nav-link" aria-current="page" to='/score'>Kết quả chốt</Link>
+                    <Link className="nav-link" aria-current="page" to='/score'>KẾT QUẢ THI ĐẤU</Link>
                   </li>
                   <li className="nav-item">
-                    <Link className="nav-link" to="/contact">Liên hệ</Link>
+                    <Link className="nav-link" to="/contact">LIÊN HỆ</Link>
                   </li>
                   <li className="nav-item">
                     {/* <Link className="nav-link" to="" onClick={(e) => props.logoutClick(e)}>Đăng xuất</Link> */}
-                    <a className="nav-link" href="/" onClick={props.logoutClick}>Đăng xuất</a>
+                    <a className="nav-link" href="/" onClick={props.logoutClick}>ĐĂNG XUẤT</a>
                   </li>
                     
                 </ul>

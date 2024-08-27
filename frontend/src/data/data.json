@@ -193,7 +193,42 @@
       "year": "",
       "competition": "",
       "ageGroup": "",
-      "category": "Hạng mục mới"
+      "category": "Hạng mục mới",
+      "contestants": []
+    }
+  ],
+  "accounts": [
+    {
+      "id": "1",
+      "accountName": "admin",
+      "token": "0000000000",
+      "password": "*****",
+      "role": "Admin",
+      "createdAt": "26/08/2024"
+    },
+    {
+      "id": "2",
+      "accountName": "user1",
+      "token": "1111111111",
+      "password": "*****",
+      "role": "Thư ký",
+      "createdAt": "26/08/2024"
+    },
+    {
+      "id": "3",
+      "accountName": "user2",
+      "token": "2222222222",
+      "password": "*****",
+      "role": "Trọng tài",
+      "createdAt": "26/08/2024"
+    },
+    {
+      "id": "4",
+      "accountName": "user3",
+      "token": "3333333333",
+      "password": "*****",
+      "role": "Giám sát",
+      "createdAt": "26/08/2024"
     }
   ]
 }
