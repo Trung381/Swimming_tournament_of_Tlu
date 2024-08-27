@@ -455,10 +455,6 @@ function Score({ role }) {
           </div>
         </div>
       </div>
-
-      <footer className="mt-5 text-center">
-        <p>© 2024 Đoàn thanh niên, Trường Đại học Thủy lợi</p>
-      </footer>
     </div>
   );
 }

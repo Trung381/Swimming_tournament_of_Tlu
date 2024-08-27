@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const AccountModal = (props) => {
   const [role, setRole] = useState('');
@@ -12,6 +12,11 @@ const AccountModal = (props) => {
     'thuky': 'Thư ký',
     'giamsat': 'Giám sát'
   }
+
+  useEffect(() => {
+    setAccountName(props.formData.accountName);
+    setRole(props.formData.role);
+  }, [props.formData]);
 
   const handleSelectOneOfRoles = (role) => {
     setRole(role);
@@ -40,7 +45,6 @@ const AccountModal = (props) => {
       })
       props.fetchAccounts();
       resetForm();
-      alert(res.status);
     }
     catch (error) {
       console.log(error);
