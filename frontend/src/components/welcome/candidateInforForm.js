@@ -256,9 +256,34 @@
 
 
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 
 function CandidateInforForm({ formData, handleChange }) {
+
+  const [categories, setCategories] = useState(null);
+
+  const fetchCategories = async () => {
+    try {
+      const response = await axios.get('https://api.thanglele08.id.vn/Sport/hangmucthidau');
+      setCategories(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchCategories();
+  }, [formData]);
+
+  const isChecked = (category) => {
+    if (formData.tenhangmuc !== undefined) {
+      return formData.hangtuoi !== ''
+        ? category.tenhangmuc === formData.tenhangmuc && category.hangtuoi === formData.hangtuoi
+        : category.tenhangmuc === formData.tenhangmuc
+    }
+  };
+
   return (
     <div className="container mt-3" style={{ maxWidth: 900 }}>
       <div className="mt-4">
@@ -270,59 +295,93 @@ function CandidateInforForm({ formData, handleChange }) {
         <div className='row' style={{display: 'flex', justifyContent: 'space-evenly'}}>
           <div className="form-group">
             <label htmlFor="formName"><h6>1. Họ tên thí sinh</h6></label>
-            <input type="text" className="form-control" id="formName" name="name" value={formData.name} onChange={handleChange} style={{borderColor: 'black'}}/>
+            <input 
+              type="text" className="form-control" id="formName" name="hovatenthisinh" 
+              value={formData.hovatenthisinh} 
+              style={{borderColor: 'black'}}
+              onChange={handleChange}
+            />
           </div>
           <div className="form-group">
-            <label htmlFor="formIdNumber"><h6>2. Số định danh</h6></label>
-            <input type="text" className="form-control" id="formIdNumber" name="idNumber" value={formData.idNumber} onChange={handleChange} />
+            <label htmlFor="formEmail"><h6>2. Email</h6></label>
+            <input 
+              type="email" className="form-control" id="formEmail" name="email" 
+              value={formData.email}
+              onChange={handleChange}
+            />
           </div>
           <div className="form-group">
-            <label htmlFor="formEmail"><h6>3. Email</h6></label>
-            <input type="email" className="form-control" id="formEmail" name="email" value={formData.email} onChange={handleChange} />
+            <label htmlFor="formPhone"><h6>3. Số điện thoại</h6></label>
+            <input
+              type="phone" className="form-control" id="formPhone" name="sodienthoai" 
+              value={formData.sodienthoai}
+              onChange={handleChange}
+            />
           </div>
           <div className="form-group">
-            <label htmlFor="formBirthYear"><h6>4. Năm sinh</h6></label>
-            <select className="form-select" id="formBirthYear" name="birthYear" value={formData.birthYear} onChange={handleChange}>
-              <option value="" disabled>Chọn năm sinh</option>
-              <option value="2005">2005</option>
-              <option value="2006">2006</option>
-              <option value="2007">2007</option>
-            </select>
+            <label htmlFor="formBirthday"><h6>4. Ngày sinh</h6></label>
+            <input 
+              type="date" className="form-control" id="formBirthday" name="namsinh" 
+              value={formData.namsinh === undefined ? null : formData.namsinh}
+              onChange={handleChange}
+            />
           </div>
           <div className='form-group'>
             <label htmlFor="formGender"><h6>5. Giới tính</h6></label>
             <div>
               <div className="form-check form-check-inline">
-                <input className="form-check-input" type="radio" name="gender" id="male" value="Nam" checked={formData.gender === "Nam"} onChange={handleChange}/>
+                <input 
+                  className="form-check-input" type="radio" name="gioitinh" id="male" value="Nam" 
+                  checked={formData.gioitinh === "Nam"} 
+                  onChange={handleChange}
+                />
                 <label className="form-check-label" htmlFor="male">Nam</label>
               </div>
               <div className="form-check form-check-inline">
-                <input className="form-check-input" type="radio" name="gender" id="female" value="Nữ" checked={formData.gender === "Nữ"} onChange={handleChange}/>
+                <input 
+                  className="form-check-input" type="radio" name="gioitinh" id="female" value="Nữ" 
+                  checked={formData.gioitinh === "Nữ"} 
+                  onChange={handleChange}
+                />
                 <label className="form-check-label" htmlFor="female">Nữ</label>
               </div>
             </div>
           </div>
           <div className="form-group">
             <label htmlFor="formParentName"><h6>6. Họ tên phụ huynh</h6></label>
-            <input type="text" className="form-control" id="formParentName" name="parentName" value={formData.parentName} onChange={handleChange}/>
+            <input 
+              type="text" className="form-control" id="formParentName" name="hovatenphuhuynh" 
+              value={formData.hovatenphuhuynh} 
+              onChange={handleChange}
+            />
           </div>
           <div className="form-group">
             <label htmlFor="formUnit"><h6>7. Đơn vị</h6></label>
-            <select className="form-select" id="formUnit" name="unit" value={formData.unit} onChange={handleChange}>
+            <input 
+              type="text" className="form-control" id="formUnit" name="donvi" 
+              value={formData.donvi} 
+              onChange={handleChange}
+            />
+            {/* <select className="form-select" id="formUnit" name="donvi" value={formData.donvi} onChange={handleChange}>
               <option value="" disabled>Chọn đơn vị</option>
               <option value="Khoa CNTT">Khoa CNTT</option>
               <option value="TT Đào tạo quốc tế">TT Đào tạo quốc tế</option>
               <option value="Khoa KT và QL">Khoa KT và QL</option>
-            </select>
+            </select> */}
           </div>
           <div className="form-group">
             <label htmlFor="formClass"><h6>8. Lớp</h6></label>
-            <select className="form-select" id="formClass" name="class" value={formData.class} onChange={handleChange}>
+            <input 
+              type="text" className="form-control" id="formClass" name="lop" 
+              value={formData.lop} 
+              onChange={handleChange}
+            />
+            {/* <select className="form-select" id="formClass" name="lop" value={formData.lop} onChange={handleChange}>
               <option value="" disabled>Chọn lớp</option>
               <option value="64CNTT">64CNTT</option>
               <option value="64CNTT">64CNTT</option>
               <option value="64CNTT">64CNTT</option>
-            </select>
+            </select> */}
           </div>
         </div>
 
@@ -331,43 +390,23 @@ function CandidateInforForm({ formData, handleChange }) {
             <h5>II. Nội dung thi đấu</h5>
           </div>
         </div>
-        <div className='row' style={{display: 'flex', justifyContent: 'space-evenly'}}>
-          <div className="form-group">
+        <div className='row'>
+          <div className="form-group" style={{width: '100%'}}>
             <label><h6>1. Hạng mục</h6></label>
-            <div>
-              <div className="form-check">
-                <input className="form-check-input" type="checkbox" id="category1" name="categories" value="Hạng mục 1" onChange={handleChange} checked={formData.categories.includes("Hạng mục 1")} />
-                <label className="form-check-label" htmlFor="category1">Hạng mục 1</label>
-              </div>
-              <div className="form-check">
-                <input className="form-check-input" type="checkbox" id="category2" name="categories" value="Hạng mục 2" onChange={handleChange} checked={formData.categories.includes("Hạng mục 2")} />
-                <label className="form-check-label" htmlFor="category2">Hạng mục 2</label>
-              </div>
-              <div className="form-check">
-                <input className="form-check-input" type="checkbox" id="category3" name="categories" value="Hạng mục 3" onChange={handleChange} checked={formData.categories.includes("Hạng mục 3")} />
-                <label className="form-check-label" htmlFor="category3">Hạng mục 3</label>
-              </div>
-            </div>
-          </div>
-          <div className="form-group">
-            <label><h6>2. Hạng tuổi</h6></label>
-            <div>
-              <div className="form-check">
-                <input className="form-check-input" type="radio" name="ageGroup" id="ageGroup1" value="0 - 8 tuổi" checked={formData.ageGroup === "0 - 8 tuổi"} onChange={handleChange}/>
-                <label className="form-check-label" htmlFor="ageGroup1">0 - 8 tuổi</label>
-              </div>
-              <div className="form-check">
-                <input className="form-check-input" type="radio" name="ageGroup" id="ageGroup2" value="9 - 12 tuổi" checked={formData.ageGroup === "9 - 12 tuổi"} onChange={handleChange}/>
-                <label className="form-check-label" htmlFor="ageGroup2">9 - 12 tuổi</label>
-              </div>
-              <div className="form-check">
-                <input className="form-check-input" type="radio" name="ageGroup" id="ageGroup3" value="13 - 15 tuổi" checked={formData.ageGroup === "13 - 15 tuổi"} onChange={handleChange}/>
-                <label className="form-check-label" htmlFor="ageGroup3">13 - 15 tuổi</label>
-              </div>
-              <div className="form-check">
-                <input className="form-check-input" type="radio" name="ageGroup" id="ageGroup4" value="16 - 18 tuổi" checked={formData.ageGroup === "16 - 18 tuổi"} onChange={handleChange}/>
-                <label className="form-check-label" htmlFor="ageGroup4">16 - 18 tuổi</label>
-              </div>
+            <div className='categories-container' style={{display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap'}}>
+              {categories && categories.map((category) => (
+                <div className="form-check" key={category.mahangmuc} style={{width: '33%', minWidth: '355px'}}>
+                  <input
+                    className="form-check-input" type="checkbox" id={category.mahangmuc} name="hangmuc"
+                    value={category.mahangmuc} 
+                    onChange={handleChange}
+                    checked={
+                      isChecked(category)
+                    }
+                  />
+                  <label className="form-check-label" htmlFor={category.mahangmuc} >{category.tenhangmuc}{category.hangtuoi!=="" && <span> - {category.hangtuoi} tuổi</span>}</label>
+                </div>
+              ))}
             </div>
           </div>
         </div>
