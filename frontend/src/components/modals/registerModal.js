@@ -4,16 +4,16 @@ import axios from "axios";
 
 const RegisterModal = () => {
     const [formData, setFormData] = useState({
-        name: "",
-        idNumber: "",
+        hovatenthisinh: "",
         email: "",
-        birthYear: "",
-        gender: "",
-        parentName: "",
-        unit: "",
-        class: "",
-        categories: [],
-        ageGroup: ""
+        sodienthoai: "",
+        namsinh: "",
+        gioitinh: "",
+        hovatenphuhuynh: "",
+        donvi: "",
+        lop: "",
+        hangmuc: [],
+        hangtuoi: ""
       });
     
       // Xử lý khi người dùng thay đổi thông tin trên form
@@ -22,10 +22,20 @@ const RegisterModal = () => {
         if (type === "checkbox") {
           setFormData((prevData) => ({
             ...prevData,
-            categories: checked
-              ? [...prevData.categories, value]
-              : prevData.categories.filter((item) => item !== value)
+            hangmuc: checked
+              ? [...prevData.hangmuc, value]
+              : prevData.hangmuc.filter((item) => item !== value)
           }));
+
+          //4 ki tu cuoi cua ma hang muc la hang tuoi
+          const lastFourChars = value.slice(-4);
+          const isAllDigits = /^\d{4}$/.test(lastFourChars);
+          if (isAllDigits) {
+            setFormData({
+              ...formData,
+              hangtuoi: lastFourChars.slice(0, 2) + '-' + lastFourChars.slice(-2)
+            })
+          }
         } else {
           setFormData({ ...formData, [name]: value });
         }
@@ -33,13 +43,13 @@ const RegisterModal = () => {
     
       // Xử lý khi người dùng submit form
       const handleSubmit = async (e) => {
-        e.preventDefault();
-        try {
-          const response = await axios.post('http://localhost:3001/candidates', formData);  // Thay URL_API_CUA_BAN bằng URL API thực tế của bạn
-          console.log("Đăng ký thành công:", response.data);
-        } catch (error) {
-          console.error("Có lỗi xảy ra:", error);
-        }
+        e.preventDefault(); console.log(formData);
+        // try {
+        //   const response = await axios.post('http://localhost:3001/candidates', formData);  // Thay URL_API_CUA_BAN bằng URL API thực tế của bạn
+        //   console.log("Đăng ký thành công:", response.data);
+        // } catch (error) {
+        //   console.error("Có lỗi xảy ra:", error);
+        // }
       };
 
     return (
