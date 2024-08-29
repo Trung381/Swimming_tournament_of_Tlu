@@ -8,27 +8,29 @@ function Login(props) {
   const [error, setError] = useState(null);
   const navigate = useNavigate();
 
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!username || !password) {
       setError("Tài khoản, mật khẩu không được để trống!");
       return;
     } else {setError(null)};
-    // try {
-    //   const response = await axios.post('https://api.thanglele08.id.vn/Auth/login', {
-    //     username,
-    //     password
-    //   });
-    //   sessionStorage.setItem('role', response.data.role);
-    //   navigate('/home');
-    //   props.newState('rerender component App');
-    //   // window.location.reload();
-    // } catch (err) {
-    //   console.log(err);
-    //   setError("Tên đăng nhập hoặc mật khẩu không đúng!");
-    // }
-    sessionStorage.setItem('role', password);
-    navigate('/home');
+    try {
+      const response = await axios.post('https://api.thanglele08.id.vn/Auth/login', {
+        username,
+        password
+      });
+
+      sessionStorage.setItem('role', response.data.role);
+      navigate('/home');
+      props.newState('rerender component App');
+      // window.location.reload();
+    } catch (err) {
+      console.log(err);
+      setError("Tên đăng nhập hoặc mật khẩu không đúng!");
+    }
+    // sessionStorage.setItem('role', password);
+    // navigate('/home');
     window.location.reload();
   };
 
