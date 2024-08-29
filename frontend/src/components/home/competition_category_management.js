@@ -346,104 +346,105 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 
 function CompetitionCategoryManagement() {
-  const [ageGroup, setAgeGroup] = useState("");
-  const [boards, setBoards] = useState([]);
-  const [newBoardName, setNewBoardName] = useState("");
-  const [selectedContestants, setSelectedContestants] = useState([]);
-  const [searchTerm, setSearchTerm] = useState("");
-  const [contestants, setContestants] = useState([]);
-  const [currentBoardId, setCurrentBoardId] = useState(null); // State to track current board ID
+  const [categories, setCategories] = useState([]);
+  const [category, setCategory] = useState({
+    mahangmuc: '',
+    tenhangmuc: '',
+    hangtuoi: ''
+  });
+
+  const fetchCategoris = async () => {
+    try {
+      const response = await axios.get('https://api.thanglele08.id.vn/Sport/hangmucthidau');
+      setCategories(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   useEffect(() => {
-    // Fetch initial data
-    const fetchBoards = async () => {
-      try {
-        const response = await axios.get("http://localhost:3001/competition_category");
-        setBoards(response.data);
-      } catch (error) {
-        console.error("Lỗi khi tải dữ liệu bảng:", error);
-      }
-    };
-
-    fetchBoards();
+    fetchCategoris();
   }, []);
 
-  const handleCreateBoard = async () => {
-    try {
-      const newBoard = {
-        ageGroup,
-        category: newBoardName, // Tên hạng mục nhập từ modal
-        contestants: []
-      };
-      const response = await axios.post("http://localhost:3001/competition_category", newBoard);
-      setBoards([...boards, response.data]);
-      alert("Tạo bảng thành công!");
-    } catch (error) {
-      console.error("Lỗi khi tạo bảng:", error);
-    }
+  const handleChange = (e) => {
+    setCategory({
+      ...category,
+      [e.target.name]: e.target.value
+    })
   };
 
-  const handleDeleteBoard = async (boardId) => {
-    try {
-      await axios.delete(`http://localhost:3001/competition_category/${boardId}`);
-      setBoards(boards.filter(board => board.id !== boardId));
-      alert("Xóa bảng thành công!");
-    } catch (error) {
-      console.error("Lỗi khi xóa bảng:", error);
-    }
+  const handleCreateCategory = async () => {
+    console.log("OK");
+    // try {
+    //   const response = await axios.post("http://localhost:3001/competition_category", newBoard);
+    //   setBoards([...boards, response.data]);
+    //   alert("Tạo bảng thành công!");
+    // } catch (error) {
+    //   console.error("Lỗi khi tạo bảng:", error);
+    // }
   };
 
-  const handleCheckboxChange = (contestant) => {
-    if (selectedContestants.includes(contestant.id)) {
-      setSelectedContestants(selectedContestants.filter(id => id !== contestant.id));
-    } else {
-      setSelectedContestants([...selectedContestants, contestant.id]);
-    }
-  };
+  // const handleDeleteBoard = async (boardId) => {
+  //   try {
+  //     await axios.delete(`http://localhost:3001/competition_category/${boardId}`);
+  //     setBoards(boards.filter(board => board.id !== boardId));
+  //     alert("Xóa bảng thành công!");
+  //   } catch (error) {
+  //     console.error("Lỗi khi xóa bảng:", error);
+  //   }
+  // };
 
-  const handleSaveContestants = async () => {
-    if (!currentBoardId) return; // Ensure board ID is available
+  // const handleCheckboxChange = (contestant) => {
+  //   if (selectedContestants.includes(contestant.id)) {
+  //     setSelectedContestants(selectedContestants.filter(id => id !== contestant.id));
+  //   } else {
+  //     setSelectedContestants([...selectedContestants, contestant.id]);
+  //   }
+  // };
 
-    try {
-      const boardToUpdate = boards.find(board => board.id === currentBoardId);
-      const updatedBoard = {
-        ...boardToUpdate,
-        contestants: [...boardToUpdate.contestants, ...selectedContestants.map(id => contestants.find(c => c.id === id))]
-      };
+  // const handleSaveContestants = async () => {
+  //   if (!currentBoardId) return; // Ensure board ID is available
 
-      await axios.put(`http://localhost:3001/competition_category/${currentBoardId}`, updatedBoard);
-      setBoards(boards.map(board => (board.id === currentBoardId ? updatedBoard : board)));
-      setSelectedContestants([]); // Clear selected contestants after saving
-      alert("Lưu thí sinh vào bảng thành công!");
-    } catch (error) {
-      console.error("Lỗi khi lưu thí sinh:", error);
-    }
-  };
+  //   try {
+  //     const boardToUpdate = boards.find(board => board.id === currentBoardId);
+  //     const updatedBoard = {
+  //       ...boardToUpdate,
+  //       contestants: [...boardToUpdate.contestants, ...selectedContestants.map(id => contestants.find(c => c.id === id))]
+  //     };
 
-  const handleDeleteContestant = async (boardId, contestantId) => {
-    try {
-      const boardToUpdate = boards.find(board => board.id === boardId);
-      const updatedBoard = {
-        ...boardToUpdate,
-        contestants: boardToUpdate.contestants.filter(contestant => contestant.id !== contestantId)
-      };
+  //     await axios.put(`http://localhost:3001/competition_category/${currentBoardId}`, updatedBoard);
+  //     setBoards(boards.map(board => (board.id === currentBoardId ? updatedBoard : board)));
+  //     setSelectedContestants([]); // Clear selected contestants after saving
+  //     alert("Lưu thí sinh vào bảng thành công!");
+  //   } catch (error) {
+  //     console.error("Lỗi khi lưu thí sinh:", error);
+  //   }
+  // };
 
-      await axios.put(`http://localhost:3001/competition_category/${boardId}`, updatedBoard);
-      setBoards(boards.map(board => (board.id === boardId ? updatedBoard : board)));
-      alert("Xóa thí sinh thành công!");
-    } catch (error) {
-      console.error("Lỗi khi xóa thí sinh:", error);
-    }
-  };
+  // const handleDeleteContestant = async (boardId, contestantId) => {
+  //   try {
+  //     const boardToUpdate = boards.find(board => board.id === boardId);
+  //     const updatedBoard = {
+  //       ...boardToUpdate,
+  //       contestants: boardToUpdate.contestants.filter(contestant => contestant.id !== contestantId)
+  //     };
 
-  const handleSearch = async () => {
-    try {
-      const response = await axios.get(`http://localhost:3001/candidates?q=${searchTerm}`);
-      setContestants(response.data);
-    } catch (error) {
-      console.error("Lỗi khi tìm kiếm thí sinh:", error);
-    }
-  };
+  //     await axios.put(`http://localhost:3001/competition_category/${boardId}`, updatedBoard);
+  //     setBoards(boards.map(board => (board.id === boardId ? updatedBoard : board)));
+  //     alert("Xóa thí sinh thành công!");
+  //   } catch (error) {
+  //     console.error("Lỗi khi xóa thí sinh:", error);
+  //   }
+  // };
+
+  // const handleSearch = async () => {
+  //   try {
+  //     const response = await axios.get(`http://localhost:3001/candidates?q=${searchTerm}`);
+  //     setContestants(response.data);
+  //   } catch (error) {
+  //     console.error("Lỗi khi tìm kiếm thí sinh:", error);
+  //   }
+  // };
 
   return (
     <div className="container mt-4">
@@ -451,7 +452,7 @@ function CompetitionCategoryManagement() {
         <h4 className="fw-bold">Quản lý hạng mục thi đấu</h4>
       </div>
 
-      <div className="new-board-btn text-center mb-3">
+      {/* <div className="new-board-btn text-center mb-3">
         <button
           className="btn btn-link"
           data-bs-toggle="modal"
@@ -510,40 +511,72 @@ function CompetitionCategoryManagement() {
             </tbody>
           </table>
         </div>
-      ))}
+      ))} */}
+
+      <div className="card">
+        <div className="card-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <strong>Danh sách hạng mục thi đấu</strong>
+          <button
+            className="btn btn-sm btn-outline-primary float-right"
+            data-bs-toggle="modal" data-bs-target="#createCategoryModal"
+          >+</button>
+        </div>
+        <div className="card-body">
+          <div className="table-responsive" style={{ overflowX: "auto", maxHeight: "1000px" }}>
+            <table className="table">
+              <thead>
+                <tr>
+                  <th scope="col"><input type="checkbox" /></th>
+                  <th scope="col">STT</th>
+                  <th scope="col">Mã hạng mục</th>
+                  <th scope="col">Tên hạng mục</th>
+                  <th scope="col">Hạng tuổi</th>
+                  <th scope="col" className="text-right">Hành động</th>
+                </tr>
+              </thead>
+              <tbody>
+                {categories.map((category, index) => (
+                  <tr key={category.mahangmuc}>
+                    <td><input type="checkbox" /></td>
+                    <td>{index + 1}</td>
+                    <td>{category.mahangmuc}</td>
+                    <td>{category.tenhangmuc}</td>
+                    <td>{category.hangtuoi}</td>
+                    <td className="text-right">
+                      <button className="btn btn-sm btn-outline-secondary"
+                        data-bs-toggle="modal" data-bs-target="#createCategoryModal"
+                      >Sửa</button>
+                      <button className="btn btn-sm btn-outline-danger">Xóa</button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
 
       {/* Modal for creating a new board */}
-      <div
-        className="modal fade"
-        id="createBoardModal"
-        tabIndex="-1"
-        aria-labelledby="createBoardModalLabel"
-        aria-hidden="true"
-      >
-        <div className="modal-dialog modal-dialog-centered">
+      <div className="modal fade" id="createCategoryModal" tabIndex="-1" aria-labelledby="createCategoryModalLabel" aria-hidden="true">
+        <div className="modal-dialog">
           <div className="modal-content">
             <div className="modal-header">
-              <h5 className="modal-title" id="createBoardModalLabel">
-                Thêm bảng mới
-              </h5>
-              <button
-                type="button"
-                className="btn-close"
-                data-bs-dismiss="modal"
-                aria-label="Close"
-              ></button>
+              <h5 className="modal-title" id="createCategoryModalLabel">Thông tin hạng mục</h5>
+              <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" ></button>
             </div>
             <div className="modal-body">
               <div className="mb-3">
-                <label htmlFor="new-board-name" className="form-label">
-                  Tên bảng
-                </label>
+                <label htmlFor="categoryId" className="form-label">Mã hạng mục</label>
                 <input
-                  type="text"
-                  className="form-control"
-                  id="new-board-name"
-                  value={newBoardName}
-                  onChange={(e) => setNewBoardName(e.target.value)}
+                  type="text" className="form-control" id="categoryId" name="mahangmuc"
+                  value={category.mahangmuc} onChange={(e) => handleChange(e)}
+                />
+              </div>
+              <div className="mb-3">
+                <label htmlFor="categoryName" className="form-label">Tên hạng mục</label>
+                <input
+                  type="text" className="form-control" id="categoryName" name="tenhangmuc"
+                  value={category.tenhangmuc} onChange={(e) => handleChange(e)}
                 />
               </div>
               <div className="mb-3">
@@ -551,41 +584,26 @@ function CompetitionCategoryManagement() {
                 <select
                   id="age-group"
                   className="form-select"
-                  value={ageGroup}
-                  onChange={(e) => setAgeGroup(e.target.value)}
                 >
-                  <option value="">Chọn hạng tuổi</option>
-                  <option value="U18">U18</option>
-                  <option value="U20">U20</option>
+                  <option disabled selected>Chọn hạng tuổi</option>
+                  <option name="hangtuoi" value="">Mix</option>
+                  <option name="hangtuoi" value="00-08">0 - 8 tuổi</option>
+                  <option name="hangtuoi" value="09-12">9 - 12 tuổi</option>
+                  <option name="hangtuoi" value="13-15">13 - 15 tuổi</option>
+                  <option name="hangtuoi" value="16-18">16 - 18 tuổi</option>
                 </select>
               </div>
             </div>
             <div className="modal-footer">
-              <button
-                type="button"
-                className="btn btn-secondary"
-                data-bs-dismiss="modal"
-              >
-                Hủy
-              </button>
-              <button
-                type="button"
-                className="btn btn-primary"
-                onClick={() => {
-                  handleCreateBoard();
-                  setNewBoardName("");
-                  setAgeGroup("");
-                }}
-              >
-                Tạo bảng
-              </button>
+              <button type="button" className="btn btn-secondary" data-bs-dismiss="modal" >Hủy</button>
+              <button type="button" className="btn btn-primary" onClick={() => handleCreateCategory()}>Tạo bảng</button>
             </div>
           </div>
         </div>
       </div>
 
       {/* Modal for adding contestants to a board */}
-      <div
+      {/* <div
         className="modal fade"
         id="addContestantIntoTableModal"
         tabIndex="-1"
@@ -670,7 +688,7 @@ function CompetitionCategoryManagement() {
             </div>
           </div>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 }
