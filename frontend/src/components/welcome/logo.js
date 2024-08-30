@@ -4,21 +4,16 @@
 
 function Logo() {
   return (
-    <div className="m-2 d-flex justify-content-between align-items-center">
+    <div className="logo-container m-2 d-flex justify-content-between align-items-center">
       <div>
-        <img src="/image/65.png" className="mx-2" width="100px"/>
-        <img src="/image/ten_truong.png" className="mx-2" heigh="38px" />
-        {/* <img src="/image/dtn.png" className="mx-2" width="45px"/>
-        <img src="/image/hsv.png" className="mx-2" width="45px"/> */}
+        <img src="/image/65.png" className="mx-2" width="100px" alt="Đại học Thủy lợi - 65 năm"/>
+        <img src="/image/ten_truong.png" className="school-name mx-2" heigh="38px" alt=""/>
       </div>
       <div>
         <div>
-          <img src="/image/dtn.png" className="mx-2" width="58px" />
-          <img src="/image/hsv.png" className="mx-2" width="58px" />
+          <img src="/image/dtn.png" className="mx-2" width="58px" alt="Đoàn TNCS HCM"/>
+          <img src="/image/hsv.png" className="mx-2" width="58px" alt="Hội sinh viên"/>
         </div>
-        {/* <div>  
-          <img src="/image/hsv.png" className="mx-2" width="45px" />
-        </div> */}
       </div>
     </div>
   );

@@ -447,7 +447,7 @@ function CompetitionCategoryManagement() {
   // };
 
   return (
-    <div className="container mt-4">
+    <div className="category-container mt-3">
       <div className="text-center mb-3">
         <h4 className="fw-bold">Quản lý hạng mục thi đấu</h4>
       </div>
@@ -584,6 +584,7 @@ function CompetitionCategoryManagement() {
                 <select
                   id="age-group"
                   className="form-select"
+                  style={{maxHeight: '50px'}}
                 >
                   <option disabled selected>Chọn hạng tuổi</option>
                   <option name="hangtuoi" value="">Mix</option>

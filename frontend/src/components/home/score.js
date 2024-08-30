@@ -193,7 +193,7 @@ function Score() {
   };
 
   return (
-    <div className="container mt-5">
+    <div className="score-container mt-3">
       <h4 className="text-center">Kết quả thi đấu</h4>
       <form className="mb-4">
         <div className="row">

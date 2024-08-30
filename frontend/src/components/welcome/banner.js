@@ -1,7 +1,7 @@
 function Banner() {
     return (
-        <div>
-            <div className="card mb-3 text-center border-0 m-5">
+        <>
+            <div className="card mb-3 text-center border-0 mt-3">
                 <img src="/image/banner.jpg" className="card-img-top" alt="..." />
                 <div className="card-body">
                     <h5 className="card-title">Card title</h5>
@@ -14,7 +14,7 @@ function Banner() {
 
 
 
-            <div id="carouselExampleDark" className="carousel carousel-dark slide m-5">
+            <div id="carouselExampleDark" className="carousel carousel-dark slide mt-5">
                 <div className="carousel-indicators">
                     <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to={0} className="active" aria-current="true" aria-label="Slide 1" />
                     <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to={1} aria-label="Slide 2" />
@@ -52,7 +52,7 @@ function Banner() {
                     <span className="visually-hidden">Next</span>
                 </button>
             </div>
-        </div>
+        </>
 
 
 

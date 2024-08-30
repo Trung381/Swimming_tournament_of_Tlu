@@ -191,3 +191,44 @@ body {
   bottom: 20px;
   right: 20px;
 }
+
+
+
+
+
+.app-container {
+	width: 100%;
+	margin: 0 auto;
+}
+
+
+.body-container {
+	width: 90%;
+	margin: 0 auto;
+}
+
+@media (max-width: 768px) {
+	.body-container {
+		width: 97%;
+		margin: 0 auto;
+	}
+
+	.school-name {
+		display: none;
+	}
+}
+
+.login-container {
+	width: 98.4%;
+	margin: 0 auto;
+}
+
+.header-container {
+	position: fixed;
+    top: 0;
+    left: 0;
+	width: 100%;
+	z-index: 1000;
+	background-color: #ffffff;
+	box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
