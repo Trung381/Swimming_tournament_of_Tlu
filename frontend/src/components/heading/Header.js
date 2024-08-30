@@ -24,7 +24,7 @@ const Header = forwardRef((props, ref) => {
 
   const handleReLoad = (e,  path) => {
     e.preventDefault();
-    if (window.location.pathname === path) {
+    if (window.location.hash === '#' + path) {
       window.location.reload();
     } else {
       navigate(path)

@@ -36,7 +36,7 @@ function OrganizingCommitteeNavbar(props) {
             </li>
             <li className="nav-item">
               {/* <Link className="nav-link" to="" onClick={(e) => props.logoutClick(e)}>Đăng xuất</Link> */}
-              <a className="nav-link" href="/" onClick={props.logoutClick}>ĐĂNG XUẤT</a>
+              <a className="nav-link" href="/#/" onClick={props.logoutClick}>ĐĂNG XUẤT</a>
             </li>
 
           </ul>
