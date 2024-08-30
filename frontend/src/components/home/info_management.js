@@ -37,12 +37,15 @@ function InfoManagement() {
     setCurrentId(id);
   };
 
+  const token = sessionStorage.getItem('token');
+
   const fetchContestants = async () => {
     try {
       const response = await axios.get('https://api.thanglele08.id.vn/Sport/xemthongtinthisinhall', {
         headers: {
           Accept: '*/*',
-          Authorization: '77a1d381b74d503edf3c18b33de1d3031bc73056f09a870a74d75d5d396bba52'
+          // Authorization: '77a1d381b74d503edf3c18b33de1d3031bc73056f09a870a74d75d5d396bba52'
+          Authorization: token
         }
       });
 
@@ -115,8 +118,8 @@ function InfoManagement() {
               </select>
             </div>
             <div className="col-md-3">
-              <label htmlFor="Id">Mã hay j đó</label>
-              <input type="text" id="Id" className="form-control" placeholder="Mã j đó đi"></input>
+              <label htmlFor="Id">Số báo danh</label>
+              <input type="text" id="Id" className="form-control" placeholder="Nhập số báo danh..."></input>
             </div>
           </div>
           <div className="row mt-2">

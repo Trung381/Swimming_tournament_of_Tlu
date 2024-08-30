@@ -24,6 +24,7 @@ function Login(props) {
 
       if (response.data.token) {
         sessionStorage.setItem('role', response.data.role);
+        sessionStorage.setItem('token', response.data.token);
         // sessionStorage.setItem('role', 1);
         navigate('/home');
         if (props.newState) {

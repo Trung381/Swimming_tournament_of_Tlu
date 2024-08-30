@@ -13,8 +13,10 @@ function Score() {
   const [millisecond, setMillisecond] = useState("");
   const [total, setTotal] = useState(0);
 
-  const role = "2";
-  const token = "77a1d381b74d503edf3c18b33de1d3031bc73056f09a870a74d75d5d396bba52";
+  // const role = "2";
+  // const token = "77a1d381b74d503edf3c18b33de1d3031bc73056f09a870a74d75d5d396bba52";
+  const role = sessionStorage.getItem('role');
+  const token = sessionStorage.getItem('token');
 
   useEffect(() => {
     const fetchCategories = async () => {
