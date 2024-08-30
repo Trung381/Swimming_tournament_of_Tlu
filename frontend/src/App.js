@@ -2,44 +2,57 @@ import './App.css';
 import AppRoutes from './routes/AppRoutes';
 import Header from './components/heading/Header';
 import { BrowserRouter as Router } from 'react-router-dom';
-import { useEffect, useState } from 'react';
-import AddContestantIntoTable from './components/modals/addContestantIntoTable'
-import RegisterModal from './components/modals/registerModal';
-import LookUpInforModal from './components/modals/lookUpInfoModal';
+import { useEffect, useRef, useState } from 'react';
 import Footer from './components/footer/footer';
 
 // import Navbar from './components/welcome/navbar';
 function App() {
+  const headerRef = useRef(null);
+  const [headerHeight, setHeaderHeight] = useState(0);
+  const [mess, setMess] = useState('');
   const [role, setRole] = useState(sessionStorage.getItem('role'));
   useEffect(() => {
     setRole(sessionStorage.getItem('role'));
   }, []);
-  
+
+  useEffect(() => {
+    const updateHeaderHeight = () => {
+      if (headerRef.current) {
+        setHeaderHeight(headerRef.current.offsetHeight + 10);
+      }
+    };
+    updateHeaderHeight();
+    window.addEventListener('resize', updateHeaderHeight);
+
+    return () => {
+      window.removeEventListener('resize', updateHeaderHeight);
+    }
+  }, []);
+
+
+  const handleNewMess = (newMess) => {
+    setMess(newMess);
+  };
+
+  const handleSetRole = (newRole) => {
+    setRole(newRole);
+  };
+
+  const isLoginPage = window.location.pathname === '/login';
+
   return (
     <>
-      {/* <div className='container-fluid'> */}
       <Router>
-        <div>
-          <div>
-            {(window.location.pathname === '/403' || window.location.pathname === '/404' || window.location.pathname === '/login') || <Header role={role}/>}
+        <div className='app-container'>
+          {(window.location.pathname === '/403' || window.location.pathname === '/404' || isLoginPage) || <Header ref={headerRef} role={role} newState={handleNewMess} newRole={handleSetRole} />}
+
+          <div className={isLoginPage ? 'login-container vh-100' : 'body-container'} style={isLoginPage ? {paddingTop: 0} : {paddingTop: headerHeight}}>
+            <AppRoutes newState={handleNewMess} />
           </div>
 
-          <div>
-            <AppRoutes/>
-          </div>
-
-          <div>
-            {(window.location.pathname === '/403' || window.location.pathname === '/404' || window.location.pathname === '/login') || <Footer />}
-          </div>
+          {(window.location.pathname === '/403' || window.location.pathname === '/404' || window.location.pathname === '/login') || <Footer />}
         </div>
       </Router>
-
-      <div>
-        <AddContestantIntoTable />
-        <RegisterModal />
-        <LookUpInforModal />
-      </div>
-    {/* </div> */}
     </>
   );
 }

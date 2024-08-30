@@ -32,20 +32,20 @@ const LookUpInforModal = () => {
   const handleSearch = async () => {
     try {
       const response = await axios.post(`https://api.thanglele08.id.vn/Sport/timkiemtheduthi`, {
-        sobaodanh: searchInput.sobaodanh.trim() === '' ? null : searchInput.sobaodanh.trim(),
+        sobaodanh: searchInput.sobaodanh.trim() === '' ? 0 : searchInput.sobaodanh.trim(),
         hovaten: searchInput.hovaten.trim() === '' ? null : searchInput.hovaten.trim(),
         sodienthoai: searchInput.sodienthoai.trim() === '' ? null : searchInput.sodienthoai.trim()
       });
-  
-      if (response.status === 200) {
-        setFormData(response.data[0]);
-      }
-      // else {
-      //   alert("Không tìm thấy thông tin thí sinh!");
-      //   setFormData(null);
-      // }
+
+      setFormData(response.data[0]);
     } catch (error) {
-      console.log(error);
+      if (error.response.status === 404) {
+        alert("Không tìm thấy thông tin thí sinh!");
+        setFormData(null);
+      }
+      else {
+        alert("Đã có lỗi xảy ra!");
+      }
     }
   };
 
@@ -56,12 +56,31 @@ const LookUpInforModal = () => {
     });
   };
 
+
+  // Dang loi phia BE
   const handleUpdate = async () => {
     try {
-      await axios.put(`http://localhost:3001/candidates/${formData.id}`, formData);
-      alert("Thông tin thí sinh đã được cập nhật.");
+      const [year, month, date] = formData.namsinh.split("-");
+      await axios.post(`https://api.thanglele08.id.vn/Sport/dieuchinhthongtinthisinh`, {
+        "sobaodanh": 22,
+        "hovatenthisinh": formData.hovatenthisinh,
+        "hovatenphuhuynh": formData.hovatenphuhuynh,
+        "donvi": formData.donvi,
+        "lop": formData.lop,
+        "sodienthoai":formData.sodienthoai,
+        "namsinh": {
+          "year": year,
+          "month": month,
+          "day": date,
+          "dayOfWeek": ""
+        },
+        "gioitinh": formData.gioitinh,
+        "isModify": true,
+        "email": formData.email
+      });
+      alert("Thông tin đã được cập nhật!");
     } catch (error) {
-      console.error("Đã xảy ra lỗi khi cập nhật thông tin:", error);
+      console.error(error);
     }
   };
 
@@ -95,11 +114,9 @@ const LookUpInforModal = () => {
                         className="btn btn-primary"
                         style={{ borderRadius: '0 8px 8px 0', borderLeft: 'none' }}
                         onClick={handleSearch}
-                      >
-                        Tra cứu
-                      </button>
+                      >Tra cứu</button>
                     </div>
-                    <p className="text-center mt-2" style={{marginBottom: '0', paddingBottom: '0'}}>Hoặc <a href="" onClick={(e) => changeSearchWay(e)}><b>Tìm theo tên và số điện thoại</b></a></p>
+                    <p className="text-center mt-2" style={{ marginBottom: '0', paddingBottom: '0' }}>Hoặc <a href="" onClick={(e) => changeSearchWay(e)}><b>Tìm theo tên và số điện thoại</b></a></p>
                   </div>
                 )}
 
@@ -128,11 +145,11 @@ const LookUpInforModal = () => {
                     <div className="row justify-content-center mt-2">
                       <button
                         className="btn btn-primary"
-                        style={{ borderRadius: '8px', width: '100px', marginTop: '5px'}}
+                        style={{ borderRadius: '8px', width: '100px', marginTop: '5px' }}
                         onClick={handleSearch}
                       >Tra cứu</button>
                     </div>
-                    <p className="text-center mt-2" style={{marginBottom: '0', paddingBottom: '0'}}>Hoặc <a href="" onClick={(e) => changeSearchWay(e)}><b>Tìm theo số báo danh</b></a></p>
+                    <p className="text-center mt-2" style={{ marginBottom: '0', paddingBottom: '0' }}>Hoặc <a href="" onClick={(e) => changeSearchWay(e)}><b>Tìm theo số báo danh</b></a></p>
                   </div>
                 )};
                 <p className="text-center mt-2">*Chưa có thông tin, nhấn <a href="#registerModal" data-bs-toggle="modal" data-bs-target="#registerModal"><b>Đăng ký</b></a></p>

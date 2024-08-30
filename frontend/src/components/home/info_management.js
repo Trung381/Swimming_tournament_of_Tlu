@@ -28,7 +28,7 @@ function InfoManagement() {
 
       setFormData(response.data[0]);
     } catch (error) {
-        console.log(error);
+      console.log(error);
     }
   };
 
@@ -48,7 +48,7 @@ function InfoManagement() {
 
       setContestants(response.data);
     } catch (error) {
-      console.log(error);        
+      console.log(error);
     }
   };
 
@@ -81,129 +81,127 @@ function InfoManagement() {
   }
 
   return (
-    <div>
-      <div>
-        <div className="container mt-4">
-          <h5 className="text-center">Quản lý thông tin thí sinh</h5>
-          <form className="mb-4">
-            <div className="row">
-              <div className="col-md-5">
-                <label htmlFor="year">Năm</label>
-                <select id="year" className="form-select">
-                  <option defaultValue>Chọn năm...</option>
-                  {/* Add options here */}
-                </select>
-              </div>
-              <div className="col-md-5">
-                <label htmlFor="ageGroup">Hạng tuổi</label>
-                <select id="ageGroup" className="form-select">
-                  <option defaultValue>Chọn hạng tuổi...</option>
-                  {/* Add options here */}
-                </select>
-              </div>
-              <div className="col-md-5">
-                <label htmlFor="competition">Giải đấu</label>
-                <select id="competition" className="form-select">
-                  <option defaultValue>Chọn giải đấu...</option>
-                  {/* Add options here */}
-                </select>
-              </div>
-              <div className="col-md-5">
-                <label htmlFor="category">Hạng mục</label>
-                <select id="category" className="form-select">
-                  <option defaultValue>Chọn hạng mục...</option>
-                  {/* Add options here */}
-                </select>
-              </div>
-              <div className="col-md-3">
-                <label htmlFor="Id">Mã hay j đó</label>
-                <input type="text" id="Id" className="form-control" placeholder="Mã j đó đi"></input>
-              </div>
+    <>
+      <div className="contestant-container mt-3">
+        <h5 className="text-center">Quản lý thông tin thí sinh</h5>
+        <form className="mb-4">
+          <div className="row">
+            <div className="col-md-5">
+              <label htmlFor="year">Năm</label>
+              <select id="year" className="form-select">
+                <option defaultValue>Chọn năm...</option>
+                {/* Add options here */}
+              </select>
             </div>
-            <div className="row mt-2">
-              <div className="col-md-12 text-end">
-                <button type="submit" className="btn btn-primary">Tra cứu</button>
-              </div>
+            <div className="col-md-5">
+              <label htmlFor="ageGroup">Hạng tuổi</label>
+              <select id="ageGroup" className="form-select">
+                <option defaultValue>Chọn hạng tuổi...</option>
+                {/* Add options here */}
+              </select>
             </div>
-          </form>
-          <div className="card">
-            <div className="card-header" style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
-              <strong>Danh sách thí sinh tham gia giải</strong>
-              <button 
-                className="btn btn-sm btn-outline-primary float-right" 
-                data-bs-toggle="modal" data-bs-target="#thongTinThiSinhModal"
-                onClick={() => resetForm()}
-              >+</button>
+            <div className="col-md-5">
+              <label htmlFor="competition">Giải đấu</label>
+              <select id="competition" className="form-select">
+                <option defaultValue>Chọn giải đấu...</option>
+                {/* Add options here */}
+              </select>
             </div>
-            <div className="card-body">
-              <div className="table-responsive" style={{ overflowX: "auto", maxHeight: "1000px" }}>
-                
-                <table className="table">
-                  <thead>
-                    <tr>
-                      <th scope="col"><input type="checkbox" /></th>
-                      <th scope="col">STT</th>
-                      <th scope="col">SBD</th>
-                      <th scope="col">Họ tên thí sinh</th>
-                      <th scope="col">Email</th>
-                      <th scope="col">Số điện thoại</th>
-                      <th scope="col">Ngày sinh</th>
-                      <th scope="col">Giới tính</th>
-                      <th scope="col">Họ tên phụ huynh</th>
-                      <th scope="col">Đơn vị</th>
-                      <th scope="col">Lớp</th>
-                      <th scope="col" className="text-right">Hành động</th>
+            <div className="col-md-5">
+              <label htmlFor="category">Hạng mục</label>
+              <select id="category" className="form-select">
+                <option defaultValue>Chọn hạng mục...</option>
+                {/* Add options here */}
+              </select>
+            </div>
+            <div className="col-md-3">
+              <label htmlFor="Id">Mã hay j đó</label>
+              <input type="text" id="Id" className="form-control" placeholder="Mã j đó đi"></input>
+            </div>
+          </div>
+          <div className="row mt-2">
+            <div className="col-md-12 text-end">
+              <button type="submit" className="btn btn-primary">Tra cứu</button>
+            </div>
+          </div>
+        </form>
+        <div className="card">
+          <div className="card-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <strong>Danh sách thí sinh tham gia giải</strong>
+            <button
+              className="btn btn-sm btn-outline-primary float-right"
+              data-bs-toggle="modal" data-bs-target="#thongTinThiSinhModal"
+              onClick={() => resetForm()}
+            >+</button>
+          </div>
+          <div className="card-body">
+            <div className="table-responsive" style={{ overflowX: "auto", maxHeight: "1000px" }}>
+
+              <table className="table">
+                <thead>
+                  <tr>
+                    <th scope="col"><input type="checkbox" /></th>
+                    <th scope="col">STT</th>
+                    <th scope="col">SBD</th>
+                    <th scope="col">Họ tên thí sinh</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Số điện thoại</th>
+                    <th scope="col">Ngày sinh</th>
+                    <th scope="col">Giới tính</th>
+                    <th scope="col">Họ tên phụ huynh</th>
+                    <th scope="col">Đơn vị</th>
+                    <th scope="col">Lớp</th>
+                    <th scope="col" className="text-right">Hành động</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {contestants.map((contestant, index) => (
+                    <tr key={contestant.id}>
+                      <td><input type="checkbox" /></td>
+                      <td>{index + 1}</td>
+                      <td>{contestant.sobaodanh}</td>
+                      <td>{contestant.hovatenthisinh}</td>
+                      <td>{contestant.email}</td>
+                      <td>{contestant.sodienthoai}</td>
+                      <td>{contestant.namsinh}</td>
+                      <td>{contestant.gioitinh}</td>
+                      <td>{contestant.hovatenphuhuynh}</td>
+                      <td>{contestant.donvi}</td>
+                      <td>{contestant.lop}</td>
+                      <td className="text-right">
+                        <button className="btn btn-sm btn-outline-secondary"
+                          data-bs-toggle="modal" data-bs-target="#thongTinThiSinhModal"
+                          onClick={() => clickEditInfo(contestant.sobaodanh)}
+                        >Sửa</button>
+                        <button className="btn btn-sm btn-outline-danger">Xóa</button>
+                      </td>
                     </tr>
-                  </thead>
-                  <tbody>
-                    {contestants.map((contestant, index) => (
-                      <tr key={contestant.id}>
-                        <td><input type="checkbox" /></td>
-                        <td>{index + 1}</td>
-                        <td>{contestant.sobaodanh}</td>
-                        <td>{contestant.hovatenthisinh}</td>
-                        <td>{contestant.email}</td>
-                        <td>{contestant.sodienthoai}</td>
-                        <td>{contestant.namsinh}</td>
-                        <td>{contestant.gioitinh}</td>
-                        <td>{contestant.hovatenphuhuynh}</td>
-                        <td>{contestant.donvi}</td>
-                        <td>{contestant.lop}</td>
-                        <td className="text-right">
-                          <button className="btn btn-sm btn-outline-secondary" 
-                            data-bs-toggle="modal" data-bs-target="#thongTinThiSinhModal"
-                            onClick={() => clickEditInfo(contestant.sobaodanh)}
-                          >Sửa</button>
-                          <button className="btn btn-sm btn-outline-danger">Xóa</button>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
+                  ))}
+                </tbody>
+              </table>
             </div>
           </div>
-          <button id="printButton" className="btn btn-outline-dark">In phiếu dự thi</button>
         </div>
-        <div className="modal fade" id="thongTinThiSinhModal" tabIndex="-1" aria-labelledby="thongTinThiSinhModalLabel" aria-hidden="true">
-          <div className="modal-dialog modal-lg">
-            <div className="modal-content">
-              <div className="modal-header">
-                <h5 className="modal-title" id="thongTinThiSinhModalLabel">Thông tin thí sinh - SBD: {currentId}</h5>
-                <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-              </div>
-              <div className="modal-body">
-                <CandidateInforForm formData={formData} handleChange={handleChange}/>
-              </div>
-              <div className='modal-footer'>
-                <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
-                <button type="submit" className="btn btn-primary">Lưu</button>
-              </div>
+        <button id="printButton" className="btn btn-outline-dark">In phiếu dự thi</button>
+      </div>
+      <div className="modal fade" id="thongTinThiSinhModal" tabIndex="-1" aria-labelledby="thongTinThiSinhModalLabel" aria-hidden="true">
+        <div className="modal-dialog modal-lg">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h5 className="modal-title" id="thongTinThiSinhModalLabel">Thông tin thí sinh - SBD: {currentId}</h5>
+              <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div className="modal-body">
+              <CandidateInforForm formData={formData} handleChange={handleChange} />
+            </div>
+            <div className='modal-footer'>
+              <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+              <button type="submit" className="btn btn-primary">Lưu</button>
             </div>
           </div>
-        </div>  
-      </div>  
-    </div>
+        </div>
+      </div>
+    </>
   );
 }
 

@@ -3,7 +3,7 @@ import React from "react";
 function Reward() {
   return(
     <>
-      <div className="container mt-4">
+      <div className="reward-container mt-3">
         <div className="text-center mb-3">
           <h4 className="fw-bold">Kết quả đạt giải và khen thưởng</h4>
         </div>

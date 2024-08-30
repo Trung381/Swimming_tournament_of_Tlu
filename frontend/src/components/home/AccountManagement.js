@@ -63,7 +63,7 @@ const Account = () => {
 
   return (
     <>
-      <div className="container mt-5">
+      <div className="account-container mt-3">
         <h3 className="text-center mb-4">Quản lý tài khoản</h3>
         <div className="d-flex justify-content-between mb-3">
           <div className="input-group">
