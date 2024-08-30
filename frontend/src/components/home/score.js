@@ -13,7 +13,7 @@ function Score() {
   const [millisecond, setMillisecond] = useState("");
   const [total, setTotal] = useState(0);
 
-  const role = "1";
+  const role = "2";
   const token = "77a1d381b74d503edf3c18b33de1d3031bc73056f09a870a74d75d5d396bba52";
 
   useEffect(() => {
@@ -85,7 +85,6 @@ function Score() {
         }
       );
 
-      setResults("");
       const result = response.data;
       if (result.length > 0) {
         setResults(result);
@@ -94,7 +93,7 @@ function Score() {
       }
     } catch (error) {
       console.error("Lỗi khi tìm kiếm kết quả thí sinh:", error);
-      alert("Đã xảy ra lỗi khi tìm kiếm kết quả thí sinh."); //hmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm
+      alert("Đã xảy ra lỗi khi tìm kiếm kết quả thí sinh.");
     }
   };
 
@@ -149,17 +148,13 @@ function Score() {
         );
         alert("Lưu kết quả thành công!");
 
-        // const temp = results.length;
-        // alert(temp);
-
-        if (results.length === 1){
-          await handleTraCuu(e);
-        }
         if (results.length > 1){
           await handleFetchContestantsByCategory();
         }
-
-        // await handleTraCuu(e); // hmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm
+        else {
+          await handleTraCuu(e);
+        }
+        // await handleTraCuu(e);
       } catch (error) {
         console.error("Lỗi khi lưu kết quả:", error);
         alert("Đã xảy ra lỗi khi lưu kết quả.");
