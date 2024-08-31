@@ -10,7 +10,9 @@ const LookUpInforModal = () => {
     hovaten: '',
     sodienthoai: ''
   });
+  const [isModify, setIsModify] = useState(false);
 
+  // Thay đổi giao diện tra cứu thông tin theo cách thức tra cứu
   const changeSearchWay = (e) => {
     e.preventDefault();
     setIsSearchByNameAndPhone(!isSearchByNameAndPhone);
@@ -22,6 +24,7 @@ const LookUpInforModal = () => {
     setFormData(null);
   }
 
+  // Data sending
   const handleChangeSearchInput = (e) => {
     setSearchInput({
       ...searchInput,
@@ -29,6 +32,7 @@ const LookUpInforModal = () => {
     })
   }
 
+  // Call api lấy thông tin thí sinh theo tiêu chí tìm kiếm
   const handleSearch = async () => {
     try {
       const response = await axios.post(`https://api.thanglele08.id.vn/Sport/timkiemtheduthi`, {
@@ -49,6 +53,7 @@ const LookUpInforModal = () => {
     }
   };
 
+  // 
   const handleChange = (e) => {
     setFormData({
       ...formData,
@@ -58,31 +63,49 @@ const LookUpInforModal = () => {
 
 
   // Dang loi phia BE
-  const handleUpdate = async () => {
+  const handleModifyPersonalInfo = async () => {
     try {
       const [year, month, date] = formData.namsinh.split("-");
       await axios.post(`https://api.thanglele08.id.vn/Sport/dieuchinhthongtinthisinh`, {
-        "sobaodanh": 22,
-        "hovatenthisinh": formData.hovatenthisinh,
-        "hovatenphuhuynh": formData.hovatenphuhuynh,
-        "donvi": formData.donvi,
-        "lop": formData.lop,
-        "sodienthoai":formData.sodienthoai,
-        "namsinh": {
-          "year": year,
-          "month": month,
-          "day": date,
-          "dayOfWeek": ""
+        sobaodanh: 22,
+        hovatenthisinh: formData.hovatenthisinh,
+        hovatenphuhuynh: formData.hovatenphuhuynh,
+        donvi: formData.donvi,
+        lop: formData.lop,
+        sodienthoai:formData.sodienthoai,
+        namsinh: {
+          year: year,
+          month: month,
+          day: date,
+          dayOfWeek: ""
         },
-        "gioitinh": formData.gioitinh,
-        "isModify": true,
-        "email": formData.email
+        gioitinh: formData.gioitinh,
+        isModify: true,
+        email: formData.email
       });
-      alert("Thông tin đã được cập nhật!");
+      return true;
     } catch (error) {
       console.error(error);
+      return false;
     }
   };
+
+  // Dieu chinh hang muc thi dau
+  const handleModifyCategories = () => {
+    
+  }
+
+  const handleModify = () => {
+    if (formData) {
+      if (formData.isModify) {
+        setIsModify(true);
+        return;
+      }
+
+      handleModifyPersonalInfo();
+      handleModifyCategories();
+    }
+  }
 
   return (
     <>
@@ -154,9 +177,12 @@ const LookUpInforModal = () => {
                 )};
                 <p className="text-center mt-2">*Chưa có thông tin, nhấn <a href="#registerModal" data-bs-toggle="modal" data-bs-target="#registerModal"><b>Đăng ký</b></a></p>
                 {formData && (
-                  <CandidateInforForm formData={formData} handleChange={handleChange} />
+                  <div>
+                    { isModify && <p style={{color: 'red'}}>*Bạn đã thay đổi thông tin trước đó và không thể thay đổi tiếp. Nếu cần, hãy liên hệ BTC!</p>}
+                    <CandidateInforForm formData={formData} handleChange={handleChange} />
+                  </div>
                 )}
-                {formData && (
+                {(formData && !isModify) && (
                   <div className="row justify-content-end mt-3" style={{ margin: '0 28px 25px 0' }}>
                     <div className="col-auto">
                       <button className="btn btn-primary" onClick={handleUpdate}>Yêu cầu thay đổi thông tin</button>
