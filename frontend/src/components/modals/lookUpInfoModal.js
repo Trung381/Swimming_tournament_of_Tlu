@@ -3,7 +3,17 @@ import axios from "axios";
 import CandidateInforForm from "../welcome/candidateInforForm";
 
 const LookUpInforModal = () => {
-  const [formData, setFormData] = useState(null);
+  const [formData, setFormData] = useState({
+    sobaodanh: '',
+    hovatenthisinh: '',
+    hovatenphuhuynh: '',
+    donvi: '',
+    lop: '',
+    sodienthoai: '',
+    gioitinh: '',
+    email: '',
+    mahangmuc: []
+  });
   const [isSearchByNameAndPhone, setIsSearchByNameAndPhone] = useState(false);
   const [searchInput, setSearchInput] = useState({
     sobaodanh: '',
@@ -11,7 +21,9 @@ const LookUpInforModal = () => {
     sodienthoai: ''
   });
   const [isModify, setIsModify] = useState(false);
-
+  const [oldCategories, setOldCategories] = useState([]);
+  const [newCategories, setNewCategories] = useState([]);
+  
   // Thay đổi giao diện tra cứu thông tin theo cách thức tra cứu
   const changeSearchWay = (e) => {
     e.preventDefault();
@@ -32,6 +44,13 @@ const LookUpInforModal = () => {
     })
   }
 
+  const transformData = (datas) => {
+    const newData = datas.map((data) => (
+      data.mahangmuc
+    ));
+    return newData;
+  }
+
   // Call api lấy thông tin thí sinh theo tiêu chí tìm kiếm
   const handleSearch = async () => {
     try {
@@ -40,33 +59,56 @@ const LookUpInforModal = () => {
         hovaten: searchInput.hovaten.trim() === '' ? null : searchInput.hovaten.trim(),
         sodienthoai: searchInput.sodienthoai.trim() === '' ? null : searchInput.sodienthoai.trim()
       });
+      // const response = await axios.get('http://localhost:3001/contestants', {
+      //   params: {
+      //     sobaodanh: 103
+      //   }
+      // })
 
-      setFormData(response.data[0]);
-    } catch (error) {
-      if (error.response.status === 404) {
-        alert("Không tìm thấy thông tin thí sinh!");
-        setFormData(null);
-      }
-      else {
-        alert("Đã có lỗi xảy ra!");
-      }
+      const categories = transformData(response.data.mahangmuc);
+      setFormData({
+        ...response.data,
+        mahangmuc: categories
+      });
+      setOldCategories(categories);
+    }
+    catch (error) {
+      console.log(error);
+      // if (error.response.status === 404) {
+      //   alert("Không tìm thấy thông tin thí sinh!");
+      //   setFormData(null);
+      // }
+      // else {
+      //   alert("Đã có lỗi xảy ra!");
+      // }
     }
   };
 
-  // 
+  // Thay doi du lieu khi chinh sua
   const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    });
+    const {name, value, type, checked} = e.target;
+    if (type === "checkbox") {
+      let newCategory;
+      if (checked) {
+        newCategory = [...formData.mahangmuc, value];
+      } else {
+        newCategory = formData.mahangmuc.filter(item => item !== value);
+      }
+
+      setFormData({
+        ...formData,
+        mahangmuc: newCategory
+      })
+    }
+    else {
+      setFormData({ ...formData, [name]: value });
+    }
   };
 
-
-  // Dang loi phia BE
   const handleModifyPersonalInfo = async () => {
     try {
       const [year, month, date] = formData.namsinh.split("-");
-      await axios.post(`https://api.thanglele08.id.vn/Sport/dieuchinhthongtinthisinh`, {
+      const response = await axios.post(`https://api.thanglele08.id.vn/Sport/dieuchinhthongtinthisinh`, {
         sobaodanh: 22,
         hovatenthisinh: formData.hovatenthisinh,
         hovatenphuhuynh: formData.hovatenphuhuynh,
@@ -83,7 +125,7 @@ const LookUpInforModal = () => {
         isModify: true,
         email: formData.email
       });
-      return true;
+      return response.status === 200;
     } catch (error) {
       console.error(error);
       return false;
@@ -91,8 +133,18 @@ const LookUpInforModal = () => {
   };
 
   // Dieu chinh hang muc thi dau
-  const handleModifyCategories = () => {
-    
+  const handleModifyCategory = async () => {
+    try {
+      const response = await axios.post('https://api.thanglele08.id.vn/Sport/dieuchinhhangmucthidau', {
+        sobaodanh: formData.sobaodanh,
+        oldmahangmuc: oldCategories,
+        newmahangmuc: newCategories
+      });
+     
+      return response.status === 200;
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   const handleModify = () => {
@@ -102,8 +154,10 @@ const LookUpInforModal = () => {
         return;
       }
 
-      handleModifyPersonalInfo();
-      handleModifyCategories();
+      // handleModifyPersonalInfo();
+      // handleModifyCategory();
+      console.log('Ma hang muc cu: ' + oldCategories)
+      console.log('Ma hang muc moi: ' + formData.mahangmuc)
     }
   }
 
@@ -136,7 +190,7 @@ const LookUpInforModal = () => {
                       <button
                         className="btn btn-primary"
                         style={{ borderRadius: '0 8px 8px 0', borderLeft: 'none' }}
-                        onClick={handleSearch}
+                        onClick={() => handleSearch()}
                       >Tra cứu</button>
                     </div>
                     <p className="text-center mt-2" style={{ marginBottom: '0', paddingBottom: '0' }}>Hoặc <a href="" onClick={(e) => changeSearchWay(e)}><b>Tìm theo tên và số điện thoại</b></a></p>
@@ -179,13 +233,14 @@ const LookUpInforModal = () => {
                 {formData && (
                   <div>
                     { isModify && <p style={{color: 'red'}}>*Bạn đã thay đổi thông tin trước đó và không thể thay đổi tiếp. Nếu cần, hãy liên hệ BTC!</p>}
-                    <CandidateInforForm formData={formData} handleChange={handleChange} />
+                    <h6 style={{paddingLeft: '12px', margin: 0}}><strong>Số báo danh: {formData.sobaodanh}</strong></h6>
+                    <CandidateInforForm formData={formData} handleChange={handleChange}/>
                   </div>
                 )}
                 {(formData && !isModify) && (
                   <div className="row justify-content-end mt-3" style={{ margin: '0 28px 25px 0' }}>
                     <div className="col-auto">
-                      <button className="btn btn-primary" onClick={handleUpdate}>Yêu cầu thay đổi thông tin</button>
+                      <button className="btn btn-primary" onClick={() => handleModify()}>Yêu cầu thay đổi thông tin</button>
                     </div>
                   </div>
                 )}

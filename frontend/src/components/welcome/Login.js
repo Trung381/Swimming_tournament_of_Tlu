@@ -1,12 +1,27 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import './login.css';
 
 function Login(props) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState(null);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const handleHashChange = () => {
+      if (props.newState) {
+        props.newState('Login page: Back or forward click');
+      }
+    };
+
+    window.addEventListener('hashchange', handleHashChange);
+
+    return () => {
+      window.removeEventListener('hashchange', handleHashChange);
+    };
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -16,6 +31,14 @@ function Login(props) {
     } else {
       setError(null);
     }
+
+    // sessionStorage.setItem('role', password);
+    // navigate('/home');
+    // if (props.newState) {
+    //   props.newState('rerender component App');
+    // }
+
+
     try {
       const response = await axios.post('https://api.thanglele08.id.vn/Auth/login', {
         username,
@@ -39,6 +62,15 @@ function Login(props) {
     }
   };
 
+  const handleExits = (e) => {
+    e.preventDefault();
+    window.history.pushState({page: 'login'}, 'Login', '/login');
+    navigate('/');
+    if (props.newState) {
+      props.newState('Exits login page');
+    }
+  }
+
   return (
     <div className="row h-100">
       {/* Sidebar */}
@@ -61,7 +93,7 @@ function Login(props) {
                 id="username"
                 name="username"
                 onChange={(e) => setUsername(e.target.value)}
-                required
+              // required
               />
             </div>
             <div className="form-group">
@@ -72,12 +104,20 @@ function Login(props) {
                 id="password"
                 name="password"
                 onChange={(e) => setPassword(e.target.value)}
-                required
+              // required
               />
             </div>
             {error && <p style={{ color: 'red' }}>{error}</p>}
             <div className="d-flex justify-content-center">
-              <button type="submit" className="btn btn-dark mr-2 mt-2">Đăng nhập</button>
+              <button
+                type="button"
+                className="btn bg-white border-danger text-danger mr-2 mt-2 me-2"
+                onClick={e => handleExits(e)}
+              >Thoát</button>
+              <button
+                type="submit"
+                className="btn bg-primary border-primary bg-gradient text-white mr-2 mt-2"
+              >Đăng nhập</button>
             </div>
           </form>
         </div>

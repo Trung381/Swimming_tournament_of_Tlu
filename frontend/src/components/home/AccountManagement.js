@@ -65,15 +65,15 @@ const Account = () => {
     <>
       <div className="account-container mt-3">
         <h3 className="text-center mb-4">Quản lý tài khoản</h3>
-        <div className="d-flex justify-content-between mb-3">
-          <div className="input-group">
+        <div className="d-flex flex-row-reverse mb-3">
+          <div className="input-group w-50">
             <input type="text" className="form-control" placeholder="Tìm kiếm" />
             <button className="btn btn-primary">Tra cứu</button>
           </div>
         </div>
 
         <div className="card">
-          <div className="card-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <div className="card-header d-flex justify-content-between align-items-center">
             <strong>Danh sách tài khoản</strong>
             <button className="btn btn-success"
               data-bs-toggle="modal" data-bs-target="#accountModal"
