@@ -185,7 +185,7 @@ const LookUpInforModal = () => {
                 {(formData && !isModify) && (
                   <div className="row justify-content-end mt-3" style={{ margin: '0 28px 25px 0' }}>
                     <div className="col-auto">
-                      <button className="btn btn-primary" onClick={handleUpdate}>Yêu cầu thay đổi thông tin</button>
+                      <button className="btn btn-primary" onClick={handleModify}>Yêu cầu thay đổi thông tin</button>
                     </div>
                   </div>
                 )}

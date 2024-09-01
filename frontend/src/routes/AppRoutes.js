@@ -17,8 +17,8 @@ function AppRoutes(props) {
     <Routes>
       {/* <Route path="/" element={<Welcom/>}/> */}
       {/* <Route path="/" element={<InfoManagement/>}/> */}
-      {/* <Route path="/" element={<CompetitionCategoryManagement/>}/> */}
-      <Route path="/" element={<Score/>}/>
+      <Route path="/" element={<CompetitionCategoryManagement/>}/>
+      {/* <Route path="/" element={<Score/>}/> */}
       <Route path="/login" element={<Login newState={props.newState}/>}/>
       <Route path='/contact' element={<Contact/>}/>
       <Route path='/lookup' element={<LookUpInfor/>}/>
