@@ -15,9 +15,9 @@ import Account from '../components/home/AccountManagement.js';
 function AppRoutes(props) {
   return(
     <Routes>
-      {/* <Route path="/" element={<Welcom/>}/> */}
+      <Route path="/" element={<Welcom newState={props.newState}/>}/>
       {/* <Route path="/" element={<InfoManagement/>}/> */}
-      <Route path="/" element={<CompetitionCategoryManagement/>}/>
+      {/* <Route path="/" element={<CompetitionCategoryManagement/>}/> */}
       {/* <Route path="/" element={<Score/>}/> */}
       <Route path="/login" element={<Login newState={props.newState}/>}/>
       <Route path='/contact' element={<Contact/>}/>
@@ -28,7 +28,7 @@ function AppRoutes(props) {
       <Route path='/404' element={<h1>404 Not Found</h1>} />
 
       <Route element={<ProtectedRoutes allowedRoles={['0', '1', '2', '3']}/>}>
-        <Route path="/home" element={<Home/>}/>
+        <Route path="/home" element={<Home newState={props.newState}/>}/>
         <Route path="/score" element={<Score/>}/>
       </Route>
 

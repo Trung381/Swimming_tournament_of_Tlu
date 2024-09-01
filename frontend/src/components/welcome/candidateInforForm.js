@@ -267,6 +267,7 @@ function CandidateInforForm({ formData, handleChange }) {
     try {
       const response = await axios.get('https://api.thanglele08.id.vn/Sport/hangmucthidau');
       setCategories(response.data);
+
     } catch (error) {
       console.log(error);
     }
@@ -276,12 +277,9 @@ function CandidateInforForm({ formData, handleChange }) {
     fetchCategories();
   }, [formData]);
 
-  const isChecked = (category) => {
-    if (formData.tenhangmuc !== undefined) {
-      return formData.hangtuoi !== ''
-        ? category.tenhangmuc === formData.tenhangmuc && category.hangtuoi === formData.hangtuoi
-        : category.tenhangmuc === formData.tenhangmuc
-    }
+  const isChecked = (id) => {
+    const categoriesOfContestant = formData.mahangmuc;
+    return categoriesOfContestant && categoriesOfContestant.includes(id);
   };
 
   return (
@@ -299,7 +297,7 @@ function CandidateInforForm({ formData, handleChange }) {
               type="text" className="form-control" id="formName" name="hovatenthisinh" 
               value={formData.hovatenthisinh} 
               style={{borderColor: 'black'}}
-              onChange={handleChange}
+              onChange={e => handleChange(e)}
             />
           </div>
           <div className="form-group">
@@ -307,7 +305,7 @@ function CandidateInforForm({ formData, handleChange }) {
             <input 
               type="email" className="form-control" id="formEmail" name="email" 
               value={formData.email}
-              onChange={handleChange}
+              onChange={e => handleChange(e)}
             />
           </div>
           <div className="form-group">
@@ -315,7 +313,7 @@ function CandidateInforForm({ formData, handleChange }) {
             <input
               type="phone" className="form-control" id="formPhone" name="sodienthoai" 
               value={formData.sodienthoai}
-              onChange={handleChange}
+              onChange={e => handleChange(e)}
             />
           </div>
           <div className="form-group">
@@ -323,7 +321,7 @@ function CandidateInforForm({ formData, handleChange }) {
             <input 
               type="date" className="form-control" id="formBirthday" name="namsinh" 
               value={formData.namsinh === undefined ? null : formData.namsinh}
-              onChange={handleChange}
+              onChange={e => handleChange(e)}
             />
           </div>
           <div className='form-group'>
@@ -332,16 +330,16 @@ function CandidateInforForm({ formData, handleChange }) {
               <div className="form-check form-check-inline">
                 <input 
                   className="form-check-input" type="radio" name="gioitinh" id="male" value="Nam" 
-                  checked={formData.gioitinh === "Nam"} 
-                  onChange={handleChange}
+                  checked={formData.gioitinh.includes('Nam')} 
+                  onChange={e => handleChange(e)}
                 />
                 <label className="form-check-label" htmlFor="male">Nam</label>
               </div>
               <div className="form-check form-check-inline">
                 <input 
                   className="form-check-input" type="radio" name="gioitinh" id="female" value="Nữ" 
-                  checked={formData.gioitinh === "Nữ"} 
-                  onChange={handleChange}
+                  checked={formData.gioitinh.includes('Nữ')}
+                  onChange={e => handleChange(e)}
                 />
                 <label className="form-check-label" htmlFor="female">Nữ</label>
               </div>
@@ -352,7 +350,7 @@ function CandidateInforForm({ formData, handleChange }) {
             <input 
               type="text" className="form-control" id="formParentName" name="hovatenphuhuynh" 
               value={formData.hovatenphuhuynh} 
-              onChange={handleChange}
+              onChange={e => handleChange(e)}
             />
           </div>
           <div className="form-group">
@@ -360,7 +358,7 @@ function CandidateInforForm({ formData, handleChange }) {
             <input 
               type="text" className="form-control" id="formUnit" name="donvi" 
               value={formData.donvi} 
-              onChange={handleChange}
+              onChange={e => handleChange(e)}
             />
             {/* <select className="form-select" id="formUnit" name="donvi" value={formData.donvi} onChange={handleChange}>
               <option value="" disabled>Chọn đơn vị</option>
@@ -374,7 +372,7 @@ function CandidateInforForm({ formData, handleChange }) {
             <input 
               type="text" className="form-control" id="formClass" name="lop" 
               value={formData.lop} 
-              onChange={handleChange}
+              onChange={e => handleChange(e)}
             />
             {/* <select className="form-select" id="formClass" name="lop" value={formData.lop} onChange={handleChange}>
               <option value="" disabled>Chọn lớp</option>
@@ -395,18 +393,18 @@ function CandidateInforForm({ formData, handleChange }) {
             <label><h6>1. Hạng mục</h6></label>
             <div className='categories-container' style={{display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap'}}>
               {categories && categories.map((category) => (
-                <div className="form-check" key={category.mahangmuc} style={{width: '33%', minWidth: '355px'}}>
-                  <input
-                    className="form-check-input" type="checkbox" id={category.mahangmuc} name="hangmuc"
-                    value={category.mahangmuc} 
-                    onChange={handleChange}
-                    checked={
-                      isChecked(category)
-                    }
-                  />
-                  <label className="form-check-label" htmlFor={category.mahangmuc} >{category.tenhangmuc}{category.hangtuoi!=="" && <span> - {category.hangtuoi} tuổi</span>}</label>
-                </div>
-              ))}
+                  <div className="form-check" key={category.mahangmuc} style={{width: '33%', minWidth: '355px'}}>
+                    <input
+                      className="form-check-input" type="checkbox" id={category.mahangmuc} name="hangmuc"
+                      value={category.mahangmuc} 
+                      onChange={e => handleChange(e)}
+                      checked={
+                        isChecked(category.mahangmuc)
+                      }
+                    />
+                    <label className="form-check-label" htmlFor={category.mahangmuc} >{category.tenhangmuc}{category.hangtuoi!=="" && <span> - {category.hangtuoi} tuổi</span>}</label>
+                  </div>
+                ))}
             </div>
           </div>
         </div>

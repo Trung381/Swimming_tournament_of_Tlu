@@ -5,47 +5,41 @@ import axios from "axios";
 const RegisterModal = () => {
   const [formData, setFormData] = useState({
     hovatenthisinh: "",
-    email: "",
-    sodienthoai: "",
-    namsinh: "",
-    gioitinh: "",
     hovatenphuhuynh: "",
     donvi: "",
     lop: "",
-    // hangmuc: [],
-    hangmuc: "",
-    hangtuoi: ""
+    sodienthoai: "",
+    namsinh: "",
+    gioitinh: "",
+    email: "",
+    mahangmuc: []
   });
 
   // Xử lý khi người dùng thay đổi thông tin trên form
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
     if (type === "checkbox") {
-      const categoryId = checked ? value : "";
-
-      let ageGroup = '';
-      //4 ki tu cuoi cua ma hang muc la hang tuoi
-      if (categoryId !== "") {
-        const lastFourChars = categoryId.slice(-4);
-        const isAllDigits = /^\d{4}$/.test(lastFourChars);
-        if (isAllDigits) {
-          ageGroup = lastFourChars.slice(0, 2) + '-' + lastFourChars.slice(-2);
-        }
+      let category;
+      if (checked) {
+        category = [...formData.mahangmuc, value];
+      } else {
+        category = formData.mahangmuc.filter(item => item !== value);
       }
 
       setFormData({
         ...formData,
-        hangmuc: categoryId,
-        hangtuoi: ageGroup
+        mahangmuc: category
       })
-    } else {
+    }
+    else {
       setFormData({ ...formData, [name]: value });
     }
   };
 
   // Xử lý khi người dùng submit form
   const handleSubmit = async (e) => {
-    e.preventDefault(); console.log(formData);
+    e.preventDefault();
+    console.log(formData);
     // try {
     //   const response = await axios.post('http://localhost:3001/candidates', formData);  // Thay URL_API_CUA_BAN bằng URL API thực tế của bạn
     //   console.log("Đăng ký thành công:", response.data);
@@ -66,15 +60,17 @@ const RegisterModal = () => {
             <div className="modal-body">
               <h4 className="text-center" style={{ marginBottom: '10px' }}>GIẢI BƠI TRUYỀN THỐNG TRƯỜNG ĐẠI HỌC THỦY LỢI</h4>
               <h4 className="text-center" style={{ marginBottom: '0' }}>PHIẾU ĐĂNG KÝ</h4>
-              <form onSubmit={handleSubmit}>
+              <form>
                 <CandidateInforForm formData={formData} handleChange={handleChange} />
-                <div className="row justify-content-end mt-3">
-                  <div className="col-auto">
-                    <button type="button" className="btn btn-danger" data-bs-dismiss="modal" style={{ marginRight: '7px' }}>Hủy</button>
-                    <button type="submit" className="btn btn-primary">Đăng ký</button>
-                  </div>
-                </div>
               </form>
+            </div>
+            <div className="modal-footer">
+              <div className="row justify-content-end mt-3">
+                <div className="col-auto">
+                  <button type="button" className="btn btn-danger" data-bs-dismiss="modal" style={{ marginRight: '7px' }}>Hủy</button>
+                  <button type="submit" className="btn btn-primary" onClick={e => handleSubmit(e)}>Đăng ký</button>
+                </div>
+              </div>
             </div>
           </div>
         </div>

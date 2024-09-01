@@ -261,5 +261,22 @@
       "role": "Giám sát",
       "createdAt": "26/08/2024"
     }
+  ],
+  "contestants": [
+    {
+      "sobaodanh": 103,
+      "hovatenthisinh": "Phí Minh Sơn",
+      "hovatenphuhuynh": "",
+      "donvi": "Khoa Kinh tế và Quản lý",
+      "lop": "64KTA1",
+      "sodienthoai": "123456891",
+      "gioitinh": "Nam",
+      "email": "user@thanglele08.id.vn",
+      "mahangmuc": [
+        "100EFSV",
+        "100TDFSV",
+        "50EMCE1618"
+    ]
+    }
   ]
 }
