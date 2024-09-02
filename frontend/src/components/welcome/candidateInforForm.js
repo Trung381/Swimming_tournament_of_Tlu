@@ -287,12 +287,12 @@ function CandidateInforForm({ formData, handleChange }) {
       <div className="mt-4">
         <div className='row'>
           <div className='col'>
-            <h5>I. Thông tin cá nhân</h5>
+            <label><b>I. Thông tin cá nhân</b></label>
           </div>
         </div>
-        <div className='row' style={{display: 'flex', justifyContent: 'space-evenly'}}>
+        <div className='personal-info row d-flex justify-content-evenly'>
           <div className="form-group">
-            <label htmlFor="formName"><h6>1. Họ tên thí sinh</h6></label>
+            <label htmlFor="formName">1. Họ tên thí sinh</label>
             <input 
               type="text" className="form-control" id="formName" name="hovatenthisinh" 
               value={formData.hovatenthisinh} 
@@ -301,7 +301,7 @@ function CandidateInforForm({ formData, handleChange }) {
             />
           </div>
           <div className="form-group">
-            <label htmlFor="formEmail"><h6>2. Email</h6></label>
+            <label htmlFor="formEmail">2. Email</label>
             <input 
               type="email" className="form-control" id="formEmail" name="email" 
               value={formData.email}
@@ -309,7 +309,7 @@ function CandidateInforForm({ formData, handleChange }) {
             />
           </div>
           <div className="form-group">
-            <label htmlFor="formPhone"><h6>3. Số điện thoại</h6></label>
+            <label htmlFor="formPhone">3. Số điện thoại</label>
             <input
               type="phone" className="form-control" id="formPhone" name="sodienthoai" 
               value={formData.sodienthoai}
@@ -317,7 +317,7 @@ function CandidateInforForm({ formData, handleChange }) {
             />
           </div>
           <div className="form-group">
-            <label htmlFor="formBirthday"><h6>4. Ngày sinh</h6></label>
+            <label htmlFor="formBirthday">4. Ngày sinh</label>
             <input 
               type="date" className="form-control" id="formBirthday" name="namsinh" 
               value={formData.namsinh === undefined ? null : formData.namsinh}
@@ -325,7 +325,7 @@ function CandidateInforForm({ formData, handleChange }) {
             />
           </div>
           <div className='form-group'>
-            <label htmlFor="formGender"><h6>5. Giới tính</h6></label>
+            <label htmlFor="formGender">5. Giới tính</label>
             <div>
               <div className="form-check form-check-inline">
                 <input 
@@ -346,7 +346,7 @@ function CandidateInforForm({ formData, handleChange }) {
             </div>
           </div>
           <div className="form-group">
-            <label htmlFor="formParentName"><h6>6. Họ tên phụ huynh</h6></label>
+            <label htmlFor="formParentName">6. Họ tên phụ huynh</label>
             <input 
               type="text" className="form-control" id="formParentName" name="hovatenphuhuynh" 
               value={formData.hovatenphuhuynh} 
@@ -354,7 +354,7 @@ function CandidateInforForm({ formData, handleChange }) {
             />
           </div>
           <div className="form-group">
-            <label htmlFor="formUnit"><h6>7. Đơn vị</h6></label>
+            <label htmlFor="formUnit">7. Đơn vị</label>
             <input 
               type="text" className="form-control" id="formUnit" name="donvi" 
               value={formData.donvi} 
@@ -368,7 +368,7 @@ function CandidateInforForm({ formData, handleChange }) {
             </select> */}
           </div>
           <div className="form-group">
-            <label htmlFor="formClass"><h6>8. Lớp</h6></label>
+            <label htmlFor="formClass">8. Lớp</label>
             <input 
               type="text" className="form-control" id="formClass" name="lop" 
               value={formData.lop} 
@@ -381,16 +381,17 @@ function CandidateInforForm({ formData, handleChange }) {
               <option value="64CNTT">64CNTT</option>
             </select> */}
           </div>
+          <div className='form-group'></div>
         </div>
 
         <div className='row'>
           <div className='col'>
-            <h5>II. Nội dung thi đấu</h5>
+            <label><b>II. Nội dung thi đấu</b></label>
           </div>
         </div>
         <div className='row'>
-          <div className="form-group" style={{width: '100%'}}>
-            <label><h6>1. Hạng mục</h6></label>
+          <div className="form-group">
+            <label>1. Hạng mục</label>
             <div className='categories-container' style={{display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap'}}>
               {categories && categories.map((category) => (
                   <div className="form-check" key={category.mahangmuc} style={{width: '33%', minWidth: '355px'}}>

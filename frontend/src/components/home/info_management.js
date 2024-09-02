@@ -1,35 +1,48 @@
 import { React, useEffect, useState } from 'react';
 import axios from 'axios';
 import CandidateInforForm from '../welcome/candidateInforForm';
+import SearchByNameAndPhone from '../searches/SearchByNameAndPhone';
+import SearchByRegistrationNumber from '../searches/SearchByRegistrationNumber';
+import { useSearch } from '../../services/searchInfo';
+import { modify } from '../../services/modifyInfo';
 
 function InfoManagement() {
+  const { search, formData, searchInput, isSearchByNameAndPhone, setSearchInput, handleChange, changeSearchWay } = useSearch();
   const [contestants, setContestants] = useState([]);
-  const [formData, setFormData] = useState({
-    hovatenthisinh: "",
-    email: "",
-    sodienthoai: "",
-    namsinh: "",
-    gioitinh: "",
-    hovatenphuhuynh: "",
-    donvi: "",
-    lop: "",
-    hangmuc: [],
-    hangtuoi: ""
-  });
-  const [currentId, setCurrentId] = useState('...')
+  const [currentId, setCurrentId] = useState('...');
+  const [oldCategories, setOldCategories] = useState([]);
 
-  const fetchInfoById = async (id) => {
+  const handleChangeSearchInput = (e) => {
+    setSearchInput({
+      ...searchInput,
+      [e.target.name]: e.target.value
+    })
+  };
+
+  // Tim thong tin ca nhan cua thi sinh
+  const handleSearch = async () => {
     try {
-      const response = await axios.post('https://api.thanglele08.id.vn/Sport/timkiemtheduthi', {
-        sobaodanh: id,
-        hovaten: null,
-        sodienthoai: null
+      const response = await axios.post(`https://api.thanglele08.id.vn/Sport/thongtinthisinh`, {
+        sobaodanh: searchInput.sobaodanh.trim() === '' ? 0 : searchInput.sobaodanh.trim(),
+        hovaten: searchInput.hovaten.trim() === '' ? null : searchInput.hovaten.trim(),
+        sodienthoai: searchInput.sodienthoai.trim() === '' ? null : searchInput.sodienthoai.trim()
       });
 
-      setFormData(response.data[0]);
-    } catch (error) {
-      console.log(error);
+      setContestants([response.data]);
     }
+    catch (error) {
+      if (error.response.status === 404) {
+        alert("Không tìm thấy thí sinh!");
+        fetchContestants();
+      }
+      else {
+        alert("Đã có lỗi xảy ra!");
+      }
+    }
+  };
+
+  const fetchInfoById = async (id) => {
+    search(setOldCategories);
   };
 
   const clickEditInfo = (id) => {
@@ -59,82 +72,27 @@ function InfoManagement() {
     fetchContestants();
   }, []);
 
-  const resetForm = () => {
-    setFormData({
-      hovatenthisinh: "",
-      email: "",
-      sodienthoai: "",
-      namsinh: "",
-      gioitinh: "",
-      hovatenphuhuynh: "",
-      donvi: "",
-      lop: "",
-      hangmuc: [],
-      hangtuoi: ""
-    });
-
-    setCurrentId('...')
-  };
-
-  const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    })
+  const handleModify = () => {
+    modify({formData, oldCategories});
   }
 
   return (
     <>
       <div className="contestant-container mt-3">
         <h5 className="text-center">Quản lý thông tin thí sinh</h5>
-        <form className="mb-4">
-          <div className="row">
-            <div className="col-md-5">
-              <label htmlFor="year">Năm</label>
-              <select id="year" className="form-select">
-                <option defaultValue>Chọn năm...</option>
-                {/* Add options here */}
-              </select>
-            </div>
-            <div className="col-md-5">
-              <label htmlFor="ageGroup">Hạng tuổi</label>
-              <select id="ageGroup" className="form-select">
-                <option defaultValue>Chọn hạng tuổi...</option>
-                {/* Add options here */}
-              </select>
-            </div>
-            <div className="col-md-5">
-              <label htmlFor="competition">Giải đấu</label>
-              <select id="competition" className="form-select">
-                <option defaultValue>Chọn giải đấu...</option>
-                {/* Add options here */}
-              </select>
-            </div>
-            <div className="col-md-5">
-              <label htmlFor="category">Hạng mục</label>
-              <select id="category" className="form-select">
-                <option defaultValue>Chọn hạng mục...</option>
-                {/* Add options here */}
-              </select>
-            </div>
-            <div className="col-md-3">
-              <label htmlFor="Id">Số báo danh</label>
-              <input type="text" id="Id" className="form-control" placeholder="Nhập số báo danh..."></input>
-            </div>
-          </div>
-          <div className="row mt-2">
-            <div className="col-md-12 text-end">
-              <button type="submit" className="btn btn-primary">Tra cứu</button>
-            </div>
-          </div>
-        </form>
+        <div className='w-50' style={{margin: '20px auto 10px'}}>
+          {!isSearchByNameAndPhone
+            && <SearchByRegistrationNumber searchInput={searchInput} changeSearchInput={handleChangeSearchInput} changeSearchWay={changeSearchWay} search={handleSearch} />}
+
+          {isSearchByNameAndPhone
+            && <SearchByNameAndPhone searchInput={searchInput} changeSearchInput={handleChangeSearchInput} changeSearchWay={changeSearchWay} search={handleSearch} />}
+        </div>
         <div className="card">
           <div className="card-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
             <strong>Danh sách thí sinh tham gia giải</strong>
             <button
               className="btn btn-sm btn-outline-primary float-right"
               data-bs-toggle="modal" data-bs-target="#thongTinThiSinhModal"
-              onClick={() => resetForm()}
             >+</button>
           </div>
           <div className="card-body">
@@ -191,15 +149,15 @@ function InfoManagement() {
         <div className="modal-dialog modal-lg">
           <div className="modal-content">
             <div className="modal-header">
-              <h5 className="modal-title" id="thongTinThiSinhModalLabel">Thông tin thí sinh - SBD: {currentId}</h5>
+              <h6 className="modal-title" id="thongTinThiSinhModalLabel"><b>Thông tin thí sinh - SBD: {currentId}</b></h6>
               <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div className="modal-body">
-              <CandidateInforForm formData={formData} handleChange={handleChange} />
+              {formData && <CandidateInforForm formData={formData} handleChange={handleChange} />}
             </div>
             <div className='modal-footer'>
               <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
-              <button type="submit" className="btn btn-primary">Lưu</button>
+              <button type="button" className="btn btn-primary" onClick={() => handleModify()}>Lưu</button>
             </div>
           </div>
         </div>
