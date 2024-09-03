@@ -42,7 +42,7 @@ function InfoManagement() {
   };
 
   const fetchInfoById = async (id) => {
-    search(setOldCategories);
+    search(setOldCategories, id);
   };
 
   const clickEditInfo = (id) => {
@@ -80,10 +80,9 @@ function InfoManagement() {
     <>
       <div className="contestant-container mt-3">
         <h5 className="text-center">Quản lý thông tin thí sinh</h5>
-        <div className='w-50' style={{margin: '20px auto 10px'}}>
+        <div className='w-50' style={{margin: '20px auto'}}>
           {!isSearchByNameAndPhone
             && <SearchByRegistrationNumber searchInput={searchInput} changeSearchInput={handleChangeSearchInput} changeSearchWay={changeSearchWay} search={handleSearch} />}
-
           {isSearchByNameAndPhone
             && <SearchByNameAndPhone searchInput={searchInput} changeSearchInput={handleChangeSearchInput} changeSearchWay={changeSearchWay} search={handleSearch} />}
         </div>
