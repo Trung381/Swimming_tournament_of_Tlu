@@ -392,9 +392,9 @@ function CandidateInforForm({ formData, handleChange }) {
         <div className='row'>
           <div className="form-group">
             <label>1. Hạng mục</label>
-            <div className='categories-container' style={{display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap'}}>
+            <div className='categories-container d-flex flex-wrap' >
               {categories && categories.map((category) => (
-                  <div className="form-check" key={category.mahangmuc} style={{width: '33%', minWidth: '355px'}}>
+                  <div className="form-check" key={category.mahangmuc} style={{width: '30%', minWidth: '300px'}}>
                     <input
                       className="form-check-input" type="checkbox" id={category.mahangmuc} name="hangmuc"
                       value={category.mahangmuc} 
