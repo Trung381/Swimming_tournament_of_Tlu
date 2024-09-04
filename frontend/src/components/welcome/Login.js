@@ -64,8 +64,9 @@ function Login(props) {
 
   const handleExits = (e) => {
     e.preventDefault();
-    window.history.pushState({page: 'login'}, 'Login', '/login');
-    navigate('/');
+    // window.history.pushState({page: 'login'}, 'Login', '/login');
+    // navigate('/');
+    window.location.replace('/');
     if (props.newState) {
       props.newState('Exits login page');
     }
