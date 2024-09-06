@@ -2,14 +2,14 @@ import React, { useState } from "react";
 import CandidateInforForm from "../welcome/candidateInforForm";
 import SearchByRegistrationNumber from "../searches/SearchByRegistrationNumber";
 import SearchByNameAndPhone from '../searches/SearchByNameAndPhone';
-import { modify } from "../../services/modifyInfo";
+import { useModify } from '../../services/modifyInfo';
 import { useSearch } from "../../services/searchInfo";
+import axios from "axios";
 
 const LookUpInforModal = () => {
   const [isModify, setIsModify] = useState(false);
-  const [oldCategories, setOldCategories] = useState([]);
-  const { search, formData, searchInput, isSearchByNameAndPhone, setSearchInput, handleChange, changeSearchWay } = useSearch();
-
+  const { search, formData, searchInput, isSearchByNameAndPhone, setSearchInput, handleChange, changeSearchWay, addList, deleteList } = useSearch();
+  const { modify } = useModify();
   const handleChangeSearchInput = (e) => {
     setSearchInput({
       ...searchInput,
@@ -18,11 +18,21 @@ const LookUpInforModal = () => {
   }
 
   const handleSearch = async () => {
-    search(setOldCategories);
+    search();
+    try {
+      const response = await axios.post('https://api.thanglele08.id.vn/Sport/thongtinthisinh', {
+        sobaodanh: searchInput.sobaodanh.trim() === '' ? 0 : searchInput.sobaodanh.trim(),
+        hovaten: searchInput.hovaten.trim() === '' ? null : searchInput.hovaten.trim(),
+        sodienthoai: searchInput.sodienthoai.trim() === '' ? null : searchInput.sodienthoai.trim()
+      });
+      setIsModify(response.data.isModify);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const handleModify = () => {
-    modify({ formData, oldCategories, setIsModify })
+    modify({ formData, addList, deleteList })
   };
 
   return (
@@ -46,9 +56,9 @@ const LookUpInforModal = () => {
                 <p className="text-center mt-2">*Chưa có thông tin, nhấn <a href="#registerModal" data-bs-toggle="modal" data-bs-target="#registerModal"><b>Đăng ký</b></a></p>
                 {formData && (
                   <div>
-                    {isModify && <p style={{ color: 'red' }}>*Bạn đã thay đổi thông tin trước đó và không thể thay đổi tiếp. Nếu cần, hãy liên hệ BTC!</p>}
+                    {isModify && <p style={{ color: 'red', paddingLeft: '12px' }}>*Bạn đã thay đổi thông tin trước đó và không thể thay đổi tiếp. Nếu cần, hãy liên hệ BTC!</p>}
                     <h6 style={{ paddingLeft: '12px', margin: 0 }}><strong>Số báo danh: {formData.sobaodanh}</strong></h6>
-                    <CandidateInforForm formData={formData} handleChange={handleChange} />
+                    <CandidateInforForm formData={formData} handleChange={handleChange} readOnly={isModify}/>
                   </div>
                 )}
                 {(formData && !isModify) && (

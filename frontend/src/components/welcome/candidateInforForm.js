@@ -259,8 +259,8 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
-function CandidateInforForm({ formData, handleChange }) {
-
+function CandidateInforForm(props) {
+  const { formData, handleChange, readOnly } = props;
   const [categories, setCategories] = useState(null);
 
   const fetchCategories = async () => {
@@ -298,6 +298,7 @@ function CandidateInforForm({ formData, handleChange }) {
               value={formData.hovatenthisinh} 
               style={{borderColor: 'black'}}
               onChange={e => handleChange(e)}
+              readOnly={readOnly}
             />
           </div>
           <div className="form-group">
@@ -306,6 +307,7 @@ function CandidateInforForm({ formData, handleChange }) {
               type="email" className="form-control" id="formEmail" name="email" 
               value={formData.email}
               onChange={e => handleChange(e)}
+              readOnly={readOnly}
             />
           </div>
           <div className="form-group">
@@ -314,6 +316,7 @@ function CandidateInforForm({ formData, handleChange }) {
               type="phone" className="form-control" id="formPhone" name="sodienthoai" 
               value={formData.sodienthoai}
               onChange={e => handleChange(e)}
+              readOnly={readOnly}
             />
           </div>
           <div className="form-group">
@@ -322,6 +325,7 @@ function CandidateInforForm({ formData, handleChange }) {
               type="date" className="form-control" id="formBirthday" name="namsinh" 
               value={formData.namsinh === undefined ? null : formData.namsinh}
               onChange={e => handleChange(e)}
+              readOnly={readOnly}
             />
           </div>
           <div className='form-group'>
@@ -332,6 +336,7 @@ function CandidateInforForm({ formData, handleChange }) {
                   className="form-check-input" type="radio" name="gioitinh" id="male" value="Nam" 
                   checked={formData.gioitinh.includes('Nam')} 
                   onChange={e => handleChange(e)}
+                  disabled={readOnly}
                 />
                 <label className="form-check-label" htmlFor="male">Nam</label>
               </div>
@@ -340,6 +345,7 @@ function CandidateInforForm({ formData, handleChange }) {
                   className="form-check-input" type="radio" name="gioitinh" id="female" value="Nữ" 
                   checked={formData.gioitinh.includes('Nữ')}
                   onChange={e => handleChange(e)}
+                  disabled={readOnly}
                 />
                 <label className="form-check-label" htmlFor="female">Nữ</label>
               </div>
@@ -351,6 +357,7 @@ function CandidateInforForm({ formData, handleChange }) {
               type="text" className="form-control" id="formParentName" name="hovatenphuhuynh" 
               value={formData.hovatenphuhuynh} 
               onChange={e => handleChange(e)}
+              readOnly={readOnly}
             />
           </div>
           <div className="form-group">
@@ -359,6 +366,7 @@ function CandidateInforForm({ formData, handleChange }) {
               type="text" className="form-control" id="formUnit" name="donvi" 
               value={formData.donvi} 
               onChange={e => handleChange(e)}
+              readOnly={readOnly}
             />
             {/* <select className="form-select" id="formUnit" name="donvi" value={formData.donvi} onChange={handleChange}>
               <option value="" disabled>Chọn đơn vị</option>
@@ -373,6 +381,7 @@ function CandidateInforForm({ formData, handleChange }) {
               type="text" className="form-control" id="formClass" name="lop" 
               value={formData.lop} 
               onChange={e => handleChange(e)}
+              readOnly={readOnly}
             />
             {/* <select className="form-select" id="formClass" name="lop" value={formData.lop} onChange={handleChange}>
               <option value="" disabled>Chọn lớp</option>
@@ -402,6 +411,7 @@ function CandidateInforForm({ formData, handleChange }) {
                       checked={
                         isChecked(category.mahangmuc)
                       }
+                      disabled={readOnly}
                     />
                     <label className="form-check-label" htmlFor={category.mahangmuc} >{category.tenhangmuc}{category.hangtuoi!=="" && <span> - {category.hangtuoi} tuổi</span>}</label>
                   </div>
