@@ -109,14 +109,12 @@ function InfoManagement(props) {
     setCurrentId(id);
   };
 
-  const token = sessionStorage.getItem('token');
-
   const fetchContestants = async () => {
     try {
       const response = await axios.get('https://api.thanglele08.id.vn/Sport/xemthongtinthisinhall', {
         headers: {
           Accept: '*/*',
-          Authorization: token
+          Authorization: sessionStorage.getItem('token')
         }
       });
 
@@ -131,7 +129,7 @@ function InfoManagement(props) {
   }, []);
 
   const handleModify = () => {
-    modify({formData, oldCategories});
+    modify({formData, deleteList, addList});
   };
 
   const log = () => {

@@ -20,6 +20,7 @@ const Header = forwardRef((props, ref) => {
   
   const handleLogout = () => {
     sessionStorage.removeItem('role');
+    sessionStorage.removeItem('token');
   };
 
   const handleReLoad = (e,  path) => {
