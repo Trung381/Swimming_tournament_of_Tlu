@@ -372,6 +372,9 @@
 //------------------------------------------------------- datalist instead of ul li ----------------------------------------------------------
 
 
+
+
+
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 
@@ -388,8 +391,7 @@ function Score() {
 
   const role = sessionStorage.getItem('role');
   const token = sessionStorage.getItem('token');
-  // const role = "2";
-  // const token = "77a1d381b74d503edf3c18b33de1d3031bc73056f09a870a74d75d5d396bba52";
+
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -398,7 +400,7 @@ function Score() {
           "https://api.thanglele08.id.vn/Sport/hangmucthidau",
           {
             headers: {
-              Authorization: `Bearer ${token}`,
+              Authorization: token
             },
           }
         );
@@ -413,8 +415,7 @@ function Score() {
   }, [token]);
 
   const handleInputChange = (e) => {
-    const input = e.target.value;
-    setTenHangMuc(input);
+    setTenHangMuc(e.target.value);
   };
 
   const handleTraCuu = async (e) => {
@@ -430,8 +431,6 @@ function Score() {
         `${category.tenhangmuc} ${category.hangtuoi}` === tenHangMuc
     );
 
-    console.log("Selected Category:", selectedCategory);
-
     if (!selectedCategory) {
       alert("Không tìm thấy hạng mục thi đấu.");
       return;
@@ -443,12 +442,10 @@ function Score() {
         { sobaodanh, mahangmuc: selectedCategory.mahangmuc },
         {
           headers: {
-            Authorization: `Bearer ${token}`,
+            Authorization: token
           },
         }
       );
-
-      console.log("API Response:", response.data);
 
       const result = response.data;
       if (result.length > 0) {
@@ -507,7 +504,7 @@ function Score() {
           updatedResult,
           {
             headers: {
-              Authorization: `Bearer ${token}`,
+              Authorization: token
             },
           }
         );
@@ -542,7 +539,7 @@ function Score() {
         { mahangmuc: selectedCategory.mahangmuc },
         {
           headers: {
-            Authorization: `Bearer ${token}`,
+            Authorization: token
           },
         }
       );
@@ -561,26 +558,6 @@ function Score() {
       <form className="mb-4">
         <div className="row">
           <div className="col-md-5">
-            <label htmlFor="tenHangMuc">Hạng mục thi đấu</label>
-            <input
-              type="text"
-              id="tenHangMuc"
-              className="form-control"
-              list="categoryList"
-              value={tenHangMuc}
-              onChange={handleInputChange}
-              placeholder="Nhập hạng mục thi đấu"
-            />
-            <datalist id="categoryList">
-              {categories.map((category) => (
-                <option
-                  key={category.mahangmuc}
-                  value={`${category.tenhangmuc} ${category.hangtuoi}`}
-                />
-              ))}
-            </datalist>
-          </div>
-          <div className="col-md-5">
             <label htmlFor="sobaodanh">Số báo danh</label>
             <input
               type="text"
@@ -590,6 +567,26 @@ function Score() {
               onChange={(e) => setSobaodanh(e.target.value)}
               placeholder="Nhập số báo danh"
             />
+          </div>
+          <div className="col-md-5">
+            <label htmlFor="tenHangMuc">Hạng mục thi đấu</label>
+            <input
+              type="text"
+              id="tenHangMuc"
+              className="form-control"
+              value={tenHangMuc}
+              onChange={handleInputChange}
+              list="categories"
+              placeholder="Nhập hạng mục thi đấu"
+            />
+            <datalist id="categories">
+              {categories.map((category) => (
+                <option
+                  key={category.mahangmuc}
+                  value={`${category.tenhangmuc} ${category.hangtuoi}`}
+                />
+              ))}
+            </datalist>
           </div>
           <div className="col-md-2 text-end">
             <button
@@ -670,40 +667,43 @@ function Score() {
         </div>
       )}
 
+      {results.length > 0 && (
+        <div className="contestant-table mt-4">
+          <h5 className="text-center">Kết quả tìm kiếm</h5>
 
-      <table className="table table-hover mt-3">
-        <thead className="thead-dark">
-          <tr>
-            <th scope="col">STT</th>
-            <th scope="col">Số báo danh</th>
-            <th scope="col">Tên thí sinh</th>
-            <th scope="col">Phút</th>
-            <th scope="col">Giây</th>
-            <th scope="col">Phần trăm giây</th>
-            <th scope="col">Tổng</th>
-          </tr>
-        </thead>
-        <tbody>
-          {results.map((result, index) => (
-            <tr
-              key={result.maketqua}
-              onClick={() => handleRowClick(result)}
-              className={selectedResult === result ? "table-active" : ""}
-            >
-              <th scope="row">{index + 1}</th>
-              <td>{result.sobaodanh}</td>
-              <td>{result.hovatenthisinh}</td>
-              <td>{result.phut}</td>
-              <td>{result.giay}</td>
-              <td>{result.phantramgiay}</td>
-              <td>{result.tong}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-      {/* {results.length > 0 && (
-        
-      )} */}
+
+          <table className="table table-hover mt-3">
+            <thead className="thead-dark">
+              <tr>
+                <th scope="col">STT</th>
+                <th scope="col">Số báo danh</th>
+                <th scope="col">Tên thí sinh</th>
+                <th scope="col">Phút</th>
+                <th scope="col">Giây</th>
+                <th scope="col">Phần trăm giây</th>
+                <th scope="col">Tổng</th>
+              </tr>
+            </thead>
+            <tbody>
+              {results.map((result, index) => (
+                <tr
+                  key={result.maketqua}
+                  onClick={() => handleRowClick(result)}
+                  className={selectedResult === result ? "table-active" : ""}
+                >
+                  <th scope="row">{index + 1}</th>
+                  <td>{result.sobaodanh}</td>
+                  <td>{result.hovatenthisinh}</td>
+                  <td>{result.phut}</td>
+                  <td>{result.giay}</td>
+                  <td>{result.phantramgiay}</td>
+                  <td>{result.tong}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
     </div>
   );
 }
