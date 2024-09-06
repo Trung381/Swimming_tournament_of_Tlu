@@ -512,7 +512,7 @@ function CompetitionCategoryManagement() {
         { mahangmuc: mahangmuc },
         {
           headers: {
-            Authorization: `Bearer ${token}`,
+            Authorization: token
           },
         }
       );
