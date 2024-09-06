@@ -31,9 +31,8 @@ function SecretaryNavbar(props) {
             <li className="nav-item dropdown">
               <Link className="nav-link" to="/score" aria-expanded="false">KẾT QUẢ</Link>
               <ul className="dropdown-menu">
-                <li><Link className="dropdown-item" to="">Action</Link></li>
-                <li><Link className="dropdown-item" to="">Another action</Link></li>
-                <li><Link className="dropdown-item" to="">Something else here</Link></li>
+                <li><Link className="dropdown-item" to="/score">Kết quả thi đấu</Link></li>
+                <li><Link className="dropdown-item" to="/whole_group">Thống kê toàn đoàn</Link></li>
               </ul>
             </li>
             <li className="nav-item">

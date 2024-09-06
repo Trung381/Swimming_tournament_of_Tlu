@@ -9,6 +9,10 @@ export const useSearch = () => {
     hovaten: '',
     sodienthoai: ''
   });
+  const [oldCategories, setOldCategories] = useState([]);
+  const [deleteList, setDeleteList] = useState([]);
+  const [addList, setAddList] = useState([]);
+
 
   const changeSearchWay = (e) => {
     e.preventDefault();
@@ -21,13 +25,31 @@ export const useSearch = () => {
     setFormData(null);
   };
 
+  const setEmpty = () => {
+    setAddList([]);
+    setDeleteList([]);
+  }
+
   const handleChange = (e) => {
     const {name, value, type, checked} = e.target;
     if (type === "checkbox") {
       let newCategories;
-      if (checked) {
+      if (checked) { //tick
+        if (!oldCategories.includes(value)) { //Ko co trong ds ban dau => them moi
+          setAddList([...addList, value]);
+        }
+        else { //Co trong ds ban dau ma nhan tick => da co trong ds xoa => bo ra khoi ds xoa
+          setDeleteList(deleteList.filter(item => item !== value));
+        }
         newCategories = [...formData.mahangmuc, value];
-      } else {
+      }
+      else { //bo tick
+        if (addList.includes(value)) { //Neu co trong ds them => ko co trong ds ban dau => loai kho ds them vao
+          setAddList(addList.filter(item => item !== value))
+        }
+        else { //Neu ko co trong ds them => co trong ds ban dau => them vao ds xoa
+          setDeleteList([...deleteList, value]);
+        }
         newCategories = formData.mahangmuc.filter(item => item !== value);
       }
 
@@ -48,7 +70,7 @@ export const useSearch = () => {
     return newData;
   };
 
-  const search = async (setOldCategories, id = null) => {
+  const search = async (id = null) => {
     try {
       const requestBody = id
         ? {sobaodanh: id, hovaten: null, sodienthoai: null}
@@ -60,7 +82,7 @@ export const useSearch = () => {
 
       const response = await axios.post(`https://api.thanglele08.id.vn/Sport/timkiemtheduthi`, requestBody);
   
-      const categories = transformData(response.data.mahangmuc);
+      const categories = transformData(response.data.hangmucthidau);
       setFormData({
         ...response.data,
         mahangmuc: categories
@@ -80,10 +102,13 @@ export const useSearch = () => {
 
   return {
     formData,
+    addList, deleteList,
+    setAddList, setDeleteList,
     searchInput, setSearchInput,
     isSearchByNameAndPhone,
     changeSearchWay,
     handleChange,
-    search
+    search,
+    setEmpty
   };
 };

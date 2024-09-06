@@ -11,6 +11,7 @@ import Contact from '../components/Contact.js';
 import LookUpInfor from '../components/welcome/lookUpInfor.js';
 // import Register from '../components/welcome/register.js';
 import Account from '../components/home/AccountManagement.js';
+import WholeGroup from '../components/home/wholeGroup.js';
 
 function AppRoutes(props) {
   return(
@@ -39,6 +40,7 @@ function AppRoutes(props) {
 
       <Route element={<ProtectedRoutes allowedRoles={['1']}/>}>
         <Route path="/competition_category" element={<CompetitionCategoryManagement/>}/>
+        <Route path="/whole_group" element={<WholeGroup />}/>
       </Route>
 
       <Route element={<ProtectedRoutes allowedRoles={['0']}/>}>

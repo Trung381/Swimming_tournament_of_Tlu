@@ -4,13 +4,13 @@ import CandidateInforForm from '../welcome/candidateInforForm';
 import SearchByNameAndPhone from '../searches/SearchByNameAndPhone';
 import SearchByRegistrationNumber from '../searches/SearchByRegistrationNumber';
 import { useSearch } from '../../services/searchInfo';
-import { modify } from '../../services/modifyInfo';
+import { useModify } from '../../services/modifyInfo';
 
-function InfoManagement() {
-  const { search, formData, searchInput, isSearchByNameAndPhone, setSearchInput, handleChange, changeSearchWay } = useSearch();
+function InfoManagement(props) {
+  const { search, formData, searchInput, isSearchByNameAndPhone, setSearchInput, handleChange, changeSearchWay, deleteList, addList } = useSearch();
+  const { modify } = useModify();
   const [contestants, setContestants] = useState([]);
   const [currentId, setCurrentId] = useState('...');
-  const [oldCategories, setOldCategories] = useState([]);
 
   const handleChangeSearchInput = (e) => {
     setSearchInput({
@@ -42,7 +42,7 @@ function InfoManagement() {
   };
 
   const fetchInfoById = async (id) => {
-    search(setOldCategories, id);
+    search(id);
   };
 
   const clickEditInfo = (id) => {
@@ -73,7 +73,12 @@ function InfoManagement() {
   }, []);
 
   const handleModify = () => {
-    modify({formData, oldCategories});
+    modify({formData, addList, deleteList});
+  };
+
+  const log = () => {
+    console.log(addList);
+    console.log(deleteList);
   }
 
   return (
@@ -96,7 +101,6 @@ function InfoManagement() {
           </div>
           <div className="card-body">
             <div className="table-responsive" style={{ overflowX: "auto", maxHeight: "1000px" }}>
-
               <table className="table">
                 <thead>
                   <tr>
@@ -116,7 +120,7 @@ function InfoManagement() {
                 </thead>
                 <tbody>
                   {contestants.map((contestant, index) => (
-                    <tr key={contestant.id}>
+                    <tr key={contestant.sobaodanh}>
                       <td><input type="checkbox" /></td>
                       <td>{index + 1}</td>
                       <td>{contestant.sobaodanh}</td>
@@ -156,7 +160,7 @@ function InfoManagement() {
             </div>
             <div className='modal-footer'>
               <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
-              <button type="button" className="btn btn-primary" onClick={() => handleModify()}>Lưu</button>
+              <button type="button" className="btn btn-primary" onClick={() => {handleModify(); log()}}>Lưu</button>
             </div>
           </div>
         </div>

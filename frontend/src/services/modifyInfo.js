@@ -1,55 +1,77 @@
 import axios from "axios";
+import { useSearch } from "./searchInfo";
 
-const modifyPersonalInfo = async (formData) => {
-  try {
-    const [year, month, date] = formData.namsinh.split("-");
-    const response = await axios.post(`https://api.thanglele08.id.vn/Sport/dieuchinhthongtinthisinh`, {
-      sobaodanh: 22,
-      hovatenthisinh: formData.hovatenthisinh,
-      hovatenphuhuynh: formData.hovatenphuhuynh,
-      donvi: formData.donvi,
-      lop: formData.lop,
-      sodienthoai: formData.sodienthoai,
-      namsinh: {
-        year: year,
-        month: month,
-        day: date,
-        dayOfWeek: ""
-      },
-      gioitinh: formData.gioitinh,
-      isModify: true,
-      email: formData.email
-    });
-    return response.status === 200;
-  } catch (error) {
-    console.error(error);
-    return false;
-  }
-};
+export const useModify = (props) => {
+  const { setEmpty } = useSearch();
 
-const modifyCategory = async (registrationNumber, oldCategories, newCategories) => {
-  try {
-    const response = await axios.post('https://api.thanglele08.id.vn/Sport/dieuchinhhangmucthidau', {
-      sobaodanh: registrationNumber,
-      oldmahangmuc: oldCategories,
-      newmahangmuc: newCategories
-    });
-   
-    return response.status === 200;
-  } catch (error) {
-    console.log(error);
-  }
-};
-
-export const modify = (props) => {
-  const {formData, oldCategories, setIsModify} = props;
-  if (formData) {
-    if (formData.isModify) {
-      setIsModify(true);
-      return;
+  const modifyPersonalInfo = async (formData) => {
+    try {
+      const response = await axios.post(`https://api.thanglele08.id.vn/Sport/dieuchinhthongtinthisinh`, {
+        sobaodanh: formData.sobaodanh,
+        hovatenthisinh: formData.hovatenthisinh,
+        hovatenphuhuynh: formData.hovatenphuhuynh,
+        donvi: formData.donvi,
+        lop: formData.lop,
+        sodienthoai: formData.sodienthoai,
+        namsinh: formData.namsinh,
+        gioitinh: formData.gioitinh,
+        isModify: true,
+        email: formData.email
+      }, {
+        headers: {
+          Authorization: sessionStorage.getItem('token')
+        }
+      });
+    } catch (error) {
+      console.error(error);
     }
+  };
 
-    modifyPersonalInfo(formData);
-    modifyCategory(formData.sobaodanh, oldCategories, formData.mahangmuc);
+  const modifyCategory = async (registrationNumber, deleteList, addList) => {
+    addList.forEach(async (item) => {
+      try {
+        const response = await axios.post('https://api.thanglele08.id.vn/Sport/dieuchinhhangmucthidau', {
+          sobaodanh: registrationNumber,
+          oldmahangmuc: null,
+          newmahangmuc: item
+        }, {
+          headers: {
+            Authorization: sessionStorage.getItem('token')
+          }
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    });
+
+    deleteList.forEach(async (item) => {
+      try {
+        const response = await axios.post('https://api.thanglele08.id.vn/Sport/dieuchinhhangmucthidau', {
+          sobaodanh: registrationNumber,
+          oldmahangmuc: item,
+          newmahangmuc: null
+        }, {
+          headers: {
+            Authorization: sessionStorage.getItem('token')
+          }
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    });
+  };
+
+  const modify = async (props) => {
+    const { formData, deleteList, addList } = props;
+    if (formData) {
+      await modifyPersonalInfo(formData);
+      await modifyCategory(formData.sobaodanh, deleteList, addList);
+      setEmpty();
+      // alert(result1 && result2 ? 'Chinh sua thanh cong' : 'Chinh sua that bai');
+    }
+  };
+
+  return {
+    modify
   }
-};
+}
