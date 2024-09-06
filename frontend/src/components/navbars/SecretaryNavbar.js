@@ -18,14 +18,13 @@ function SecretaryNavbar(props) {
               <Link className="nav-link" aria-current="page" to='' onClick={(e) => props.handleReLoad(e, '/home')}>TRANG CHỦ</Link>
             </li>
             <li className="nav-item">
-              <Link className="nav-link" aria-current="page" to='/competition_category'>HẠNG MỤC THI ĐẤU</Link>
+              <Link className="nav-link" aria-current="page" to='/competition_category'>THỐNG KÊ KẾT QUẢ</Link>
             </li>
             <li className="nav-item dropdown">
               <Link className="nav-link" aria-current="page" to='/contestant'>THÍ SINH DỰ THI<i className="bi bi-caret-down-fill"></i></Link>
               <ul className="dropdown-menu">
                 <li><Link className="dropdown-item" to="/contestant">Quản lý thông tin</Link></li>
                 <li><Link className="dropdown-item" to="">Gửi email dự thi</Link></li>
-                <li><Link className="dropdown-item" to="">In thẻ dự thi</Link></li>
               </ul>
             </li>
             <li className="nav-item dropdown">
