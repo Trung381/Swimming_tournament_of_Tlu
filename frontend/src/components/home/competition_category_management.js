@@ -581,7 +581,7 @@ function CompetitionCategoryManagement() {
 
       {/* Modal for displaying contestant information */}
       <div className="modal fade" id="createCategoryModal" tabIndex="-1" aria-labelledby="createCategoryModalLabel" aria-hidden="true">
-        <div className="modal-dialog">
+        <div className="modal-dialog modal-lg">
           <div className="modal-content">
             <div className="modal-header">
               <h5 className="modal-title" id="createCategoryModalLabel">Thông tin thí sinh</h5>
