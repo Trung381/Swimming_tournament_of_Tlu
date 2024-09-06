@@ -493,6 +493,7 @@ function CompetitionCategoryManagement() {
   const [results, setResults] = useState([]);
   const [selectedCategoryId, setSelectedCategoryId] = useState(null);
 
+  const token = sessionStorage.getItem('token');
   // Fetch categories
   const fetchCategories = async () => {
     try {
@@ -511,8 +512,8 @@ function CompetitionCategoryManagement() {
         { mahangmuc: mahangmuc },
         {
           headers: {
-            'Authorization': `Bearer 77a1d381b74d503edf3c18b33de1d3031bc73056f09a870a74d75d5d396bba52`
-          }
+            Authorization: `Bearer ${token}`,
+          },
         }
       );
       setResults(response.data);

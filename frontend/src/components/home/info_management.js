@@ -1,25 +1,66 @@
-import { React, useEffect, useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import axios from 'axios';
+import { useReactToPrint } from 'react-to-print';
 import CandidateInforForm from '../welcome/candidateInforForm';
 import SearchByNameAndPhone from '../searches/SearchByNameAndPhone';
 import SearchByRegistrationNumber from '../searches/SearchByRegistrationNumber';
 import { useSearch } from '../../services/searchInfo';
 import { useModify } from '../../services/modifyInfo';
 
+const ContestantCard = React.forwardRef(({ contestant }, ref) => {
+  console.log(contestant.hangmucthidau);
+  return (
+    <div ref={ref} style={{ width: '500px', height: '350px', padding: '10px', border: '1px solid #000', boxSizing: 'border-box' }}>
+      <h4>SBD: {contestant.sobaodanh}</h4>
+      <p><strong>Tên:</strong> {contestant.hovatenthisinh}</p>
+      <p><strong>Đơn vị:</strong> {contestant.donvi}</p>
+      <p><strong>Lớp:</strong> {contestant.lop || "N/A"}</p>
+      <p><strong>Tên phụ huynh:</strong> {contestant.hovatenphuhuynh}</p>
+      <div className="table-responsive" style={{ overflowX: "auto", maxHeight: "1000px" }}>
+        <table className="table">
+          <thead>
+            <tr>
+              <th scope="col">STT</th>
+              <th scope="col">Hạng mục</th>
+              <th scope="col">Hạng tuổi</th>
+              <th scope="col">Phút</th>
+              <th scope="col">Giây</th>
+              <th scope="col">Tíc tắc</th>
+            </tr>
+          </thead>
+          <tbody>
+                  {contestant.hangmucthidau.map((contestan, index) => (
+                    <tr key={contestan.id}>
+                      <td>{index + 1}</td>
+                      <td>{contestan.tenhangmuc}</td>
+                      <td>{contestan.hangtuoi}</td>
+                      <td>........</td>
+                      <td>........</td>
+                      <td>........</td>
+                    </tr>
+                  ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  );
+});
+
 function InfoManagement(props) {
   const { search, formData, searchInput, isSearchByNameAndPhone, setSearchInput, handleChange, changeSearchWay, deleteList, addList } = useSearch();
   const { modify } = useModify();
   const [contestants, setContestants] = useState([]);
   const [currentId, setCurrentId] = useState('...');
+  const [currentContestant, setCurrentContestant] = useState(null);
+  const cardRef = useRef();
 
   const handleChangeSearchInput = (e) => {
     setSearchInput({
       ...searchInput,
       [e.target.name]: e.target.value
-    })
+    });
   };
 
-  // Tim thong tin ca nhan cua thi sinh
   const handleSearch = async () => {
     try {
       const response = await axios.post(`https://api.thanglele08.id.vn/Sport/thongtinthisinh`, {
@@ -29,17 +70,35 @@ function InfoManagement(props) {
       });
 
       setContestants([response.data]);
-    }
-    catch (error) {
-      if (error.response.status === 404) {
+    } catch (error) {
+      if (error.response && error.response.status === 404) {
         alert("Không tìm thấy thí sinh!");
         fetchContestants();
-      }
-      else {
+      } else {
         alert("Đã có lỗi xảy ra!");
       }
     }
   };
+
+  const fetchContestantToPrint = async (id) => {
+    try {
+      const response = await axios.post('https://api.thanglele08.id.vn/Sport/timkiemtheduthi', { sobaodanh: id });
+      setCurrentContestant(response.data);
+    } catch (error) {
+      console.error("Có lỗi xảy ra:", error);
+    }
+  };
+
+  const handlePrint = useReactToPrint({
+    content: () => cardRef.current,
+    documentTitle: `Contestant_${currentContestant?.sobaodanh}_Card`,
+  });
+
+  useEffect(() => {
+    if (currentContestant) {
+      handlePrint();
+    }
+  }, [currentContestant]);
 
   const fetchInfoById = async (id) => {
     search(id);
@@ -57,7 +116,6 @@ function InfoManagement(props) {
       const response = await axios.get('https://api.thanglele08.id.vn/Sport/xemthongtinthisinhall', {
         headers: {
           Accept: '*/*',
-          // Authorization: '77a1d381b74d503edf3c18b33de1d3031bc73056f09a870a74d75d5d396bba52'
           Authorization: token
         }
       });
@@ -73,19 +131,19 @@ function InfoManagement(props) {
   }, []);
 
   const handleModify = () => {
-    modify({formData, addList, deleteList});
+    modify({formData, oldCategories});
   };
 
   const log = () => {
     console.log(addList);
     console.log(deleteList);
-  }
+  };
 
   return (
     <>
       <div className="contestant-container mt-3">
         <h5 className="text-center">Quản lý thông tin thí sinh</h5>
-        <div className='w-50' style={{margin: '20px auto'}}>
+        <div className='w-50' style={{ margin: '20px auto' }}>
           {!isSearchByNameAndPhone
             && <SearchByRegistrationNumber searchInput={searchInput} changeSearchInput={handleChangeSearchInput} changeSearchWay={changeSearchWay} search={handleSearch} />}
           {isSearchByNameAndPhone
@@ -116,6 +174,7 @@ function InfoManagement(props) {
                     <th scope="col">Đơn vị</th>
                     <th scope="col">Lớp</th>
                     <th scope="col" className="text-right">Hành động</th>
+                    <th scope="col" className="text-right">In thẻ</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -139,6 +198,14 @@ function InfoManagement(props) {
                         >Sửa</button>
                         <button className="btn btn-sm btn-outline-danger">Xóa</button>
                       </td>
+                      <td className="text-right">
+                        <button
+                          className="btn btn-sm btn-outline-primary"
+                          onClick={() => fetchContestantToPrint(contestant.sobaodanh)}
+                        >
+                          In thẻ
+                        </button>
+                      </td>
                     </tr>
                   ))}
                 </tbody>
@@ -146,7 +213,7 @@ function InfoManagement(props) {
             </div>
           </div>
         </div>
-        <button id="printButton" className="btn btn-outline-dark">In phiếu dự thi</button>
+        {/* <button id="printButton" className="btn btn-outline-dark">In phiếu dự thi</button> */}
       </div>
       <div className="modal fade" id="thongTinThiSinhModal" tabIndex="-1" aria-labelledby="thongTinThiSinhModalLabel" aria-hidden="true">
         <div className="modal-dialog modal-lg">
@@ -165,6 +232,13 @@ function InfoManagement(props) {
           </div>
         </div>
       </div>
+
+      {/* Hidden printable component */}
+      {currentContestant && (
+        <div style={{ display: 'none' }}>
+          <ContestantCard ref={cardRef} contestant={currentContestant} />
+        </div>
+      )}
     </>
   );
 }

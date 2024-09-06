@@ -386,10 +386,10 @@ function Score() {
   const [millisecond, setMillisecond] = useState("");
   const [total, setTotal] = useState(0);
 
-  // const role = sessionStorage.getItem('role');
-  // const token = sessionStorage.getItem('token');
-  const role = "2";
-  const token = "77a1d381b74d503edf3c18b33de1d3031bc73056f09a870a74d75d5d396bba52";
+  const role = sessionStorage.getItem('role');
+  const token = sessionStorage.getItem('token');
+  // const role = "2";
+  // const token = "77a1d381b74d503edf3c18b33de1d3031bc73056f09a870a74d75d5d396bba52";
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -561,17 +561,6 @@ function Score() {
       <form className="mb-4">
         <div className="row">
           <div className="col-md-5">
-            <label htmlFor="sobaodanh">Số báo danh</label>
-            <input
-              type="text"
-              id="sobaodanh"
-              className="form-control"
-              value={sobaodanh}
-              onChange={(e) => setSobaodanh(e.target.value)}
-              placeholder="Nhập số báo danh"
-            />
-          </div>
-          <div className="col-md-5">
             <label htmlFor="tenHangMuc">Hạng mục thi đấu</label>
             <input
               type="text"
@@ -590,6 +579,17 @@ function Score() {
                 />
               ))}
             </datalist>
+          </div>
+          <div className="col-md-5">
+            <label htmlFor="sobaodanh">Số báo danh</label>
+            <input
+              type="text"
+              id="sobaodanh"
+              className="form-control"
+              value={sobaodanh}
+              onChange={(e) => setSobaodanh(e.target.value)}
+              placeholder="Nhập số báo danh"
+            />
           </div>
           <div className="col-md-2 text-end">
             <button
