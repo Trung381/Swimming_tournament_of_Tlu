@@ -6,9 +6,9 @@ import { useModify } from '../../services/modifyInfo';
 import { useSearch } from "../../services/searchInfo";
 import axios from "axios";
 
-const LookUpInforModal = () => {
+const LookUpInforModal = (props) => {
   const [isModify, setIsModify] = useState(false);
-  const { search, formData, searchInput, isSearchByNameAndPhone, setSearchInput, handleChange, changeSearchWay, addList, deleteList } = useSearch();
+  const { search, formData, reset, searchInput, isSearchByNameAndPhone, setSearchInput, handleChange, changeSearchWay, addList, deleteList } = useSearch();
   const { modify } = useModify();
   const handleChangeSearchInput = (e) => {
     setSearchInput({
@@ -18,7 +18,7 @@ const LookUpInforModal = () => {
   }
 
   const handleSearch = async () => {
-    search();
+    search(props.loading);
     try {
       const response = await axios.post('https://api.thanglele08.id.vn/Sport/thongtinthisinh', {
         sobaodanh: searchInput.sobaodanh.trim() === '' ? 0 : searchInput.sobaodanh.trim(),
@@ -42,11 +42,11 @@ const LookUpInforModal = () => {
           <div className="modal-content">
             <div className="modal-header">
               <h5 className="modal-title" id="lookUpInfoModalLabel">Tra cứu thông tin</h5>
-              <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" onClick={() => reset()}></button>
             </div>
-            <div className="modal-body">
-              <div className='container border' id='search' style={{ padding: '20px 0 1px 0', margin: '0 auto' }}>
-                <h4 className="text-center" style={{ marginBottom: '30px' }}>THÔNG TIN DỰ THI CỦA THÍ SINH</h4>
+            <div className="modal-body" style={{height: 'auto'}}>
+              <div className='container' id='search' style={{ padding: '20px 0 1px 0', margin: '0 auto' }}>
+                <h6 className="text-center" style={{ marginBottom: '30px' }}><b>THÔNG TIN DỰ THI CỦA THÍ SINH</b></h6>
                 <div className="search-group" style={{margin: '0 auto'}}>
                   {!isSearchByNameAndPhone
                     && <SearchByRegistrationNumber searchInput={searchInput} changeSearchInput={handleChangeSearchInput} changeSearchWay={changeSearchWay} search={handleSearch} />}
@@ -64,6 +64,7 @@ const LookUpInforModal = () => {
                 {(formData && !isModify) && (
                   <div className="row justify-content-end mt-3" style={{ margin: '0 28px 25px 0' }}>
                     <div className="col-auto">
+                      <button type="button" className="btn btn-secondary" data-bs-dismiss="modal" onClick={() => reset()}>Đóng</button>
                       <button className="btn btn-primary" onClick={() => handleModify()}>Yêu cầu thay đổi thông tin</button>
                     </div>
                   </div>

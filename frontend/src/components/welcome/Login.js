@@ -38,7 +38,7 @@ function Login(props) {
     //   props.newState('rerender component App');
     // }
 
-
+    props.loading(true);
     try {
       const response = await axios.post('https://api.thanglele08.id.vn/Auth/login', {
         username,
@@ -48,7 +48,7 @@ function Login(props) {
       if (response.data.token) {
         sessionStorage.setItem('role', response.data.role);
         sessionStorage.setItem('token', response.data.token);
-        // sessionStorage.setItem('role', 1);
+        // sessionStorage.setItem('role', 3);
         navigate('/home');
         if (props.newState) {
           props.newState('rerender component App');
@@ -59,6 +59,8 @@ function Login(props) {
     } catch (err) {
       console.error('Login error:', err);
       setError("Tên đăng nhập hoặc mật khẩu không đúng!");
+    } finally {
+      props.loading(false);
     }
   };
 
