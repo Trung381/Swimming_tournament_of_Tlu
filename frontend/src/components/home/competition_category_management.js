@@ -50,7 +50,7 @@ function CompetitionCategoryManagement() {
   return (
     <div className="category-container mt-3">
       <div className="text-center mb-3">
-        <h4 className="fw-bold">Quản lý hạng mục thi đấu</h4>
+        <h5 className="fw-bold">Thống kê kết quả theo hạng mục thi đấu</h5>
       </div>
 
       <div className="card">
@@ -58,7 +58,7 @@ function CompetitionCategoryManagement() {
           <strong>Danh sách hạng mục thi đấu</strong>
         </div>
         <div className="card-body">
-          <div className="table-responsive" style={{ overflowX: "auto", maxHeight: "1000px" }}>
+          <div className="table-responsive" style={{ overflowX: "auto", maxHeight: "60vh" }}>
             <table className="table">
               <thead>
                 <tr>

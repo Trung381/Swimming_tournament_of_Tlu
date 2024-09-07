@@ -31,7 +31,7 @@ export const useSearch = () => {
   }
 
   const handleChange = (e) => {
-    const {name, value, type, checked} = e.target;
+    const { name, value, type, checked } = e.target;
     if (type === "checkbox") {
       let newCategories;
       if (checked) { //tick
@@ -70,10 +70,13 @@ export const useSearch = () => {
     return newData;
   };
 
-  const search = async (id = null) => {
+  const search = async (loading, id = null) => {
+    if (loading){
+      loading(true);
+    }
     try {
       const requestBody = id
-        ? {sobaodanh: id, hovaten: null, sodienthoai: null}
+        ? { sobaodanh: id, hovaten: null, sodienthoai: null }
         : {
           sobaodanh: searchInput.sobaodanh.trim() === '' ? 0 : searchInput.sobaodanh.trim(),
           hovaten: searchInput.hovaten.trim() === '' ? null : searchInput.hovaten.trim(),
@@ -81,7 +84,7 @@ export const useSearch = () => {
         };
 
       const response = await axios.post(`https://api.thanglele08.id.vn/Sport/timkiemtheduthi`, requestBody);
-  
+
       const categories = transformData(response.data.hangmucthidau);
       setFormData({
         ...response.data,
@@ -98,10 +101,24 @@ export const useSearch = () => {
         alert("Đã có lỗi xảy ra!");
       }
     }
+    finally {
+      if (loading){
+        loading(false);
+      }
+    }
   };
 
+  const reset = () => {
+    setFormData(null);
+    setSearchInput({
+      sobaodanh: '',
+      hovaten: '',
+      sodienthoai: ''
+    });
+  }
+
   return {
-    formData,
+    formData, reset,
     addList, deleteList,
     setAddList, setDeleteList,
     searchInput, setSearchInput,

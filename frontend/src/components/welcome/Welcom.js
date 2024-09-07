@@ -26,7 +26,7 @@ const Welcom = (props) => {
       <div>
         <AddContestantIntoTable />
         <RegisterModal />
-        <LookUpInforModal />
+        <LookUpInforModal loading={props.loading}/>
       </div>
     </>
   );

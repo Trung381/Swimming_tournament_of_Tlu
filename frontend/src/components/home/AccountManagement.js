@@ -63,7 +63,8 @@ const Account = () => {
 
   return (
     <>
-      <div className="account-container mt-3">
+      <div style={{height: '50vh', margin: '100px auto'}}><h5 className="text-center">Tính năng đăng được phát triển, vui lòng quay lại sau!</h5></div>
+      {/* <div className="account-container mt-3">
         <h3 className="text-center mb-4">Quản lý tài khoản</h3>
         <div className="d-flex flex-row-reverse mb-3">
           <div className="input-group w-50">
@@ -122,7 +123,7 @@ const Account = () => {
         </div>
       </div>
 
-      <AccountModal formData={formData} setFormData={setFormData} fetchAccounts={fetchAccounts}/>
+      <AccountModal formData={formData} setFormData={setFormData} fetchAccounts={fetchAccounts}/> */}
     </>
   );
 }

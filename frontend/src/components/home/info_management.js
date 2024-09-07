@@ -47,7 +47,7 @@ const ContestantCard = React.forwardRef(({ contestant }, ref) => {
 });
 
 function InfoManagement(props) {
-  const { search, formData, searchInput, isSearchByNameAndPhone, setSearchInput, handleChange, changeSearchWay, deleteList, addList } = useSearch();
+  const { search, formData, reset, searchInput, isSearchByNameAndPhone, setSearchInput, handleChange, changeSearchWay, deleteList, addList } = useSearch();
   const { modify } = useModify();
   const [contestants, setContestants] = useState([]);
   const [currentId, setCurrentId] = useState('...');
@@ -62,6 +62,7 @@ function InfoManagement(props) {
   };
 
   const handleSearch = async () => {
+    props.loading(true);
     try {
       const response = await axios.post(`https://api.thanglele08.id.vn/Sport/thongtinthisinh`, {
         sobaodanh: searchInput.sobaodanh.trim() === '' ? 0 : searchInput.sobaodanh.trim(),
@@ -77,6 +78,9 @@ function InfoManagement(props) {
       } else {
         alert("Đã có lỗi xảy ra!");
       }
+    }
+    finally {
+      props.loading(false);
     }
   };
 
@@ -101,7 +105,7 @@ function InfoManagement(props) {
   }, [currentContestant]);
 
   const fetchInfoById = async (id) => {
-    search(id);
+    search(null, id);
   };
 
   const clickEditInfo = (id) => {
@@ -129,7 +133,9 @@ function InfoManagement(props) {
   }, []);
 
   const handleModify = () => {
-    modify({formData, deleteList, addList});
+    const loading = props.loading;
+    modify({formData, deleteList, addList, loading});
+    props.newState('Success modify')
   };
 
   const log = () => {
@@ -218,13 +224,13 @@ function InfoManagement(props) {
           <div className="modal-content">
             <div className="modal-header">
               <h6 className="modal-title" id="thongTinThiSinhModalLabel"><b>Thông tin thí sinh - SBD: {currentId}</b></h6>
-              <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" onClick={() => reset()}></button>
             </div>
             <div className="modal-body">
               {formData && <CandidateInforForm formData={formData} handleChange={handleChange} />}
             </div>
             <div className='modal-footer'>
-              <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+              <button type="button" className="btn btn-secondary" data-bs-dismiss="modal" onClick={() => reset()}>Đóng</button>
               <button type="button" className="btn btn-primary" onClick={() => {handleModify(); log()}}>Lưu</button>
             </div>
           </div>

@@ -37,6 +37,9 @@ function NavbarNotLogged(props) {
               <Link className="nav-link" to="/contact">LIÊN HỆ</Link>
             </li>
             <li className="nav-item">
+              <Link className="nav-link" to="/help">HƯỚNG DẪN</Link>
+            </li>
+            <li className="nav-item">
               {/* <Link className="nav-link" data-bs-toggle="modal" data-bs-target="#login" to="#login" >Đăng nhập</Link> */}
               {/* <Link className="nav-link" to="" onClick={handleLoginClick}>Đăng nhập</Link> */}
               <Link className="nav-link" to="/login" onClick={() => props.newState('Render login page')}>ĐĂNG NHẬP</Link>
