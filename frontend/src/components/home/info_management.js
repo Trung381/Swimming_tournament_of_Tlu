@@ -6,16 +6,27 @@ import SearchByNameAndPhone from '../searches/SearchByNameAndPhone';
 import SearchByRegistrationNumber from '../searches/SearchByRegistrationNumber';
 import { useSearch } from '../../services/searchInfo';
 import { useModify } from '../../services/modifyInfo';
+import ReactDOMServer from 'react-dom/server';
 
 const ContestantCard = React.forwardRef(({ contestant }, ref) => {
   console.log(contestant.hangmucthidau);
   return (
-    <div ref={ref} style={{ width: '500px', height: '350px', padding: '10px', border: '1px solid #000', boxSizing: 'border-box' }}>
-      <h4>SBD: {contestant.sobaodanh}</h4>
-      <p><strong>Tên:</strong> {contestant.hovatenthisinh}</p>
+    <div ref={ref} 
+    style={{
+      width: '210mm',
+      height: '100mm',
+      padding: '10px',
+      border: '1px solid #000',
+      // marginTop: '1px',    // Margin at the top
+      // marginRight: '1px',  // Margin on the right
+      // marginLeft: '1px',   // Margin on the left
+      boxSizing: 'border-box'
+      }}>
+      <h4>Số báo danh: {contestant.sobaodanh}</h4>
+      <p><strong>Họ và tên:</strong> {contestant.hovatenthisinh}</p>
       <p><strong>Đơn vị:</strong> {contestant.donvi}</p>
-      <p><strong>Lớp:</strong> {contestant.lop || "N/A"}</p>
-      <p><strong>Tên phụ huynh:</strong> {contestant.hovatenphuhuynh}</p>
+      <p><strong>Lớp:</strong> {contestant.lop || ""}</p>
+      <p><strong>Họ và tên phụ huynh:</strong> {contestant.hovatenphuhuynh}</p>
       <div className="table-responsive" style={{ overflowX: "auto", maxHeight: "1000px" }}>
         <table className="table">
           <thead>
@@ -53,6 +64,23 @@ function InfoManagement(props) {
   const [currentId, setCurrentId] = useState('...');
   const [currentContestant, setCurrentContestant] = useState(null);
   const cardRef = useRef();
+
+  const fetchAllContestantCards = async () => {
+    try {
+      const response = await axios.get('https://api.thanglele08.id.vn/Sport/xemtheduthiall', {
+        headers: {
+          Accept: '*/*',
+          Authorization: sessionStorage.getItem('token')
+        }
+      });
+      return response.data;
+    } catch (error) {
+      console.error("Lỗi khi lấy thông tin thẻ dự thi:", error);
+      return [];
+    }
+  };
+
+  
 
   const handleChangeSearchInput = (e) => {
     setSearchInput({
@@ -93,6 +121,29 @@ function InfoManagement(props) {
     content: () => cardRef.current,
     documentTitle: `Contestant_${currentContestant?.sobaodanh}_Card`,
   });
+
+  const printAllCards = async () => {
+    const allContestants = await fetchAllContestantCards();
+    if (allContestants.length === 0) {
+      alert("Không có thẻ dự thi nào để in.");
+      return;
+    }
+  
+    const printWindow = window.open('', '_blank');
+    printWindow.document.write('<html><head><title>In tất cả thẻ dự thi</title></head><body>');
+  
+    allContestants.forEach(contestant => {
+      printWindow.document.write(`
+        <div style="page-break-after: always;">
+          ${ReactDOMServer.renderToString(<ContestantCard contestant={contestant} />)}
+        </div>
+      `);
+    });
+  
+    printWindow.document.write('</body></html>');
+    printWindow.document.close();
+    printWindow.print();
+  };
 
   useEffect(() => {
     if (currentContestant) {
@@ -151,6 +202,12 @@ function InfoManagement(props) {
           <div className="card-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
             <strong>Danh sách thí sinh tham gia giải</strong>
             <button
+            className="btn btn-primary mt-3"
+            onClick={printAllCards}
+          >
+            In tất cả thẻ dự thi
+          </button>
+            <button
               className="btn btn-sm btn-outline-primary float-right"
               data-bs-toggle="modal" data-bs-target="#thongTinThiSinhModal"
             >+</button>
@@ -160,7 +217,7 @@ function InfoManagement(props) {
               <table className="table">
                 <thead>
                   <tr>
-                    <th scope="col"><input type="checkbox" /></th>
+                    {/* <th scope="col"><input type="checkbox" /></th> */}
                     <th scope="col">STT</th>
                     <th scope="col">SBD</th>
                     <th scope="col">Họ tên thí sinh</th>
@@ -178,7 +235,7 @@ function InfoManagement(props) {
                 <tbody>
                   {contestants.map((contestant, index) => (
                     <tr key={contestant.sobaodanh}>
-                      <td><input type="checkbox" /></td>
+                      {/* <td><input type="checkbox" /></td> */}
                       <td>{index + 1}</td>
                       <td>{contestant.sobaodanh}</td>
                       <td>{contestant.hovatenthisinh}</td>

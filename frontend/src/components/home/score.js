@@ -373,8 +373,6 @@
 
 
 
-
-
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 
@@ -431,6 +429,8 @@ function Score() {
         `${category.tenhangmuc} ${category.hangtuoi}` === tenHangMuc
     );
 
+    console.log("haizzz: ", selectedCategory);
+
     if (!selectedCategory) {
       alert("Không tìm thấy hạng mục thi đấu.");
       return;
@@ -461,35 +461,25 @@ function Score() {
 
   const handleRowClick = (result) => {
     setSelectedResult(result);
+    console.log("selected",selectedResult);
     setMinute(result.phut || "");
     setSecond(result.giay || "");
     setMillisecond(result.phantramgiay || "");
     setTotal(result.tong);
   };
 
-  const handleLuu = async (e) => {
-    e.preventDefault();
 
+  const handleLuu = async () => {
     if (role !== "2" && role !== "1") {
       alert("Bạn không có quyền thực hiện chức năng này.");
       return;
     }
-
+  
     if (selectedResult) {
-      const selectedCategory = categories.find(
-        (category) =>
-          `${category.tenhangmuc} ${category.hangtuoi}` === tenHangMuc
-      );
-
-      if (!selectedCategory) {
-        alert("Không tìm thấy hạng mục thi đấu.");
-        return;
-      }
-
       const updatedResult = {
         maketqua: selectedResult.maketqua,
         sobaodanh: selectedResult.sobaodanh,
-        mahangmuc: selectedCategory.mahangmuc,
+        mahangmuc: selectedResult.mahangmuc, 
         vitri: selectedResult.vitri || 0,
         dotthi: selectedResult.dotthi || 0,
         phut: minute || 0,
@@ -498,6 +488,8 @@ function Score() {
         tong: total,
       };
 
+      console.log("update",updatedResult);
+  
       try {
         await axios.post(
           "https://api.thanglele08.id.vn/Sport/nhapdiem",
@@ -509,11 +501,11 @@ function Score() {
           }
         );
         alert("Lưu kết quả thành công!");
-
+  
         if (results.length > 1) {
           await handleFetchContestantsByCategory();
         } else {
-          await handleTraCuu(e);
+          await handleTraCuu();
         }
       } catch (error) {
         console.error("Lỗi khi lưu kết quả:", error);
@@ -612,7 +604,8 @@ function Score() {
 
       {(role === "1" || role === "2") && selectedResult && (
         <div className="container mt-3">
-          <form onSubmit={handleLuu}>
+          <form >
+          {/* <form onSubmit={handleLuu}> */}
             <div className="row">
               <div className="col-auto">
                 <label htmlFor="minute" className="col-form-label">
@@ -655,9 +648,10 @@ function Score() {
               </div>
               <div className="col-auto">
                 <button
-                  type="submit"
+                  type="button"
                   className="btn btn-outline-secondary"
                   style={{ marginTop: "33px" }}
+                  onClick={handleLuu}
                 >
                   Lưu
                 </button>
