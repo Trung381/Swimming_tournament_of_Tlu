@@ -1,16 +1,30 @@
 import './App.css';
 import AppRoutes from './routes/AppRoutes';
 import Header from './components/heading/Header';
-import { BrowserRouter as Router } from 'react-router-dom';
 import { HashRouter } from 'react-router-dom';
 import { useEffect, useRef, useState } from 'react';
 import Footer from './components/footer/footer';
+
+const UI = ({ isLoginPage, headerRef, role, handleNewMess, handleSetRole, headerHeight, handleLoading }) => {
+  return (
+    <>
+      {(window.location.hash === '#/403' || window.location.hash === '#/404' || isLoginPage) || <Header ref={headerRef} role={role} newState={handleNewMess} newRole={handleSetRole} />}
+
+      <div className={isLoginPage ? 'login-container vh-100' : 'body-container'} style={isLoginPage ? { paddingTop: 0 } : { paddingTop: headerHeight }}>
+        <AppRoutes newState={handleNewMess} loading={handleLoading} />
+      </div>
+
+      {(window.location.hash === '#/403' || window.location.hash === '#/404' || isLoginPage) || <Footer />}
+    </>
+  );
+};
 
 // import Navbar from './components/welcome/navbar';
 function App() {
   const headerRef = useRef(null);
   const [headerHeight, setHeaderHeight] = useState(0);
   const [mess, setMess] = useState('');
+  const [loading, setLoading] = useState(false);
   const [role, setRole] = useState(sessionStorage.getItem('role'));
   useEffect(() => {
     setRole(sessionStorage.getItem('role'));
@@ -39,32 +53,20 @@ function App() {
     setRole(newRole);
   };
 
+  const handleLoading = (state) => {
+    setLoading(state);
+  }
+
   const isLoginPage = window.location.hash === '#/login';
 
 
 
   return (
     <>
-      {/* <Router>
-        <div className='app-container'>
-          {(window.location.pathname === '/403' || window.location.pathname === '/404' || isLoginPage) || <Header ref={headerRef} role={role} newState={handleNewMess} newRole={handleSetRole} />}
-
-          <div className={isLoginPage ? 'login-container vh-100' : 'body-container'} style={isLoginPage ? {paddingTop: 0} : {paddingTop: headerHeight}}>
-            <AppRoutes newState={handleNewMess} />
-          </div>
-
-          {(window.location.pathname === '/403' || window.location.pathname === '/404' || window.location.pathname === '/login') || <Footer />}
-        </div>
-      </Router> */}
       <HashRouter>
         <div className='app-container'>
-          {(window.location.hash === '#/403' || window.location.hash === '#/404' || isLoginPage) || <Header ref={headerRef} role={role} newState={handleNewMess} newRole={handleSetRole} />}
-
-          <div className={isLoginPage ? 'login-container vh-100' : 'body-container'} style={isLoginPage ? {paddingTop: 0} : {paddingTop: headerHeight}}>
-            <AppRoutes newState={handleNewMess} />
-          </div>
-
-          {(window.location.hash === '#/403' || window.location.hash === '#/404' || isLoginPage) || <Footer />}
+          <div className={loading ? 'loading-container d-flex justify-content-center align-items-center' : 'd-none'}><strong style={{ fontSize: '32px' }}>Vui lòng chờ...</strong></div>
+          <UI isLoginPage={isLoginPage} headerRef={headerRef} handleNewMess={handleNewMess} handleSetRole={handleSetRole} headerHeight={headerHeight} handleLoading={handleLoading} />
         </div>
       </HashRouter>
     </>

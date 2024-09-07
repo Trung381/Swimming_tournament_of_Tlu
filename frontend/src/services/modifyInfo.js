@@ -62,13 +62,25 @@ export const useModify = (props) => {
   };
 
   const modify = async (props) => {
-    const { formData, deleteList, addList } = props;
-    if (formData) {
-      await modifyPersonalInfo(formData);
-      await modifyCategory(formData.sobaodanh, deleteList, addList);
-      setEmpty();
-      // alert(result1 && result2 ? 'Chinh sua thanh cong' : 'Chinh sua that bai');
+    const { formData, deleteList, addList, loading } = props;
+    try {
+      if (loading) {
+        loading(true);
+      }
+      if (formData) {
+        await modifyPersonalInfo(formData);
+        await modifyCategory(formData.sobaodanh, deleteList, addList);
+        setEmpty();
+        // alert(result1 && result2 ? 'Chinh sua thanh cong' : 'Chinh sua that bai');
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      if (loading) {
+        loading(false);
+      }
     }
+    
   };
 
   return {

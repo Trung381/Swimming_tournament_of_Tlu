@@ -58,8 +58,8 @@ const RegisterModal = () => {
               <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div className="modal-body">
-              <h4 className="text-center" style={{ marginBottom: '10px' }}>GIẢI BƠI TRUYỀN THỐNG TRƯỜNG ĐẠI HỌC THỦY LỢI</h4>
-              <h4 className="text-center" style={{ marginBottom: '0' }}>PHIẾU ĐĂNG KÝ</h4>
+              <h6 className="text-center"><b>GIẢI BƠI TRUYỀN THỐNG TRƯỜNG ĐẠI HỌC THỦY LỢI</b></h6>
+              <h6 className="text-center" style={{ marginBottom: '0' }}><b>PHIẾU ĐĂNG KÝ</b></h6>
               <form>
                 <CandidateInforForm formData={formData} handleChange={handleChange} />
               </form>
