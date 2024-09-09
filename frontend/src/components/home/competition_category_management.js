@@ -5,6 +5,9 @@ function CompetitionCategoryManagement() {
   const [categories, setCategories] = useState([]);
   const [results, setResults] = useState([]);
   const [selectedCategoryId, setSelectedCategoryId] = useState(null);
+  const [category, setCategory] = useState('...');
+  const [all, setAll] = useState([]);
+  const [titles, setTitles] = useState([]);
 
   const token = sessionStorage.getItem('token');
   // Fetch categories
@@ -30,7 +33,7 @@ function CompetitionCategoryManagement() {
         }
       );
       let temp = response.data;
-      temp.sort((a,b) => a.xephang - b.xephang);
+      temp.sort((a, b) => a.xephang - b.xephang);
       setResults(temp);
     } catch (error) {
       console.error(error);
@@ -42,10 +45,116 @@ function CompetitionCategoryManagement() {
   }, []);
 
   // Handle "Xem" button click
-  const handleViewClick = (mahangmuc) => {
-    setSelectedCategoryId(mahangmuc);  // Set the selected category ID
-    fetchContestants(mahangmuc);  // Fetch contestants for the selected category
+  const handleViewClick = (category) => {
+    setSelectedCategoryId(category.mahangmuc);  // Set the selected category ID
+    fetchContestants(category.mahangmuc);  // Fetch contestants for the selected category
+    if (category.hangtuoi.trim() != '') {
+      setCategory(category.tenhangmuc + ' (Độ tuổi: ' + category.hangtuoi + ')');
+    }
+    else {
+      setCategory(category.tenhangmuc);
+    }
   };
+
+  const printAll = () => {
+    const ids = [...categories];
+    const titles = categories.map((item) => {
+      if (item.hangtuoi.trim() != '') {
+        return category.tenhangmuc + ' (Độ tuổi: ' + category.hangtuoi + ')';
+      } else {
+        return category.tenhangmuc;
+      }
+    });
+    setTitles(titles);
+    const res = [];
+    ids.forEach(elem => {
+      fetchContestants(elem.mahangmuc);
+      res.push(results);
+    });
+
+    setAll(res);
+
+    console.log(all);
+
+    const printAll = document.getElementById("printAll");
+    const printWindow = window.open('');
+    printWindow.document.write(`
+      <html>
+        <head>
+          <style>
+            div {
+              margin: 30px 20px;
+              font-family: 'Quicksand', sans-serif;
+              font-size: 14px;
+            }
+            .title {
+              font-size: 16px !important;
+              margin-bottom: 15px;
+              text-align: center;
+            }
+            table, th, td {
+              border: 1px solid black;
+              border-collapse: collapse;
+              padding: 5px 10px;
+              text-align: center;
+            }
+          </style>
+        </head>
+        <body>
+          <div>
+            ${printAll.outerHTML}
+          </div>
+        </body>
+      </html>
+    `);
+    printWindow.document.close();
+    printWindow.onload = () => {
+      printWindow.focus();
+      printWindow.print();
+      printWindow.close();
+    };
+  }
+
+  const print = () => {
+    const printContent = document.getElementById("printContent");
+    const printWindow = window.open('');
+    printWindow.document.write(`
+      <html>
+        <head>
+          <style>
+            div {
+              margin: 30px 20px;
+              font-family: 'Quicksand', sans-serif;
+              font-size: 14px;
+            }
+            .title {
+              font-size: 16px !important;
+              margin-bottom: 15px;
+              text-align: center;
+            }
+            table, th, td {
+              border: 1px solid black;
+              border-collapse: collapse;
+              padding: 5px 10px;
+              text-align: center;
+            }
+          </style>
+        </head>
+        <body>
+          <div>
+            <h1 class='title'>BẢNG KẾT QUẢ BƠI ${category.toUpperCase()}</h1>
+            ${printContent.outerHTML}
+          </div>
+        </body>
+      </html>
+    `);
+    printWindow.document.close();
+    printWindow.onload = () => {
+      printWindow.focus();
+      printWindow.print();
+      printWindow.close();
+    };
+  }
 
   return (
     <div className="category-container mt-3">
@@ -56,6 +165,7 @@ function CompetitionCategoryManagement() {
       <div className="card">
         <div className="card-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <strong>Danh sách hạng mục thi đấu</strong>
+          <button className="btn btn-primary" onClick={() => printAll()}>In tất cả</button>
         </div>
         <div className="card-body">
           <div className="table-responsive" style={{ overflowX: "auto", maxHeight: "60vh" }}>
@@ -77,7 +187,7 @@ function CompetitionCategoryManagement() {
                     <td className="text-right">
                       <button
                         className="btn btn-sm btn-outline-secondary"
-                        onClick={() => handleViewClick(category.mahangmuc)}
+                        onClick={() => handleViewClick(category)}
                         data-bs-toggle="modal"
                         data-bs-target="#createCategoryModal"
                       >
@@ -97,18 +207,18 @@ function CompetitionCategoryManagement() {
         <div className="modal-dialog modal-lg">
           <div className="modal-content">
             <div className="modal-header">
-              <h5 className="modal-title" id="createCategoryModalLabel">Thông tin thí sinh</h5>
+              <b className="modal-title" id="createCategoryModalLabel">Hạng mục: {category}</b>
               <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div className="modal-body">
-              <table className="table table-hover mt-3">
+              <table className="table table-hover mt-3" id="printContent">
                 <thead className="thead-dark">
                   <tr>
                     <th scope="col">STT</th>
                     <th scope="col">Số báo danh</th>
-                    <th scope="col">Tên thí sinh</th>
-                    <th scope="col">Phút</th>
-                    <th scope="col">Giây</th>
+                    <th scope="col" style={{ padding: '5px 70px' }}>Họ và tên thí sinh</th>
+                    <th scope="col" style={{ padding: '5px 20px' }}>Phút</th>
+                    <th scope="col" style={{ padding: '5px 20px' }}>Giây</th>
                     <th scope="col">Phần trăm giây</th>
                     <th scope="col">Tổng</th>
                     <th scope="col">Thứ hạng</th>
@@ -119,7 +229,7 @@ function CompetitionCategoryManagement() {
                     <tr key={result.maketqua}>
                       <th scope="row">{index + 1}</th>
                       <td>{result.sobaodanh}</td>
-                      <td>{result.hovatenthisinh}</td>
+                      <td style={{ textAlign: 'left' }}>{result.hovatenthisinh}</td>
                       <td>{result.phut}</td>
                       <td>{result.giay}</td>
                       <td>{result.phantramgiay}</td>
@@ -132,6 +242,53 @@ function CompetitionCategoryManagement() {
             </div>
             <div className="modal-footer">
               <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+              <button className="btn btn-primary" onClick={() => print()}>In bảng</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className="modal fade" id="allModal" tabIndex="-1" aria-labelledby="createCategoryModalLabel" aria-hidden="true">
+        <div className="modal-dialog modal-lg">
+          <div className="modal-content">
+            <div className="modal-body" id="printAll">
+              {all.map((items, index) => (
+                <div key={index}>
+                  <h1 class='title'>BẢNG KẾT QUẢ BƠI {titles[index].toUpperCase()}</h1>
+                  <table className="table table-hover mt-3">
+                    <thead className="thead-dark">
+                      <tr>
+                        <th scope="col">STT</th>
+                        <th scope="col">Số báo danh</th>
+                        <th scope="col" style={{ padding: '5px 70px' }}>Họ và tên thí sinh</th>
+                        <th scope="col" style={{ padding: '5px 20px' }}>Phút</th>
+                        <th scope="col" style={{ padding: '5px 20px' }}>Giây</th>
+                        <th scope="col">Phần trăm giây</th>
+                        <th scope="col">Tổng</th>
+                        <th scope="col">Thứ hạng</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {items.map((result, index) => (
+                        <tr key={result.maketqua}>
+                          <th scope="row">{index + 1}</th>
+                          <td>{result.sobaodanh}</td>
+                          <td style={{ textAlign: 'left' }}>{result.hovatenthisinh}</td>
+                          <td>{result.phut}</td>
+                          <td>{result.giay}</td>
+                          <td>{result.phantramgiay}</td>
+                          <td>{result.tong}</td>
+                          <td>{result.xephang}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              ))}
+            </div>
+            <div className="modal-footer">
+              <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+              <button className="btn btn-primary" onClick={() => print()}>In bảng</button>
             </div>
           </div>
         </div>
