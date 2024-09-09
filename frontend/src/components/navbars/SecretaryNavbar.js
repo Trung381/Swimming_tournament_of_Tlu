@@ -17,9 +17,6 @@ function SecretaryNavbar(props) {
             <li className="nav-item">
               <Link className="nav-link" aria-current="page" to='' onClick={(e) => props.handleReLoad(e, '/home')}>TRANG CHỦ</Link>
             </li>
-            <li className="nav-item">
-              <Link className="nav-link" aria-current="page" to='/competition_category'>THỐNG KÊ KẾT QUẢ</Link>
-            </li>
             <li className="nav-item dropdown">
               <Link className="nav-link" aria-current="page" to='/contestant'>THÍ SINH DỰ THI<i className="bi bi-caret-down-fill"></i></Link>
               <ul className="dropdown-menu">
@@ -32,6 +29,7 @@ function SecretaryNavbar(props) {
               <ul className="dropdown-menu">
                 <li><Link className="dropdown-item" to="/score">Kết quả thi đấu</Link></li>
                 <li><Link className="dropdown-item" to="/whole_group">Thống kê toàn đoàn</Link></li>
+                <li><Link className="dropdown-item" to="/competition_category">Thống kê theo hạng mục</Link></li>
               </ul>
             </li>
             <li className="nav-item">
