@@ -15,13 +15,36 @@ function CompetitionCategoryManagement() {
     try {
       const response = await axios.get('https://api.thanglele08.id.vn/Sport/hangmucthidau');
       setCategories(response.data);
+
+      const titles = response.data.map((item) => {
+        if (item.hangtuoi.trim() !== '') {
+          let temp = item.tenhangmuc + ' (Độ tuổi: ' + item.hangtuoi + ')';
+          return temp.toUpperCase();
+        } else {
+          let temp = item.tenhangmuc;
+          return temp.toUpperCase();
+        }
+      });
+      setTitles(titles);
+
+      // const promises = response.data.map(elem => fetchContestants(elem.mahangmuc, true));
+      // await Promise.all(promises);
     } catch (error) {
       console.error(error);
     }
   };
 
+  useEffect(() => {
+    try {
+      const promises = categories.map(elem => fetchContestants(elem.mahangmuc, true));
+      Promise.all(promises);
+    } catch (error) {
+      console.log(error);
+    }
+  }, [categories]);
+
   // Fetch contestants for the selected category
-  const fetchContestants = async (mahangmuc) => {
+  const fetchContestants = async (mahangmuc, isAll = null) => {
     try {
       const response = await axios.post(
         'https://api.thanglele08.id.vn/Sport/xembangxephang',
@@ -29,13 +52,21 @@ function CompetitionCategoryManagement() {
         {
           headers: {
             Authorization: token
-          },
+          }
         }
       );
       let temp = response.data;
       temp.sort((a, b) => a.xephang - b.xephang);
-      setResults(temp);
+      if (isAll) {
+        setAll(prevAll => [...prevAll, temp]);
+      } else {
+        setResults(temp);
+        setAll([]);
+      }
     } catch (error) {
+      if (!isAll && error.response && error.response.status == 404) {
+        setResults([]);
+      }
       console.error(error);
     }
   };
@@ -46,9 +77,9 @@ function CompetitionCategoryManagement() {
 
   // Handle "Xem" button click
   const handleViewClick = (category) => {
-    setSelectedCategoryId(category.mahangmuc);  // Set the selected category ID
+    // setSelectedCategoryId(category.mahangmuc);  // Set the selected category ID
     fetchContestants(category.mahangmuc);  // Fetch contestants for the selected category
-    if (category.hangtuoi.trim() != '') {
+    if (category.hangtuoi.trim() !== '') {
       setCategory(category.tenhangmuc + ' (Độ tuổi: ' + category.hangtuoi + ')');
     }
     else {
@@ -57,25 +88,7 @@ function CompetitionCategoryManagement() {
   };
 
   const printAll = () => {
-    const ids = [...categories];
-    const titles = categories.map((item) => {
-      if (item.hangtuoi.trim() != '') {
-        return category.tenhangmuc + ' (Độ tuổi: ' + category.hangtuoi + ')';
-      } else {
-        return category.tenhangmuc;
-      }
-    });
-    setTitles(titles);
-    const res = [];
-    ids.forEach(elem => {
-      fetchContestants(elem.mahangmuc);
-      res.push(results);
-    });
-
-    setAll(res);
-
-    console.log(all);
-
+    fetchCategories();
     const printAll = document.getElementById("printAll");
     const printWindow = window.open('');
     printWindow.document.write(`
@@ -83,9 +96,12 @@ function CompetitionCategoryManagement() {
         <head>
           <style>
             div {
-              margin: 30px 20px;
+              margin: 30px 25px 50px;
               font-family: 'Quicksand', sans-serif;
               font-size: 14px;
+            }
+            .modal-body :nth-child(n+2) {
+              margin-top: 20px;
             }
             .title {
               font-size: 16px !important;
@@ -97,6 +113,9 @@ function CompetitionCategoryManagement() {
               border-collapse: collapse;
               padding: 5px 10px;
               text-align: center;
+            }
+            table {
+              margin: 0 auto;
             }
           </style>
         </head>
@@ -112,6 +131,7 @@ function CompetitionCategoryManagement() {
       printWindow.focus();
       printWindow.print();
       printWindow.close();
+      setAll([]);
     };
   }
 
@@ -123,9 +143,13 @@ function CompetitionCategoryManagement() {
         <head>
           <style>
             div {
-              margin: 30px 20px;
+              margin: 30px auto;
               font-family: 'Quicksand', sans-serif;
               font-size: 14px;
+            }
+            .modal-body {
+              display: flex;
+              justify-content: center !important;
             }
             .title {
               font-size: 16px !important;
@@ -137,6 +161,9 @@ function CompetitionCategoryManagement() {
               border-collapse: collapse;
               padding: 5px 10px;
               text-align: center;
+            }
+            table {
+              margin: 0 auto;
             }
           </style>
         </head>
@@ -216,7 +243,7 @@ function CompetitionCategoryManagement() {
                   <tr>
                     <th scope="col">STT</th>
                     <th scope="col">Số báo danh</th>
-                    <th scope="col" style={{ padding: '5px 70px' }}>Họ và tên thí sinh</th>
+                    <th scope="col" style={{ padding: '5px 50px' }}>Họ và tên thí sinh</th>
                     <th scope="col" style={{ padding: '5px 20px' }}>Phút</th>
                     <th scope="col" style={{ padding: '5px 20px' }}>Giây</th>
                     <th scope="col">Phần trăm giây</th>
@@ -251,16 +278,16 @@ function CompetitionCategoryManagement() {
       <div className="modal fade" id="allModal" tabIndex="-1" aria-labelledby="createCategoryModalLabel" aria-hidden="true">
         <div className="modal-dialog modal-lg">
           <div className="modal-content">
-            <div className="modal-body" id="printAll">
+            <div className="modal-body mb-2" id="printAll">
               {all.map((items, index) => (
                 <div key={index}>
-                  <h1 class='title'>BẢNG KẾT QUẢ BƠI {titles[index].toUpperCase()}</h1>
+                  <h1 class='title'>BẢNG KẾT QUẢ BƠI {titles[index]}</h1>
                   <table className="table table-hover mt-3">
                     <thead className="thead-dark">
                       <tr>
                         <th scope="col">STT</th>
                         <th scope="col">Số báo danh</th>
-                        <th scope="col" style={{ padding: '5px 70px' }}>Họ và tên thí sinh</th>
+                        <th scope="col" style={{ padding: '5px 50px' }}>Họ và tên thí sinh</th>
                         <th scope="col" style={{ padding: '5px 20px' }}>Phút</th>
                         <th scope="col" style={{ padding: '5px 20px' }}>Giây</th>
                         <th scope="col">Phần trăm giây</th>
